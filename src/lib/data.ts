@@ -115,10 +115,6 @@ export function getPlayerBodyUrl(name: string): string {
   return `https://mc-heads.net/body/${name}/96`;
 }
 
-export function getPlayerBodyUrl(name: string): string {
-  return `https://mc-heads.net/body/${name}/128`;
-}
-
 export function getPlayerHeadUrl(name: string): string {
   return `https://mc-heads.net/head/${name}/64`;
 }
