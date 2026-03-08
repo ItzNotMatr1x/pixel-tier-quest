@@ -93,7 +93,7 @@ export default function GamemodesPage() {
                     </div>
 
                     {/* Tier - hidden on mobile, show inline */}
-                    <div className="hidden md:block">
+                    <div className="hidden md:block transition-all duration-300 hover:scale-[1.15]">
                       <TierBadge tier={player.tiers[activeMode]} size="sm" />
                     </div>
 
