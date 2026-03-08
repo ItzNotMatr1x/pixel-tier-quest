@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { getRankedPlayers, GAMEMODES, getPlayerAvatarUrl } from "@/lib/data";
+import { getRankedPlayers, GAMEMODES, getPlayerAvatarUrl, getPlayerBodyUrl } from "@/lib/data";
 import { Swords, Trophy, Users, ChevronRight } from "lucide-react";
 
 export default function HomePage() {
