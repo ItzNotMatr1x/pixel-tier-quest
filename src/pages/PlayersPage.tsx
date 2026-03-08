@@ -1,15 +1,16 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { getRankedPlayers, getPlayerAvatarUrl, getPlayerBodyUrl } from "@/lib/data";
+import { usePlayers } from "@/hooks/usePlayers";
+import { PlayerHead } from "@/components/PlayerHead";
 import { Users } from "lucide-react";
 
 export default function PlayersPage() {
   const [search, setSearch] = useState("");
-  const allPlayers = getRankedPlayers();
+  const { ranked, loading } = usePlayers();
   const filtered = search
-    ? allPlayers.filter(p => p.name.toLowerCase().includes(search.toLowerCase()))
-    : allPlayers;
+    ? ranked.filter(p => p.name.toLowerCase().includes(search.toLowerCase()))
+    : ranked;
 
   return (
     <div className="container mx-auto px-4 py-10">
@@ -26,7 +27,11 @@ export default function PlayersPage() {
         className="glass-card px-4 py-2 text-sm font-body text-foreground placeholder:text-muted-foreground outline-none w-full max-w-sm bg-transparent mb-6"
       />
 
-      {filtered.length === 0 ? (
+      {loading ? (
+        <div className="glass-card p-12 flex items-center justify-center">
+          <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+        </div>
+      ) : filtered.length === 0 ? (
         <div className="glass-card p-12 text-center">
           <Users className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
           <h3 className="font-display font-bold text-lg text-foreground mb-2">No Players Yet</h3>
@@ -37,7 +42,7 @@ export default function PlayersPage() {
           {filtered.slice(0, 100).map((player, i) => (
             <motion.div key={player.name} initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: Math.min(i * 0.02, 0.5) }}>
               <Link to={`/player/${player.name}`} className="glass-card p-4 flex items-center gap-3 hover:glow-cyan hover:border-primary/30 transition-all group">
-                <img src={getPlayerBodyUrl(player.name)} alt={player.name} className="w-8 h-16 object-contain" />
+                <PlayerHead name={player.name} size={36} />
                 <div>
                   <div className="font-heading font-bold text-foreground group-hover:text-primary transition-colors text-sm">{player.name}</div>
                   <div className="text-xs text-muted-foreground">{player.region} · #{player.rank} · {player.totalPoints}pts</div>

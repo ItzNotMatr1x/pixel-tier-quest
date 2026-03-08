@@ -2,11 +2,12 @@ import { useState, useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useAuth } from "@/hooks/useAuth";
+import { usePlayers } from "@/hooks/usePlayers";
 import {
-  getPlayers, addPlayer, updatePlayer, removePlayer,
-  Player, GAMEMODES, TIER_ORDER, GamemodeId, TierName, getPlayerAvatarUrl
+  Player, GAMEMODES, TIER_ORDER, GamemodeId, TierName
 } from "@/lib/data";
-import { Shield, Plus, Trash2, Pencil, Save, X, Users, LogOut } from "lucide-react";
+import { PlayerHead } from "@/components/PlayerHead";
+import { Shield, Plus, Trash2, Pencil, Save, X, Users, LogOut, Cloud } from "lucide-react";
 
 const REGIONS = ['NA', 'EU', 'AS', 'SA', 'OCE'];
 
@@ -14,17 +15,14 @@ const defaultTiers = (): Record<GamemodeId, TierName> =>
   Object.fromEntries(GAMEMODES.map(g => [g.id, 'Unranked'])) as Record<GamemodeId, TierName>;
 
 export default function AdminPage() {
-  const { user, loading, signOut } = useAuth();
-  const [players, setPlayers] = useState<Player[]>([]);
+  const { user, loading: authLoading, signOut } = useAuth();
+  const { players, loading: playersLoading, addPlayer, updatePlayer, removePlayer } = usePlayers();
   const [editing, setEditing] = useState<string | null>(null);
   const [adding, setAdding] = useState(false);
   const [form, setForm] = useState<Player>({ name: '', region: 'NA', tiers: defaultTiers() });
+  const [saving, setSaving] = useState(false);
 
-  useEffect(() => {
-    setPlayers(getPlayers());
-  }, []);
-
-  if (loading) {
+  if (authLoading) {
     return (
       <div className="min-h-[60vh] flex items-center justify-center">
         <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
@@ -34,28 +32,27 @@ export default function AdminPage() {
 
   if (!user) return <Navigate to="/admin/login" replace />;
 
-  const refresh = () => setPlayers(getPlayers());
-
-  const handleAdd = () => {
+  const handleAdd = async () => {
     if (!form.name.trim()) return;
     if (players.some(p => p.name.toLowerCase() === form.name.toLowerCase())) return;
-    addPlayer({ ...form, name: form.name.trim() });
+    setSaving(true);
+    await addPlayer({ ...form, name: form.name.trim() });
     setForm({ name: '', region: 'NA', tiers: defaultTiers() });
     setAdding(false);
-    refresh();
+    setSaving(false);
   };
 
-  const handleUpdate = (originalName: string) => {
+  const handleUpdate = async (originalName: string) => {
     if (!form.name.trim()) return;
-    updatePlayer(originalName, { ...form, name: form.name.trim() });
+    setSaving(true);
+    await updatePlayer(originalName, { ...form, name: form.name.trim() });
     setEditing(null);
     setForm({ name: '', region: 'NA', tiers: defaultTiers() });
-    refresh();
+    setSaving(false);
   };
 
-  const handleDelete = (name: string) => {
-    removePlayer(name);
-    refresh();
+  const handleDelete = async (name: string) => {
+    await removePlayer(name);
   };
 
   const startEdit = (player: Player) => {
@@ -95,11 +92,17 @@ export default function AdminPage() {
       </p>
 
       {/* Stats */}
-      <div className="glass-card p-4 mb-6 flex items-center gap-4">
-        <Users className="w-5 h-5 text-primary" />
-        <span className="font-heading text-foreground">
-          <span className="font-bold">{players.length}</span> players registered
-        </span>
+      <div className="glass-card p-4 mb-6 flex items-center justify-between">
+        <div className="flex items-center gap-4">
+          <Users className="w-5 h-5 text-primary" />
+          <span className="font-heading text-foreground">
+            <span className="font-bold">{players.length}</span> players registered
+          </span>
+        </div>
+        <div className="flex items-center gap-2 text-xs font-heading text-primary">
+          <Cloud className="w-4 h-4" />
+          <span>Cloud Synced</span>
+        </div>
       </div>
 
       {/* Add button */}
@@ -172,9 +175,10 @@ export default function AdminPage() {
           <div className="flex items-center gap-3">
             <button
               onClick={adding ? handleAdd : () => handleUpdate(editing!)}
-              className="inline-flex items-center gap-2 px-5 py-2 rounded-xl bg-primary text-primary-foreground font-heading font-bold hover:scale-105 transition-transform"
+              disabled={saving}
+              className="inline-flex items-center gap-2 px-5 py-2 rounded-xl bg-primary text-primary-foreground font-heading font-bold hover:scale-105 transition-transform disabled:opacity-50"
             >
-              <Save className="w-4 h-4" /> {adding ? 'Add Player' : 'Save Changes'}
+              <Save className="w-4 h-4" /> {saving ? 'Saving...' : adding ? 'Add Player' : 'Save Changes'}
             </button>
             <button
               onClick={cancel}
@@ -187,7 +191,11 @@ export default function AdminPage() {
       )}
 
       {/* Player List */}
-      {players.length === 0 ? (
+      {playersLoading ? (
+        <div className="glass-card p-12 flex items-center justify-center">
+          <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+        </div>
+      ) : players.length === 0 ? (
         <div className="glass-card p-12 text-center">
           <Users className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
           <h3 className="font-display font-bold text-lg text-foreground mb-2">No Players Yet</h3>
@@ -195,11 +203,11 @@ export default function AdminPage() {
         </div>
       ) : (
         <div className="glass-card overflow-hidden">
-          <div className="grid grid-cols-[48px_1fr_80px_80px_100px] gap-2 px-4 py-3 border-b border-border/50 text-xs font-heading font-bold text-muted-foreground uppercase tracking-wider">
-            <span>Av</span>
+          <div className="grid grid-cols-[40px_1fr_60px_60px_80px] md:grid-cols-[48px_1fr_80px_80px_100px] gap-2 px-4 py-3 border-b border-border/50 text-xs font-heading font-bold text-muted-foreground uppercase tracking-wider">
+            <span></span>
             <span>Player</span>
             <span>Region</span>
-            <span className="text-right">Points</span>
+            <span className="text-right">Pts</span>
             <span className="text-right">Actions</span>
           </div>
           <div className="divide-y divide-border/30">
@@ -211,9 +219,9 @@ export default function AdminPage() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: Math.min(i * 0.03, 0.3) }}
-                  className="grid grid-cols-[48px_1fr_80px_80px_100px] gap-2 px-4 py-3 items-center hover:bg-secondary/20 transition-colors"
+                  className="grid grid-cols-[40px_1fr_60px_60px_80px] md:grid-cols-[48px_1fr_80px_80px_100px] gap-2 px-4 py-3 items-center hover:bg-secondary/20 transition-colors"
                 >
-                  <img src={getPlayerAvatarUrl(player.name)} alt="" className="w-8 h-8 rounded-sm" />
+                  <PlayerHead name={player.name} size={32} />
                   <span className="font-heading font-bold text-foreground text-sm truncate">{player.name}</span>
                   <span className="text-xs text-muted-foreground">{player.region}</span>
                   <span className="font-display font-bold text-primary text-sm text-right">{pts}</span>

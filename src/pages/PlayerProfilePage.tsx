@@ -1,12 +1,23 @@
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { getPlayerByName, getPlayerAvatarUrl, getPlayerBodyUrl, getPlayerHeadUrl, GAMEMODES, TIER_POINTS, GamemodeId } from "@/lib/data";
+import { usePlayers } from "@/hooks/usePlayers";
+import { getPlayerBodyUrl, GAMEMODES, TIER_POINTS, GamemodeId, getPlayerByName, rankPlayers } from "@/lib/data";
 import { TierBadge } from "@/components/TierBadge";
+import { PlayerHead } from "@/components/PlayerHead";
 import { ArrowLeft, Trophy, MapPin } from "lucide-react";
 
 export default function PlayerProfilePage() {
   const { name } = useParams<{ name: string }>();
-  const player = getPlayerByName(name || "");
+  const { players, loading } = usePlayers();
+  const player = getPlayerByName(name || "", players);
+
+  if (loading) {
+    return (
+      <div className="min-h-[60vh] flex items-center justify-center">
+        <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
 
   if (!player) {
     return (
@@ -30,7 +41,7 @@ export default function PlayerProfilePage() {
         className="glass-card p-6 md:p-8 mb-6 glow-cyan"
       >
         <div className="flex items-center gap-6">
-          <img src={getPlayerBodyUrl(player.name)} alt={player.name} className="w-16 h-32 md:w-20 md:h-40 object-contain" />
+          <img src={getPlayerBodyUrl(player.name)} alt={player.name} className="w-16 h-32 md:w-20 md:h-40 object-contain" style={{ imageRendering: 'pixelated' }} />
           <div>
             <h1 className="font-display font-black text-3xl md:text-4xl text-foreground text-glow-cyan">{player.name}</h1>
             <div className="flex items-center gap-4 mt-2 flex-wrap">

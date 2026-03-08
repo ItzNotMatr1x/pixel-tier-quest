@@ -1,12 +1,14 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { getRankedPlayers, GAMEMODES, getPlayerAvatarUrl, getPlayerBodyUrl } from "@/lib/data";
+import { usePlayers } from "@/hooks/usePlayers";
+import { GAMEMODES, getPlayerBodyUrl } from "@/lib/data";
+import { PlayerHead } from "@/components/PlayerHead";
 import { Swords, Trophy, Users, ChevronRight } from "lucide-react";
 
 export default function HomePage() {
-  const allRanked = getRankedPlayers();
-  const top5 = allRanked.slice(0, 5);
-  const playerCount = allRanked.length;
+  const { ranked, loading } = usePlayers();
+  const top5 = ranked.slice(0, 5);
+  const playerCount = ranked.length;
 
   return (
     <div className="min-h-screen">
@@ -78,7 +80,7 @@ export default function HomePage() {
                     ${i === 0 ? 'text-gold' : i === 1 ? 'text-silver' : i === 2 ? 'text-bronze' : 'text-muted-foreground'}`}>
                     #{player.rank}
                   </div>
-                  <img src={getPlayerBodyUrl(player.name)} alt={player.name} className="w-8 h-16 object-contain" />
+                  <PlayerHead name={player.name} size={36} />
                   <div className="flex-1">
                     <span className="font-heading font-bold text-foreground group-hover:text-primary transition-colors">{player.name}</span>
                     <span className="text-xs text-muted-foreground ml-2">{player.region}</span>

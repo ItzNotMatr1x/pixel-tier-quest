@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { getRankedPlayers, getPlayerBodyUrl, GAMEMODES, GamemodeId } from "@/lib/data";
+import { usePlayers } from "@/hooks/usePlayers";
+import { getPlayerBodyUrl, GAMEMODES, GamemodeId } from "@/lib/data";
 import { tierBgClasses } from "@/components/TierBadge";
+import { PlayerHead } from "@/components/PlayerHead";
 import { Trophy, Search, Crown, Medal } from "lucide-react";
 
 function getRankTitle(points: number): { title: string; color: string; icon: string } {
@@ -43,10 +45,10 @@ function RankBadge({ rank }: { rank: number }) {
 
 export default function LeaderboardPage() {
   const [search, setSearch] = useState("");
-  const allPlayers = getRankedPlayers();
+  const { ranked, loading } = usePlayers();
   const filtered = search
-    ? allPlayers.filter(p => p.name.toLowerCase().includes(search.toLowerCase()))
-    : allPlayers.slice(0, 100);
+    ? ranked.filter(p => p.name.toLowerCase().includes(search.toLowerCase()))
+    : ranked.slice(0, 100);
 
   return (
     <div className="container mx-auto px-4 py-10">
@@ -72,7 +74,11 @@ export default function LeaderboardPage() {
         </div>
       </div>
 
-      {filtered.length === 0 ? (
+      {loading ? (
+        <div className="glass-card p-16 flex items-center justify-center">
+          <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+        </div>
+      ) : filtered.length === 0 ? (
         <div className="glass-card p-16 text-center">
           <Trophy className="w-14 h-14 text-muted-foreground/50 mx-auto mb-4" />
           <h3 className="font-display font-bold text-lg text-foreground mb-2">No Players Found</h3>
@@ -91,7 +97,6 @@ export default function LeaderboardPage() {
             <span className="text-right pr-1">Tiers</span>
           </div>
 
-          {/* Rows */}
           <div className="divide-y divide-border/20">
             {filtered.map((player, i) => {
               const { title, color, icon } = getRankTitle(player.totalPoints);
@@ -117,14 +122,9 @@ export default function LeaderboardPage() {
                       <RankBadge rank={player.rank} />
                     </div>
 
-                    {/* Body render */}
-                    <div className="relative flex justify-center h-[56px] md:h-[64px]">
-                      <img
-                        src={getPlayerBodyUrl(player.name)}
-                        alt=""
-                        className="h-full w-auto object-contain drop-shadow-[0_4px_8px_rgba(0,0,0,0.4)] transition-all duration-300 group-hover:scale-[1.15] group-hover:drop-shadow-[0_0_16px_hsl(var(--primary)/0.4)]"
-                        style={{ imageRendering: 'pixelated' }}
-                      />
+                    {/* Head render with look-at effect */}
+                    <div className="flex justify-center">
+                      <PlayerHead name={player.name} size={40} />
                     </div>
 
                     {/* Player info */}
