@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { usePlayers } from "@/hooks/usePlayers";
 import { GAMEMODES, getPlayerBodyUrl } from "@/lib/data";
 import { PlayerHead } from "@/components/PlayerHead";
+import { GamemodeIcon } from "@/components/GamemodeIcon";
 import { Swords, Trophy, Users, ChevronRight } from "lucide-react";
 
 export default function HomePage() {
