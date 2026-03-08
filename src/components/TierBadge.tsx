@@ -30,6 +30,7 @@ const tierShadowClasses: Record<TierName, string> = {
 };
 
 const tierTextClasses: Record<TierName, string> = {
+  Unranked: 'text-muted-foreground',
   HT1: 'text-tier-ht1',
   HT2: 'text-tier-ht2',
   HT3: 'text-tier-ht3',
