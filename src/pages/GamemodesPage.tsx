@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
-import { GAMEMODES, getGamemodeLeaderboard, getPlayerAvatarUrl, GamemodeId } from "@/lib/data";
+import { GAMEMODES, getGamemodeLeaderboard, getPlayerAvatarUrl, getPlayerBodyUrl, GamemodeId } from "@/lib/data";
 import { TierBadge } from "@/components/TierBadge";
 
 export default function GamemodesPage() {
