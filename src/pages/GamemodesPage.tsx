@@ -72,7 +72,7 @@ export default function GamemodesPage() {
                 ? 'bg-primary/15 text-primary border border-primary/30 shadow-[0_0_16px_hsl(var(--primary)/0.15)]'
                 : 'glass-card text-muted-foreground hover:text-foreground hover:bg-secondary/50'}`}
           >
-            <span>{g.icon}</span> {g.name}
+            <GamemodeIcon icon={g.icon} className="w-4 h-4 text-sm" /> {g.name}
           </button>
         ))}
       </div>
