@@ -45,10 +45,9 @@ export default function GamemodesPage() {
         </div>
       ) : (
         <div className="glass-card overflow-hidden">
-          <div className="grid grid-cols-[50px_1fr_100px_80px_80px] md:grid-cols-[50px_56px_1fr_100px_80px_80px] gap-3 px-4 py-3 border-b border-border/50 text-xs font-heading font-bold text-muted-foreground uppercase tracking-wider items-center">
+          <div className="grid grid-cols-[50px_1fr_100px_80px_80px] gap-3 px-4 py-3 border-b border-border/50 text-xs font-heading font-bold text-muted-foreground uppercase tracking-wider items-center">
             <span>#</span>
-            <span className="hidden md:block">Player</span>
-            <span className="md:hidden">Player</span>
+            <span>Player</span>
             <span>Tier</span>
             <span className="text-right">Points</span>
             <span className="text-right">Region</span>
