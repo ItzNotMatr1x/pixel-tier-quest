@@ -16,6 +16,8 @@ function getRankTitle(points: number): { title: string; color: string } {
   return { title: "Combat Novice", color: "text-muted-foreground" };
 }
 
+const MEDAL_EMOJI = ['🥇', '🥈', '🥉'];
+
 export default function LeaderboardPage() {
   const [search, setSearch] = useState("");
   const allPlayers = getRankedPlayers();
@@ -49,10 +51,10 @@ export default function LeaderboardPage() {
       ) : (
         <div className="glass-card overflow-hidden">
           {/* Header */}
-          <div className="grid grid-cols-[50px_1fr_auto] md:grid-cols-[50px_1fr_80px_auto] gap-3 px-4 py-3 border-b border-border/50 text-xs font-heading font-bold text-muted-foreground uppercase tracking-wider items-center">
+          <div className="hidden md:grid grid-cols-[80px_1fr_80px_auto] gap-2 px-4 py-3 border-b border-border/50 text-xs font-heading font-bold text-muted-foreground uppercase tracking-wider items-center">
             <span>#</span>
             <span>Player</span>
-            <span className="hidden md:block">Region</span>
+            <span className="text-center">Region</span>
             <span className="text-right">Tiers</span>
           </div>
 
@@ -74,32 +76,36 @@ export default function LeaderboardPage() {
                 >
                   <Link
                     to={`/player/${player.name}`}
-                    className={`grid grid-cols-[50px_1fr_auto] md:grid-cols-[50px_1fr_80px_auto] gap-3 px-4 py-3 items-center transition-all duration-200 group
-                      hover:bg-secondary/40 hover:-translate-y-[2px] hover:shadow-lg hover:shadow-primary/5
+                    className={`flex items-center md:grid md:grid-cols-[80px_1fr_80px_auto] gap-2 px-3 md:px-4 py-2 transition-all duration-200 group
+                      hover:bg-secondary/40 hover:-translate-y-[2px] hover:shadow-lg hover:shadow-primary/5 hover:z-10 relative
                       ${isTop3 ? `${rowBgs[player.rank - 1]} border-l-[3px] ${borderColors[player.rank - 1]}` : ''}`}
                   >
-                    {/* Rank */}
-                    <span className={`font-display font-black text-lg ${isTop3 ? rankColors[player.rank - 1] : 'text-muted-foreground'}`}>
-                      {player.rank}.
-                    </span>
-
-                    {/* Player info with body render */}
-                    <div className="flex items-center gap-3 min-w-0">
+                    {/* Rank + Body (mctiers style: rank overlaps body) */}
+                    <div className="flex items-center relative flex-shrink-0 w-[70px] md:w-[80px]">
+                      <span className={`font-display font-black text-2xl md:text-3xl z-10 relative ${isTop3 ? rankColors[player.rank - 1] : 'text-muted-foreground'}`}>
+                        {player.rank}.
+                      </span>
                       <img
                         src={getPlayerBodyUrl(player.name)}
                         alt=""
-                        className="w-8 h-14 object-contain flex-shrink-0 transition-transform duration-300 group-hover:scale-110 -ml-1 drop-shadow-md"
+                        className="absolute right-0 top-1/2 -translate-y-1/2 w-[32px] h-[52px] md:w-[38px] md:h-[60px] object-contain drop-shadow-lg transition-transform duration-300 group-hover:scale-110"
                         style={{ imageRendering: 'pixelated' }}
                       />
-                      <div className="min-w-0">
-                        <div className="font-heading font-bold text-foreground text-sm truncate">{player.name}</div>
-                        <div className={`text-xs font-heading ${color} flex items-center gap-1`}>
-                          <span>⬥</span> {title} <span className="text-muted-foreground">({player.totalPoints} points)</span>
-                        </div>
+                      {/* Medal badge for top 3 */}
+                      {isTop3 && (
+                        <span className="absolute -top-1 -left-1 text-sm md:text-base z-20">{MEDAL_EMOJI[player.rank - 1]}</span>
+                      )}
+                    </div>
+
+                    {/* Player name + title */}
+                    <div className="min-w-0 flex-1">
+                      <div className="font-heading font-bold text-foreground text-sm md:text-base truncate">{player.name}</div>
+                      <div className={`text-xs font-heading ${color} flex items-center gap-1`}>
+                        <span>⬥</span> {title} <span className="text-muted-foreground">({player.totalPoints} pts)</span>
                       </div>
                     </div>
 
-                    {/* Region badge - desktop */}
+                    {/* Region badge */}
                     <div className="hidden md:flex justify-center">
                       <span className="inline-flex items-center justify-center w-10 h-7 rounded-md bg-secondary text-xs font-heading font-bold text-foreground">
                         {player.region}
@@ -112,17 +118,17 @@ export default function LeaderboardPage() {
                         const tier = player.tiers[gm.id as GamemodeId];
                         if (tier === 'Unranked') {
                           return (
-                            <div key={gm.id} className="w-6 h-6 rounded-full bg-muted/50 flex items-center justify-center" title={`${gm.name}: Unranked`}>
-                              <span className="text-[8px] text-muted-foreground">-</span>
+                            <div key={gm.id} className="w-5 h-5 md:w-6 md:h-6 rounded-full bg-muted/50 flex items-center justify-center" title={`${gm.name}: Unranked`}>
+                              <span className="text-[7px] md:text-[8px] text-muted-foreground">-</span>
                             </div>
                           );
                         }
                         return (
                           <div key={gm.id} className="flex flex-col items-center gap-0.5" title={`${gm.name}: ${tier}`}>
-                            <div className={`w-6 h-6 rounded-full ${tierBgClasses[tier]} flex items-center justify-center`}>
-                              <span className="text-[9px] font-bold text-background drop-shadow-sm">{gm.icon}</span>
+                            <div className={`w-5 h-5 md:w-6 md:h-6 rounded-full ${tierBgClasses[tier]} flex items-center justify-center`}>
+                              <span className="text-[8px] md:text-[9px] font-bold text-background drop-shadow-sm">{gm.icon}</span>
                             </div>
-                            <span className="text-[7px] font-heading font-bold text-muted-foreground leading-none hidden lg:block">{tier}</span>
+                            <span className="text-[6px] md:text-[7px] font-heading font-bold text-muted-foreground leading-none hidden lg:block">{tier}</span>
                           </div>
                         );
                       })}
