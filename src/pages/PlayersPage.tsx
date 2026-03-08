@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { getRankedPlayers, getPlayerAvatarUrl } from "@/lib/data";
+import { getRankedPlayers, getPlayerAvatarUrl, getPlayerBodyUrl } from "@/lib/data";
 import { Users } from "lucide-react";
 
 export default function PlayersPage() {
@@ -37,7 +37,7 @@ export default function PlayersPage() {
           {filtered.slice(0, 100).map((player, i) => (
             <motion.div key={player.name} initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: Math.min(i * 0.02, 0.5) }}>
               <Link to={`/player/${player.name}`} className="glass-card p-4 flex items-center gap-3 hover:glow-cyan hover:border-primary/30 transition-all group">
-                <img src={getPlayerAvatarUrl(player.name)} alt={player.name} className="w-10 h-10 rounded-lg" />
+                <img src={getPlayerBodyUrl(player.name)} alt={player.name} className="w-8 h-16 object-contain" />
                 <div>
                   <div className="font-heading font-bold text-foreground group-hover:text-primary transition-colors text-sm">{player.name}</div>
                   <div className="text-xs text-muted-foreground">{player.region} · #{player.rank} · {player.totalPoints}pts</div>

@@ -109,6 +109,10 @@ export function getPlayerAvatarUrl(name: string): string {
   return `https://mc-heads.net/avatar/${name}/64`;
 }
 
+export function getPlayerBodyUrl(name: string): string {
+  return `https://mc-heads.net/body/${name}/128`;
+}
+
 export function getPlayerHeadUrl(name: string): string {
   return `https://mc-heads.net/head/${name}/64`;
 }

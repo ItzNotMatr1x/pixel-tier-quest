@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
-import { GAMEMODES, getGamemodeLeaderboard, getPlayerAvatarUrl, GamemodeId } from "@/lib/data";
+import { GAMEMODES, getGamemodeLeaderboard, getPlayerAvatarUrl, getPlayerBodyUrl, GamemodeId } from "@/lib/data";
 import { TierBadge } from "@/components/TierBadge";
 
 export default function GamemodesPage() {
@@ -58,7 +58,7 @@ export default function GamemodesPage() {
                     {player.rank <= 3 ? ['🥇','🥈','🥉'][player.rank-1] : `#${player.rank}`}
                   </span>
                   <div className="flex items-center gap-2">
-                    <img src={getPlayerAvatarUrl(player.name)} alt="" className="w-7 h-7 rounded-sm" />
+                    <img src={getPlayerBodyUrl(player.name)} alt="" className="w-6 h-12 object-contain" />
                     <span className="font-heading font-bold text-foreground text-sm truncate">{player.name}</span>
                   </div>
                   <TierBadge tier={player.tiers[activeMode]} size="sm" />
