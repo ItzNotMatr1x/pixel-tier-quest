@@ -62,7 +62,7 @@ export default function LeaderboardPage() {
                     ${player.rank === 1 ? 'text-gold' : player.rank === 2 ? 'text-silver' : player.rank === 3 ? 'text-bronze' : 'text-muted-foreground'}`}>
                     {player.rank === 1 ? '🥇' : player.rank === 2 ? '🥈' : player.rank === 3 ? '🥉' : `#${player.rank}`}
                   </span>
-                  <img src={getPlayerAvatarUrl(player.name)} alt="" className="w-8 h-8 rounded-sm hidden md:block" />
+                  <img src={getPlayerBodyUrl(player.name)} alt="" className="w-8 h-16 object-contain hidden md:block" />
                   <span className="font-heading font-bold text-foreground text-sm truncate">{player.name}</span>
                   <span className="font-display font-bold text-primary text-sm text-right">{player.totalPoints}</span>
                   <span className="text-xs text-muted-foreground text-right">{player.region}</span>

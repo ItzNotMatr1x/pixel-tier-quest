@@ -30,7 +30,7 @@ export default function PlayerProfilePage() {
         className="glass-card p-6 md:p-8 mb-6 glow-cyan"
       >
         <div className="flex items-center gap-6">
-          <img src={getPlayerHeadUrl(player.name)} alt={player.name} className="w-20 h-20 md:w-24 md:h-24 rounded-xl" />
+          <img src={getPlayerBodyUrl(player.name)} alt={player.name} className="w-16 h-32 md:w-20 md:h-40 object-contain" />
           <div>
             <h1 className="font-display font-black text-3xl md:text-4xl text-foreground text-glow-cyan">{player.name}</h1>
             <div className="flex items-center gap-4 mt-2 flex-wrap">
