@@ -2,7 +2,7 @@ export type TierName = 'Unranked' | 'LT5' | 'HT5' | 'LT4' | 'HT4' | 'LT3' | 'HT3
 export type GamemodeId = 'sword' | 'axe' | 'nethpot' | 'pot' | 'vanilla' | 'uhc' | 'smp' | 'mace';
 
 export const TIER_POINTS: Record<TierName, number> = {
-  LT5: 1, HT5: 2, LT4: 3, HT4: 4, LT3: 6, HT3: 10, LT2: 20, HT2: 30, LT1: 45, HT1: 60,
+  Unranked: 0, LT5: 1, HT5: 2, LT4: 3, HT4: 4, LT3: 6, HT3: 10, LT2: 20, HT2: 30, LT1: 45, HT1: 60,
 };
 
 export const TIER_ORDER: TierName[] = ['LT5','HT5','LT4','HT4','LT3','HT3','LT2','HT2','LT1','HT1'];
