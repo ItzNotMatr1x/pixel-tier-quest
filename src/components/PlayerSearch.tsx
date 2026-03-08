@@ -1,7 +1,9 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Search } from "lucide-react";
-import { searchPlayers, getPlayerAvatarUrl, Player } from "@/lib/data";
+import { usePlayers } from "@/hooks/usePlayers";
+import { searchPlayers, Player } from "@/lib/data";
+import { PlayerHead } from "@/components/PlayerHead";
 import { motion, AnimatePresence } from "framer-motion";
 
 export function PlayerSearch() {
@@ -10,11 +12,12 @@ export function PlayerSearch() {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
+  const { players } = usePlayers();
 
   useEffect(() => {
-    setResults(searchPlayers(query));
+    setResults(searchPlayers(query, players));
     setOpen(query.length > 0);
-  }, [query]);
+  }, [query, players]);
 
   useEffect(() => {
     function handleClick(e: MouseEvent) {
@@ -58,7 +61,7 @@ export function PlayerSearch() {
                 onClick={() => selectPlayer(p.name)}
                 className="flex items-center gap-3 w-full px-3 py-2 rounded-lg hover:bg-secondary/60 transition-colors text-left"
               >
-                <img src={getPlayerAvatarUrl(p.name)} alt={p.name} className="w-6 h-6 rounded-sm" />
+                <PlayerHead name={p.name} size={24} />
                 <span className="text-sm font-heading text-foreground">{p.name}</span>
                 <span className="text-xs text-muted-foreground ml-auto">{p.region}</span>
               </button>
