@@ -7,31 +7,38 @@ interface PlayerHeadProps {
 }
 
 /**
- * Minecraft player head that faces right by default,
+ * 3D Minecraft player head that faces left by default,
  * and rotates to look at the viewer on hover.
+ * Uses mc-heads.net/head for 3D isometric head render.
  */
 export function PlayerHead({ name, size = 32, className = "" }: PlayerHeadProps) {
-  const avatarUrl = `https://mc-heads.net/avatar/${name}/64`;
+  // Use the 3D head render from mc-heads
+  const headUrl = `https://mc-heads.net/head/${name}/64`;
 
   return (
     <div
       className={`inline-block flex-shrink-0 ${className}`}
-      style={{ width: size, height: size, perspective: 200 }}
+      style={{ width: size, height: size, perspective: 300 }}
     >
       <img
-        src={avatarUrl}
+        src={headUrl}
         alt={name}
-        className="w-full h-full rounded-sm transition-transform duration-400 ease-out"
+        className="w-full h-full transition-all duration-400 ease-out cursor-pointer"
         style={{
           imageRendering: 'pixelated',
-          transform: 'rotateY(-25deg) scale(1)',
+          transform: 'rotateY(25deg) rotateX(-5deg) scale(1)',
           transformOrigin: 'center center',
+          filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.4))',
         }}
         onMouseEnter={(e) => {
-          (e.target as HTMLImageElement).style.transform = 'rotateY(0deg) scale(1.15)';
+          const img = e.target as HTMLImageElement;
+          img.style.transform = 'rotateY(0deg) rotateX(0deg) scale(1.2)';
+          img.style.filter = 'drop-shadow(0 4px 12px rgba(0,200,255,0.3))';
         }}
         onMouseLeave={(e) => {
-          (e.target as HTMLImageElement).style.transform = 'rotateY(-25deg) scale(1)';
+          const img = e.target as HTMLImageElement;
+          img.style.transform = 'rotateY(25deg) rotateX(-5deg) scale(1)';
+          img.style.filter = 'drop-shadow(0 2px 4px rgba(0,0,0,0.4))';
         }}
       />
     </div>
