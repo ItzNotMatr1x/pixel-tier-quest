@@ -5,6 +5,7 @@ import { usePlayers } from "@/hooks/usePlayers";
 import { getPlayerBodyUrl, GAMEMODES, GamemodeId } from "@/lib/data";
 import { tierBgClasses } from "@/components/TierBadge";
 import { PlayerHead } from "@/components/PlayerHead";
+import { GamemodeIcon } from "@/components/GamemodeIcon";
 import { Trophy, Search, Crown, Medal } from "lucide-react";
 
 function getRankTitle(points: number): { title: string; color: string; icon: string } {
@@ -159,7 +160,7 @@ export default function LeaderboardPage() {
                         return (
                           <div key={gm.id} className="flex flex-col items-center gap-0.5 transition-all duration-300 hover:scale-[1.2]" title={`${gm.name}: ${tier}`}>
                             <div className={`w-5 h-5 md:w-7 md:h-7 rounded-full ${tierBgClasses[tier]} flex items-center justify-center shadow-sm transition-shadow duration-300 hover:shadow-[0_0_12px_currentColor]`}>
-                              <span className="text-[7px] md:text-[10px] font-bold text-background drop-shadow-sm">{gm.icon}</span>
+                              <GamemodeIcon icon={gm.icon} className="w-3 h-3 md:w-4 md:h-4 text-[7px] md:text-[10px]" />
                             </div>
                             <span className="text-[6px] md:text-[7px] font-heading font-bold text-muted-foreground leading-none hidden lg:block">{tier}</span>
                           </div>

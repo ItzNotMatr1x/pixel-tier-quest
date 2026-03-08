@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { usePlayers } from "@/hooks/usePlayers";
 import { GAMEMODES, getPlayerBodyUrl } from "@/lib/data";
 import { PlayerHead } from "@/components/PlayerHead";
+import { GamemodeIcon } from "@/components/GamemodeIcon";
 import { Swords, Trophy, Users, ChevronRight } from "lucide-react";
 
 export default function HomePage() {
@@ -101,7 +102,7 @@ export default function HomePage() {
           {GAMEMODES.map((gm, i) => (
             <motion.div key={gm.id} initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.05 * i }}>
               <Link to={`/gamemodes?mode=${gm.id}`} className="glass-card p-6 text-center hover:glow-cyan hover:border-primary/30 transition-all block group">
-                <span className="text-3xl block mb-2">{gm.icon}</span>
+                <GamemodeIcon icon={gm.icon} className="w-8 h-8 text-3xl mx-auto mb-2" />
                 <span className="font-heading font-bold text-foreground group-hover:text-primary transition-colors">{gm.name}</span>
               </Link>
             </motion.div>

@@ -4,6 +4,7 @@ import { usePlayers } from "@/hooks/usePlayers";
 import { GamemodeId, GAMEMODES } from "@/lib/data";
 import { TierBadge } from "@/components/TierBadge";
 import { PlayerHead } from "@/components/PlayerHead";
+import { GamemodeIcon } from "@/components/GamemodeIcon";
 import { Crown, Medal } from "lucide-react";
 
 function getModeTitle(points: number): { title: string; color: string; icon: string } {
@@ -53,7 +54,7 @@ export default function GamemodesPage() {
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-1">
           <div className="w-10 h-10 rounded-xl bg-primary/15 flex items-center justify-center text-lg">
-            {gm.icon}
+            <GamemodeIcon icon={gm.icon} className="w-6 h-6 text-lg" />
           </div>
           <h1 className="font-display font-bold text-2xl md:text-3xl text-foreground">Gamemode Rankings</h1>
         </div>
@@ -71,7 +72,7 @@ export default function GamemodesPage() {
                 ? 'bg-primary/15 text-primary border border-primary/30 shadow-[0_0_16px_hsl(var(--primary)/0.15)]'
                 : 'glass-card text-muted-foreground hover:text-foreground hover:bg-secondary/50'}`}
           >
-            <span>{g.icon}</span> {g.name}
+            <GamemodeIcon icon={g.icon} className="w-4 h-4 text-sm" /> {g.name}
           </button>
         ))}
       </div>
@@ -82,7 +83,7 @@ export default function GamemodesPage() {
         </div>
       ) : leaderboard.length === 0 ? (
         <div className="glass-card p-16 text-center">
-          <span className="text-5xl block mb-4">{gm.icon}</span>
+          <GamemodeIcon icon={gm.icon} className="w-12 h-12 text-5xl mx-auto mb-4" />
           <h3 className="font-display font-bold text-lg text-foreground mb-2">No Players Yet</h3>
           <p className="text-muted-foreground font-heading text-sm">Add players from the <Link to="/admin" className="text-primary hover:underline">Admin Panel</Link>.</p>
         </div>

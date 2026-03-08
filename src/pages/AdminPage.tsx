@@ -7,6 +7,7 @@ import {
   Player, GAMEMODES, TIER_ORDER, GamemodeId, TierName
 } from "@/lib/data";
 import { PlayerHead } from "@/components/PlayerHead";
+import { GamemodeIcon } from "@/components/GamemodeIcon";
 import { Shield, Plus, Trash2, Pencil, Save, X, Users, LogOut, Cloud } from "lucide-react";
 
 const REGIONS = ['NA', 'EU', 'AS', 'SA', 'OCE'];
@@ -153,7 +154,7 @@ export default function AdminPage() {
             {GAMEMODES.map(gm => (
               <div key={gm.id} className="glass-card p-3">
                 <div className="flex items-center gap-2 mb-2">
-                  <span className="text-lg">{gm.icon}</span>
+                  <GamemodeIcon icon={gm.icon} className="w-5 h-5 text-lg" />
                   <span className="font-heading font-bold text-foreground text-sm">{gm.name}</span>
                 </div>
                 <select

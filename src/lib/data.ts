@@ -32,7 +32,7 @@ export const GAMEMODES: Gamemode[] = [
   { id: 'axe', name: 'Axe', icon: '🪓' },
   { id: 'nethpot', name: 'NethPot', icon: '🔥' },
   { id: 'pot', name: 'Pot', icon: '🧪' },
-  { id: 'vanilla', name: 'Vanilla', icon: '🌿' },
+  { id: 'vanilla', name: 'Vanilla', icon: '__crystal__' },
   { id: 'uhc', name: 'UHC', icon: '🏹' },
   { id: 'smp', name: 'SMP', icon: '🌍' },
   { id: 'mace', name: 'Mace', icon: '🔨' },
