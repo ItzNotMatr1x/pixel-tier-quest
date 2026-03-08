@@ -108,7 +108,7 @@ export default function GamemodesPage() {
                     </div>
 
                     {/* Mobile: compact tier + points */}
-                    <div className="flex md:hidden items-center gap-2 flex-shrink-0">
+                    <div className="flex md:hidden items-center gap-2 flex-shrink-0 transition-all duration-300 hover:scale-[1.15]">
                       <TierBadge tier={player.tiers[activeMode]} size="sm" />
                     </div>
                   </Link>
