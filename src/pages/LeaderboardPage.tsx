@@ -76,8 +76,8 @@ export default function LeaderboardPage() {
                 >
                   <Link
                     to={`/player/${player.name}`}
-                    className={`flex items-center md:grid md:grid-cols-[80px_1fr_80px_auto] gap-2 px-3 md:px-4 py-2 transition-all duration-200 group
-                      hover:bg-secondary/40 hover:-translate-y-[2px] hover:shadow-lg hover:shadow-primary/5 hover:z-10 relative
+                    className={`flex items-center md:grid md:grid-cols-[80px_1fr_80px_auto] gap-2 px-3 md:px-4 py-2 transition-all duration-300 group
+                      hover:bg-secondary/40 hover:-translate-y-[3px] hover:shadow-[0_8px_30px_-5px_hsl(var(--primary)/0.2)] hover:z-10 relative
                       ${isTop3 ? `${rowBgs[player.rank - 1]} border-l-[3px] ${borderColors[player.rank - 1]}` : ''}`}
                   >
                     {/* Rank + Body (mctiers style: rank overlaps body) */}
