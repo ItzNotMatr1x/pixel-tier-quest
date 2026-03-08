@@ -118,14 +118,14 @@ export default function LeaderboardPage() {
                         const tier = player.tiers[gm.id as GamemodeId];
                         if (tier === 'Unranked') {
                           return (
-                            <div key={gm.id} className="w-5 h-5 md:w-6 md:h-6 rounded-full bg-muted/50 flex items-center justify-center" title={`${gm.name}: Unranked`}>
+                            <div key={gm.id} className="w-5 h-5 md:w-6 md:h-6 rounded-full bg-muted/50 flex items-center justify-center transition-all duration-300 hover:scale-[1.15] hover:bg-muted" title={`${gm.name}: Unranked`}>
                               <span className="text-[7px] md:text-[8px] text-muted-foreground">-</span>
                             </div>
                           );
                         }
                         return (
-                          <div key={gm.id} className="flex flex-col items-center gap-0.5" title={`${gm.name}: ${tier}`}>
-                            <div className={`w-5 h-5 md:w-6 md:h-6 rounded-full ${tierBgClasses[tier]} flex items-center justify-center`}>
+                          <div key={gm.id} className="flex flex-col items-center gap-0.5 transition-all duration-300 hover:scale-[1.15]" title={`${gm.name}: ${tier}`}>
+                            <div className={`w-5 h-5 md:w-6 md:h-6 rounded-full ${tierBgClasses[tier]} flex items-center justify-center transition-shadow duration-300 hover:shadow-[0_0_10px_currentColor]`}>
                               <span className="text-[8px] md:text-[9px] font-bold text-background drop-shadow-sm">{gm.icon}</span>
                             </div>
                             <span className="text-[6px] md:text-[7px] font-heading font-bold text-muted-foreground leading-none hidden lg:block">{tier}</span>
