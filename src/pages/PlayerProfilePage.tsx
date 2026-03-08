@@ -4,7 +4,6 @@ import { usePlayers } from "@/hooks/usePlayers";
 import { GAMEMODES, TIER_POINTS, GamemodeId, getPlayerByName } from "@/lib/data";
 import { PlayerHead } from "@/components/PlayerHead";
 import { TierBadge } from "@/components/TierBadge";
-import { PlayerHead } from "@/components/PlayerHead";
 import { ArrowLeft, Trophy, MapPin } from "lucide-react";
 
 export default function PlayerProfilePage() {
