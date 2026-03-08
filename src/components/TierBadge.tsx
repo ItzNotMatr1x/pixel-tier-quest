@@ -16,6 +16,7 @@ const tierBgClasses: Record<TierName, string> = {
 };
 
 const tierShadowClasses: Record<TierName, string> = {
+  Unranked: 'shadow-none',
   HT1: 'shadow-[0_0_12px_hsl(43_100%_55%/0.6)]',
   HT2: 'shadow-[0_0_12px_hsl(280_70%_55%/0.6)]',
   HT3: 'shadow-[0_0_12px_hsl(220_90%_55%/0.6)]',
