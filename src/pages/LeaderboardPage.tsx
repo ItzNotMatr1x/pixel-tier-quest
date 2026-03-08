@@ -16,7 +16,7 @@ function getRankTitle(points: number): { title: string; color: string } {
   return { title: "Combat Novice", color: "text-muted-foreground" };
 }
 
-const MEDAL_EMOJI = ['🥇', '🥈', '🥉'];
+
 
 export default function LeaderboardPage() {
   const [search, setSearch] = useState("");
@@ -91,9 +91,14 @@ export default function LeaderboardPage() {
                         className="absolute right-0 top-1/2 -translate-y-1/2 w-[32px] h-[52px] md:w-[38px] md:h-[60px] object-contain drop-shadow-lg transition-all duration-300 group-hover:scale-[1.15] group-hover:drop-shadow-[0_0_12px_hsl(var(--primary)/0.5)]"
                         style={{ imageRendering: 'pixelated' }}
                       />
-                      {/* Medal badge for top 3 */}
+                      {/* Rank badge for top 3 */}
                       {isTop3 && (
-                        <span className="absolute -top-1 -left-1 text-sm md:text-base z-20">{MEDAL_EMOJI[player.rank - 1]}</span>
+                        <span className={`absolute -top-2 -left-2 w-6 h-6 md:w-7 md:h-7 rounded-full flex items-center justify-center text-[10px] md:text-xs font-display font-black z-20 shadow-lg
+                          ${player.rank === 1 ? 'bg-gold text-background shadow-gold/40' : ''}
+                          ${player.rank === 2 ? 'bg-silver text-background shadow-silver/40' : ''}
+                          ${player.rank === 3 ? 'bg-bronze text-background shadow-bronze/40' : ''}`}>
+                          {player.rank}
+                        </span>
                       )}
                     </div>
 

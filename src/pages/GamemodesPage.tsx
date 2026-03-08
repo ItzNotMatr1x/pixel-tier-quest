@@ -13,7 +13,7 @@ function getModeTitle(points: number): { title: string; color: string } {
   return { title: "Unranked", color: "text-muted-foreground" };
 }
 
-const MEDAL_EMOJI = ['🥇', '🥈', '🥉'];
+
 
 export default function GamemodesPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -82,7 +82,12 @@ export default function GamemodesPage() {
                         style={{ imageRendering: 'pixelated' }}
                       />
                       {isTop3 && (
-                        <span className="absolute -top-1 -left-1 text-sm md:text-base z-20">{MEDAL_EMOJI[player.rank - 1]}</span>
+                        <span className={`absolute -top-2 -left-2 w-6 h-6 md:w-7 md:h-7 rounded-full flex items-center justify-center text-[10px] md:text-xs font-display font-black z-20 shadow-lg
+                          ${player.rank === 1 ? 'bg-gold text-background shadow-gold/40' : ''}
+                          ${player.rank === 2 ? 'bg-silver text-background shadow-silver/40' : ''}
+                          ${player.rank === 3 ? 'bg-bronze text-background shadow-bronze/40' : ''}`}>
+                          {player.rank}
+                        </span>
                       )}
                     </div>
 
