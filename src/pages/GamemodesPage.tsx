@@ -13,6 +13,8 @@ function getModeTitle(points: number): { title: string; color: string } {
   return { title: "Unranked", color: "text-muted-foreground" };
 }
 
+const MEDAL_EMOJI = ['🥇', '🥈', '🥉'];
+
 export default function GamemodesPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const activeMode = (searchParams.get("mode") as GamemodeId) || "sword";
@@ -45,7 +47,7 @@ export default function GamemodesPage() {
         </div>
       ) : (
         <div className="glass-card overflow-hidden">
-          <div className="grid grid-cols-[50px_1fr_100px_80px_80px] gap-3 px-4 py-3 border-b border-border/50 text-xs font-heading font-bold text-muted-foreground uppercase tracking-wider items-center">
+          <div className="hidden md:grid grid-cols-[80px_1fr_100px_80px_80px] gap-2 px-4 py-3 border-b border-border/50 text-xs font-heading font-bold text-muted-foreground uppercase tracking-wider items-center">
             <span>#</span>
             <span>Player</span>
             <span>Tier</span>
@@ -64,31 +66,50 @@ export default function GamemodesPage() {
                 <motion.div key={player.name} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: Math.min(i * 0.015, 0.4) }}>
                   <Link
                     to={`/player/${player.name}`}
-                    className={`grid grid-cols-[50px_1fr_100px_80px_80px] gap-3 px-4 py-3 items-center transition-all duration-200 group
-                      hover:bg-secondary/40 hover:-translate-y-[2px] hover:shadow-lg hover:shadow-primary/5
+                    className={`flex items-center md:grid md:grid-cols-[80px_1fr_100px_80px_80px] gap-2 px-3 md:px-4 py-2 transition-all duration-200 group
+                      hover:bg-secondary/40 hover:-translate-y-[2px] hover:shadow-lg hover:shadow-primary/5 hover:z-10 relative
                       ${isTop3 ? `${rowBgs[player.rank - 1]} border-l-[3px] ${borderColors[player.rank - 1]}` : ''}`}
                   >
-                    <span className={`font-display font-black text-lg ${isTop3 ? rankColors[player.rank - 1] : 'text-muted-foreground'}`}>
-                      {player.rank}.
-                    </span>
-                    <div className="flex items-center gap-3 min-w-0">
+                    {/* Rank + Body (mctiers style) */}
+                    <div className="flex items-center relative flex-shrink-0 w-[70px] md:w-[80px]">
+                      <span className={`font-display font-black text-2xl md:text-3xl z-10 relative ${isTop3 ? rankColors[player.rank - 1] : 'text-muted-foreground'}`}>
+                        {player.rank}.
+                      </span>
                       <img
                         src={getPlayerBodyUrl(player.name)}
                         alt=""
-                        className="w-8 h-14 object-contain flex-shrink-0 transition-transform duration-300 group-hover:scale-110 -ml-1 drop-shadow-md"
+                        className="absolute right-0 top-1/2 -translate-y-1/2 w-[32px] h-[52px] md:w-[38px] md:h-[60px] object-contain drop-shadow-lg transition-transform duration-300 group-hover:scale-110"
                         style={{ imageRendering: 'pixelated' }}
                       />
-                      <div className="min-w-0">
-                        <div className="font-heading font-bold text-foreground text-sm truncate">{player.name}</div>
-                        <div className={`text-xs font-heading ${color}`}>⬥ {title}</div>
-                      </div>
+                      {isTop3 && (
+                        <span className="absolute -top-1 -left-1 text-sm md:text-base z-20">{MEDAL_EMOJI[player.rank - 1]}</span>
+                      )}
                     </div>
-                    <TierBadge tier={player.tiers[activeMode]} size="sm" />
-                    <span className="font-display font-bold text-primary text-sm text-right">{player.totalPoints}</span>
-                    <div className="flex justify-end">
+
+                    {/* Player name + title */}
+                    <div className="min-w-0 flex-1">
+                      <div className="font-heading font-bold text-foreground text-sm md:text-base truncate">{player.name}</div>
+                      <div className={`text-xs font-heading ${color}`}>⬥ {title}</div>
+                    </div>
+
+                    {/* Tier - hidden on mobile, show inline */}
+                    <div className="hidden md:block">
+                      <TierBadge tier={player.tiers[activeMode]} size="sm" />
+                    </div>
+
+                    {/* Points */}
+                    <span className="font-display font-bold text-primary text-sm text-right hidden md:block">{player.totalPoints}</span>
+
+                    {/* Region */}
+                    <div className="hidden md:flex justify-end">
                       <span className="inline-flex items-center justify-center w-10 h-7 rounded-md bg-secondary text-xs font-heading font-bold text-foreground">
                         {player.region}
                       </span>
+                    </div>
+
+                    {/* Mobile: compact tier + points */}
+                    <div className="flex md:hidden items-center gap-2 flex-shrink-0">
+                      <TierBadge tier={player.tiers[activeMode]} size="sm" />
                     </div>
                   </Link>
                 </motion.div>
