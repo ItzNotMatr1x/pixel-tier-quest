@@ -111,8 +111,13 @@ export default function LeaderboardPage() {
             {filtered.map((player, i) => {
               const { title, color, icon } = getRankTitle(player.totalPoints);
               const isTop3 = player.rank <= 3;
-              const rowBgs = ['bg-gold/[0.04]', 'bg-silver/[0.03]', 'bg-bronze/[0.03]'];
+              const rowBgs = ['bg-gold/[0.06]', 'bg-silver/[0.04]', 'bg-bronze/[0.04]'];
               const borderColors = ['border-l-gold', 'border-l-silver', 'border-l-bronze'];
+              const rowGlows = [
+                'shadow-[0_0_15px_hsl(43,100%,55%/0.15),0_0_30px_hsl(43,100%,55%/0.08)] animate-[pulseGlow_3s_ease-in-out_infinite]',
+                'shadow-[0_0_15px_hsl(220,10%,72%/0.15),0_0_30px_hsl(220,10%,72%/0.08)] animate-[pulseGlow_3s_ease-in-out_infinite_0.5s]',
+                'shadow-[0_0_15px_hsl(30,60%,50%/0.15),0_0_30px_hsl(30,60%,50%/0.08)] animate-[pulseGlow_3s_ease-in-out_infinite_1s]',
+              ];
 
               return (
                 <motion.div
@@ -125,7 +130,7 @@ export default function LeaderboardPage() {
                     to={`/player/${player.name}`}
                     className={`grid grid-cols-[52px_40px_1fr_auto] md:grid-cols-[72px_48px_1fr_80px_auto] gap-2 md:gap-3 px-3 md:px-5 py-3 md:py-3.5 items-center transition-all duration-300 group relative
                       hover:bg-secondary/50 hover:-translate-y-[3px] hover:shadow-[0_12px_40px_-8px_hsl(var(--primary)/0.15)] hover:z-10
-                      ${isTop3 ? `${rowBgs[player.rank - 1]} border-l-[3px] ${borderColors[player.rank - 1]}` : 'border-l-[3px] border-l-transparent'}`}
+                      ${isTop3 ? `${rowBgs[player.rank - 1]} border-l-[3px] ${borderColors[player.rank - 1]} ${rowGlows[player.rank - 1]}` : 'border-l-[3px] border-l-transparent'}`}
                   >
                     {/* Rank badge */}
                     <div className="flex justify-center">
