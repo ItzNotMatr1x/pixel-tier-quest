@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { getRankedPlayers, getPlayerBodyUrl, GAMEMODES, TIER_POINTS, GamemodeId, TierName } from "@/lib/data";
+import { getRankedPlayers, getPlayerAvatarUrl, GAMEMODES, TIER_POINTS, GamemodeId, TierName } from "@/lib/data";
 import { TierBadge } from "@/components/TierBadge";
 import { tierBgClasses } from "@/components/TierBadge";
 import { Trophy } from "lucide-react";
@@ -49,10 +49,9 @@ export default function LeaderboardPage() {
       ) : (
         <div className="glass-card overflow-hidden">
           {/* Header */}
-          <div className="grid grid-cols-[50px_1fr_auto_auto] md:grid-cols-[50px_56px_1fr_80px_auto] gap-3 px-4 py-3 border-b border-border/50 text-xs font-heading font-bold text-muted-foreground uppercase tracking-wider items-center">
+          <div className="grid grid-cols-[50px_1fr_auto] md:grid-cols-[50px_1fr_80px_auto] gap-3 px-4 py-3 border-b border-border/50 text-xs font-heading font-bold text-muted-foreground uppercase tracking-wider items-center">
             <span>#</span>
-            <span className="hidden md:block">Player</span>
-            <span className="md:hidden">Player</span>
+            <span>Player</span>
             <span className="hidden md:block">Region</span>
             <span className="text-right">Tiers</span>
           </div>
@@ -75,7 +74,7 @@ export default function LeaderboardPage() {
                 >
                   <Link
                     to={`/player/${player.name}`}
-                    className={`grid grid-cols-[50px_1fr_auto] md:grid-cols-[50px_56px_1fr_80px_auto] gap-3 px-4 py-3 items-center hover:bg-secondary/30 transition-colors
+                    className={`grid grid-cols-[50px_1fr_auto] md:grid-cols-[50px_1fr_80px_auto] gap-3 px-4 py-3 items-center hover:bg-secondary/30 transition-colors group
                       ${isTop3 ? `${rowBgs[player.rank - 1]} border-l-[3px] ${borderColors[player.rank - 1]}` : ''}`}
                   >
                     {/* Rank */}
@@ -83,19 +82,13 @@ export default function LeaderboardPage() {
                       {player.rank}.
                     </span>
 
-                    {/* Avatar - desktop */}
-                    <img
-                      src={getPlayerBodyUrl(player.name)}
-                      alt=""
-                      className="w-10 h-[56px] object-contain hidden md:block"
-                    />
-
-                    {/* Player info */}
+                    {/* Player info with face */}
                     <div className="flex items-center gap-3 min-w-0">
                       <img
-                        src={getPlayerBodyUrl(player.name)}
+                        src={getPlayerAvatarUrl(player.name)}
                         alt=""
-                        className="w-8 h-[44px] object-contain md:hidden flex-shrink-0"
+                        className="w-8 h-8 rounded-sm flex-shrink-0 transition-transform duration-300 group-hover:[transform:perspective(200px)_rotateY(-15deg)_scale(1.1)] -ml-1"
+                        style={{ imageRendering: 'pixelated' }}
                       />
                       <div className="min-w-0">
                         <div className="font-heading font-bold text-foreground text-sm truncate">{player.name}</div>

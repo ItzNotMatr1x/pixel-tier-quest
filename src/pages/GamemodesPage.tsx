@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
-import { GAMEMODES, getGamemodeLeaderboard, getPlayerBodyUrl, GamemodeId } from "@/lib/data";
+import { GAMEMODES, getGamemodeLeaderboard, getPlayerAvatarUrl, GamemodeId } from "@/lib/data";
 import { TierBadge } from "@/components/TierBadge";
 
 function getModeTitle(points: number): { title: string; color: string } {
@@ -45,10 +45,9 @@ export default function GamemodesPage() {
         </div>
       ) : (
         <div className="glass-card overflow-hidden">
-          <div className="grid grid-cols-[50px_1fr_100px_80px_80px] md:grid-cols-[50px_56px_1fr_100px_80px_80px] gap-3 px-4 py-3 border-b border-border/50 text-xs font-heading font-bold text-muted-foreground uppercase tracking-wider items-center">
+          <div className="grid grid-cols-[50px_1fr_100px_80px_80px] gap-3 px-4 py-3 border-b border-border/50 text-xs font-heading font-bold text-muted-foreground uppercase tracking-wider items-center">
             <span>#</span>
-            <span className="hidden md:block">Player</span>
-            <span className="md:hidden">Player</span>
+            <span>Player</span>
             <span>Tier</span>
             <span className="text-right">Points</span>
             <span className="text-right">Region</span>
@@ -65,15 +64,19 @@ export default function GamemodesPage() {
                 <motion.div key={player.name} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: Math.min(i * 0.015, 0.4) }}>
                   <Link
                     to={`/player/${player.name}`}
-                    className={`grid grid-cols-[50px_1fr_100px_80px_80px] md:grid-cols-[50px_56px_1fr_100px_80px_80px] gap-3 px-4 py-3 items-center hover:bg-secondary/30 transition-colors
+                    className={`grid grid-cols-[50px_1fr_100px_80px_80px] gap-3 px-4 py-3 items-center hover:bg-secondary/30 transition-colors group
                       ${isTop3 ? `${rowBgs[player.rank - 1]} border-l-[3px] ${borderColors[player.rank - 1]}` : ''}`}
                   >
                     <span className={`font-display font-black text-lg ${isTop3 ? rankColors[player.rank - 1] : 'text-muted-foreground'}`}>
                       {player.rank}.
                     </span>
-                    <img src={getPlayerBodyUrl(player.name)} alt="" className="w-10 h-[56px] object-contain hidden md:block" />
                     <div className="flex items-center gap-3 min-w-0">
-                      <img src={getPlayerBodyUrl(player.name)} alt="" className="w-8 h-[44px] object-contain md:hidden flex-shrink-0" />
+                      <img
+                        src={getPlayerAvatarUrl(player.name)}
+                        alt=""
+                        className="w-8 h-8 rounded-sm flex-shrink-0 transition-transform duration-300 group-hover:[transform:perspective(200px)_rotateY(-15deg)_scale(1.1)] -ml-1"
+                        style={{ imageRendering: 'pixelated' }}
+                      />
                       <div className="min-w-0">
                         <div className="font-heading font-bold text-foreground text-sm truncate">{player.name}</div>
                         <div className={`text-xs font-heading ${color}`}>⬥ {title}</div>
