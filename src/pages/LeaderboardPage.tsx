@@ -139,30 +139,37 @@ export default function LeaderboardPage() {
                       </div>
                     </div>
 
-                    {/* Region badge - desktop */}
+                    {/* Region badge - centered under Region header */}
                     <div className="hidden md:flex justify-center">
                       <span className="inline-flex items-center justify-center min-w-[40px] h-7 px-2 rounded-lg bg-secondary/80 text-[11px] font-heading font-bold text-foreground transition-all duration-300 group-hover:bg-primary/15 group-hover:text-primary group-hover:shadow-[0_0_12px_hsl(var(--primary)/0.2)]">
                         {player.region}
                       </span>
                     </div>
 
-                    {/* Tier dots */}
+                    {/* Tier dots - show tier name on hover */}
                     <div className="flex items-center gap-0.5 md:gap-1 flex-shrink-0">
                       {GAMEMODES.map(gm => {
                         const tier = player.tiers[gm.id as GamemodeId];
                         if (tier === 'Unranked') {
                           return (
-                            <div key={gm.id} className="w-5 h-5 md:w-7 md:h-7 rounded-full bg-muted/30 flex items-center justify-center border border-border/30" title={`${gm.name}: Unranked`}>
-                              <span className="text-[7px] md:text-[9px] text-muted-foreground/50">—</span>
+                            <div key={gm.id} className="relative group/tier flex flex-col items-center">
+                              <div className="w-5 h-5 md:w-7 md:h-7 rounded-full bg-muted/30 flex items-center justify-center border border-border/30" title={`${gm.name}: Unranked`}>
+                                <span className="text-[7px] md:text-[9px] text-muted-foreground/50">—</span>
+                              </div>
+                              <div className="absolute -top-8 left-1/2 -translate-x-1/2 px-1.5 py-0.5 rounded bg-background/95 border border-border/50 text-[8px] font-heading font-bold text-muted-foreground whitespace-nowrap opacity-0 group-hover/tier:opacity-100 transition-opacity duration-200 pointer-events-none z-20 shadow-lg">
+                                {gm.name}: Unranked
+                              </div>
                             </div>
                           );
                         }
                         return (
-                          <div key={gm.id} className="flex flex-col items-center gap-0.5 transition-all duration-300 hover:scale-[1.2]" title={`${gm.name}: ${tier}`}>
-                            <div className={`w-5 h-5 md:w-7 md:h-7 rounded-full ${tierBgClasses[tier]} flex items-center justify-center shadow-sm transition-shadow duration-300 hover:shadow-[0_0_12px_currentColor]`}>
-                              <GamemodeIcon icon={gm.icon} className="w-3 h-3 md:w-4 md:h-4 text-[7px] md:text-[10px]" />
+                          <div key={gm.id} className="relative group/tier flex flex-col items-center transition-all duration-300 hover:scale-[1.2]">
+                            <div className={`w-5 h-5 md:w-7 md:h-7 rounded-full bg-secondary/60 border border-border/40 flex items-center justify-center shadow-sm transition-shadow duration-300 hover:shadow-[0_0_12px_currentColor]`}>
+                              <GamemodeIcon icon={gm.icon} className="w-3 h-3 md:w-4 md:h-4" />
                             </div>
-                            <span className="text-[6px] md:text-[7px] font-heading font-bold text-muted-foreground leading-none hidden lg:block">{tier}</span>
+                            <div className="absolute -top-8 left-1/2 -translate-x-1/2 px-1.5 py-0.5 rounded bg-background/95 border border-border/50 text-[8px] font-heading font-bold whitespace-nowrap opacity-0 group-hover/tier:opacity-100 transition-opacity duration-200 pointer-events-none z-20 shadow-lg">
+                              <span className={tierTextClasses[tier]}>{gm.name}: {tier}</span>
+                            </div>
                           </div>
                         );
                       })}
