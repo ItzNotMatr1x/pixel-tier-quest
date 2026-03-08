@@ -8,6 +8,7 @@ export const TIER_POINTS: Record<TierName, number> = {
 export const TIER_ORDER: TierName[] = ['Unranked','LT5','HT5','LT4','HT4','LT3','HT3','LT2','HT2','LT1','HT1'];
 
 export const TIER_COLORS: Record<TierName, string> = {
+  Unranked: 'tier-unranked',
   HT1: 'tier-ht1', HT2: 'tier-ht2', HT3: 'tier-ht3', HT4: 'tier-ht4', HT5: 'tier-ht5',
   LT1: 'tier-lt1', LT2: 'tier-lt2', LT3: 'tier-lt3', LT4: 'tier-lt4', LT5: 'tier-lt5',
 };
