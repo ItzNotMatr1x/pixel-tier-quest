@@ -15,7 +15,6 @@ export default function GamemodesPage() {
       <h1 className="font-display font-bold text-3xl text-foreground mb-2">Gamemode Rankings</h1>
       <p className="text-muted-foreground font-heading mb-6">View top players per gamemode</p>
 
-      {/* Mode Tabs */}
       <div className="flex flex-wrap gap-2 mb-8">
         {GAMEMODES.map(g => (
           <button
@@ -29,46 +28,48 @@ export default function GamemodesPage() {
         ))}
       </div>
 
-      {/* Leaderboard */}
-      <div className="glass-card overflow-hidden">
-        <div className="grid grid-cols-[60px_1fr_100px_80px_80px] gap-2 px-4 py-3 border-b border-border/50 text-xs font-heading font-bold text-muted-foreground uppercase tracking-wider">
-          <span>Rank</span>
-          <span>Player</span>
-          <span>Tier</span>
-          <span className="text-right">Points</span>
-          <span className="text-right">Region</span>
+      {leaderboard.length === 0 ? (
+        <div className="glass-card p-12 text-center">
+          <span className="text-4xl block mb-4">{gm.icon}</span>
+          <h3 className="font-display font-bold text-lg text-foreground mb-2">No Players Yet</h3>
+          <p className="text-muted-foreground font-heading text-sm">Add players from the <Link to="/admin" className="text-primary hover:underline">Admin Panel</Link>.</p>
         </div>
-        <div className="divide-y divide-border/30">
-          {leaderboard.map((player, i) => (
-            <motion.div
-              key={player.name}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: Math.min(i * 0.015, 0.4) }}
-            >
-              <Link
-                to={`/player/${player.name}`}
-                className={`grid grid-cols-[60px_1fr_100px_80px_80px] gap-2 px-4 py-3 items-center hover:bg-secondary/30 transition-colors
-                  ${player.rank === 1 ? 'bg-gold/5 border-l-2 border-l-gold' : ''}
-                  ${player.rank === 2 ? 'bg-silver/5 border-l-2 border-l-silver' : ''}
-                  ${player.rank === 3 ? 'bg-bronze/5 border-l-2 border-l-bronze' : ''}`}
-              >
-                <span className={`font-display font-black text-sm
-                  ${player.rank === 1 ? 'text-gold' : player.rank === 2 ? 'text-silver' : player.rank === 3 ? 'text-bronze' : 'text-muted-foreground'}`}>
-                  {player.rank <= 3 ? ['🥇','🥈','🥉'][player.rank-1] : `#${player.rank}`}
-                </span>
-                <div className="flex items-center gap-2">
-                  <img src={getPlayerAvatarUrl(player.name)} alt="" className="w-7 h-7 rounded-sm" />
-                  <span className="font-heading font-bold text-foreground text-sm truncate">{player.name}</span>
-                </div>
-                <TierBadge tier={player.tiers[activeMode]} size="sm" />
-                <span className="font-display font-bold text-primary text-sm text-right">{player.totalPoints}</span>
-                <span className="text-xs text-muted-foreground text-right">{player.region}</span>
-              </Link>
-            </motion.div>
-          ))}
+      ) : (
+        <div className="glass-card overflow-hidden">
+          <div className="grid grid-cols-[60px_1fr_100px_80px_80px] gap-2 px-4 py-3 border-b border-border/50 text-xs font-heading font-bold text-muted-foreground uppercase tracking-wider">
+            <span>Rank</span>
+            <span>Player</span>
+            <span>Tier</span>
+            <span className="text-right">Points</span>
+            <span className="text-right">Region</span>
+          </div>
+          <div className="divide-y divide-border/30">
+            {leaderboard.map((player, i) => (
+              <motion.div key={player.name} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: Math.min(i * 0.015, 0.4) }}>
+                <Link
+                  to={`/player/${player.name}`}
+                  className={`grid grid-cols-[60px_1fr_100px_80px_80px] gap-2 px-4 py-3 items-center hover:bg-secondary/30 transition-colors
+                    ${player.rank === 1 ? 'bg-gold/5 border-l-2 border-l-gold' : ''}
+                    ${player.rank === 2 ? 'bg-silver/5 border-l-2 border-l-silver' : ''}
+                    ${player.rank === 3 ? 'bg-bronze/5 border-l-2 border-l-bronze' : ''}`}
+                >
+                  <span className={`font-display font-black text-sm
+                    ${player.rank === 1 ? 'text-gold' : player.rank === 2 ? 'text-silver' : player.rank === 3 ? 'text-bronze' : 'text-muted-foreground'}`}>
+                    {player.rank <= 3 ? ['🥇','🥈','🥉'][player.rank-1] : `#${player.rank}`}
+                  </span>
+                  <div className="flex items-center gap-2">
+                    <img src={getPlayerAvatarUrl(player.name)} alt="" className="w-7 h-7 rounded-sm" />
+                    <span className="font-heading font-bold text-foreground text-sm truncate">{player.name}</span>
+                  </div>
+                  <TierBadge tier={player.tiers[activeMode]} size="sm" />
+                  <span className="font-display font-bold text-primary text-sm text-right">{player.totalPoints}</span>
+                  <span className="text-xs text-muted-foreground text-right">{player.region}</span>
+                </Link>
+              </motion.div>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

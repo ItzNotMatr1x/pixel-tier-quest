@@ -40,56 +40,40 @@ export interface Player {
   tiers: Record<GamemodeId, TierName>;
 }
 
+const STORAGE_KEY = 'pixel_tiers_players';
+
 function calcPoints(tiers: Record<GamemodeId, TierName>): number {
   return Object.values(tiers).reduce((sum, t) => sum + TIER_POINTS[t], 0);
 }
 
-const randomTier = (): TierName => TIER_ORDER[Math.floor(Math.random() * TIER_ORDER.length)];
-const regions = ['NA', 'EU', 'AS', 'SA', 'OCE'];
+export function getPlayers(): Player[] {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return [];
+    return JSON.parse(raw) as Player[];
+  } catch {
+    return [];
+  }
+}
 
-const PLAYER_NAMES = [
-  'Technoblade', 'Dream', 'Sapnap', 'Fruitberries', 'Illumina',
-  'Tapl', 'Purpled', 'Stimpy', 'Danteh', 'Calvin',
-  'Huahwi', 'Stimpay', 'Tylarzz', 'Apexay', 'Verzide',
-  'Intel_Edits', 'Zyphen', 'Cxlvxn', 'Sweatgod', 'Manhal_IQ',
-  'xNestorio', 'Kiingtong', 'Grapeapplesauce', 'Bashur', 'ShotGunRaids',
-  'Cayden', 'Suchspeed', 'Dreaaam', 'FireBreathMan', 'Luvonox',
-  'Ziblacking', 'iRapture', 'P0LAND', 'Cscoop', 'Samot',
-  'BiboyQG', 'xJerry', 'Mweepins', 'Kreos', 'painfulpvp',
-  'Zyph', 'NoHaxJustSumo', 'YungSavage', 'Strafe', 'ComboDombo',
-  'VelvetPvP', 'AciDic_BliTzz', 'iTMG', 'Jdegoeansen', 'Pack',
-  'Crazyyy', 'MiDAS', 'zMqrk', 'vBlazin', 'Tewrts',
-  'iSlayOnMC', 'Reclined', 'PainfulPvP', 'StrafeGOD', 'LeoZ',
-  'Swimfan72', 'BreadWinnerss', 'Unmaking', 'HanielMC', 'Kiinq',
-  'W0T', 'ItzJuan', 'KinePvP', 'Serge', 'MarleyMoo',
-  'pvplegend99', 'GhostBlaze', 'NetherKing_X', 'SkyAxe', 'FlameRush',
-  'BlazeStrike', 'IceVenom', 'CrystalAxe', 'ShadowPot', 'VoidSword',
-  'ThunderMace', 'FrostBow', 'PixelKnight', 'DiamondClash', 'ObsidianPvP',
-  'EnderStriker', 'RedstoneGod', 'CreeperSlayer', 'WitherKing', 'DragonPulse',
-  'GlitchBlade', 'PrismPvP', 'NeonStrike', 'ZenithBow', 'AuroraMace',
-  'EclipseAxe', 'CosmicPot', 'NovaSword', 'VortexPvP', 'QuantumBlade',
-];
+export function savePlayers(players: Player[]): void {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(players));
+}
 
-// Featured players with specific high tiers
-const FEATURED: Player[] = [
-  { name: 'Technoblade', region: 'NA', tiers: { sword: 'HT1', axe: 'HT1', nethpot: 'HT2', pot: 'HT1', vanilla: 'HT1', uhc: 'HT1', smp: 'HT2', mace: 'HT1' }},
-  { name: 'Dream', region: 'NA', tiers: { sword: 'HT1', axe: 'HT2', nethpot: 'HT1', pot: 'HT2', vanilla: 'HT1', uhc: 'HT2', smp: 'HT1', mace: 'HT2' }},
-  { name: 'Fruitberries', region: 'NA', tiers: { sword: 'HT2', axe: 'HT1', nethpot: 'HT2', pot: 'HT1', vanilla: 'HT2', uhc: 'HT1', smp: 'HT1', mace: 'HT1' }},
-  { name: 'Sapnap', region: 'NA', tiers: { sword: 'HT1', axe: 'HT1', nethpot: 'HT3', pot: 'HT1', vanilla: 'HT2', uhc: 'HT2', smp: 'HT2', mace: 'LT1' }},
-  { name: 'Illumina', region: 'NA', tiers: { sword: 'HT2', axe: 'HT2', nethpot: 'HT1', pot: 'HT2', vanilla: 'HT1', uhc: 'HT1', smp: 'HT2', mace: 'HT2' }},
-];
+export function addPlayer(player: Player): void {
+  const players = getPlayers();
+  players.push(player);
+  savePlayers(players);
+}
 
-const usedNames = new Set(FEATURED.map(p => p.name));
-const remainingNames = PLAYER_NAMES.filter(n => !usedNames.has(n));
+export function updatePlayer(originalName: string, player: Player): void {
+  const players = getPlayers().map(p => p.name === originalName ? player : p);
+  savePlayers(players);
+}
 
-export const MOCK_PLAYERS: Player[] = [
-  ...FEATURED,
-  ...remainingNames.map(name => ({
-    name,
-    region: regions[Math.floor(Math.random() * regions.length)],
-    tiers: Object.fromEntries(GAMEMODES.map(g => [g.id, randomTier()])) as Record<GamemodeId, TierName>,
-  })),
-];
+export function removePlayer(name: string): void {
+  savePlayers(getPlayers().filter(p => p.name !== name));
+}
 
 export interface RankedPlayer extends Player {
   totalPoints: number;
@@ -97,14 +81,14 @@ export interface RankedPlayer extends Player {
 }
 
 export function getRankedPlayers(): RankedPlayer[] {
-  return MOCK_PLAYERS
+  return getPlayers()
     .map(p => ({ ...p, totalPoints: calcPoints(p.tiers), rank: 0 }))
     .sort((a, b) => b.totalPoints - a.totalPoints)
     .map((p, i) => ({ ...p, rank: i + 1 }));
 }
 
 export function getGamemodeLeaderboard(gm: GamemodeId): RankedPlayer[] {
-  return MOCK_PLAYERS
+  return getPlayers()
     .map(p => ({ ...p, totalPoints: TIER_POINTS[p.tiers[gm]], rank: 0 }))
     .sort((a, b) => b.totalPoints - a.totalPoints || a.name.localeCompare(b.name))
     .map((p, i) => ({ ...p, rank: i + 1 }));
@@ -118,7 +102,7 @@ export function getPlayerByName(name: string): RankedPlayer | undefined {
 export function searchPlayers(query: string): Player[] {
   if (!query) return [];
   const q = query.toLowerCase();
-  return MOCK_PLAYERS.filter(p => p.name.toLowerCase().includes(q)).slice(0, 8);
+  return getPlayers().filter(p => p.name.toLowerCase().includes(q)).slice(0, 8);
 }
 
 export function getPlayerAvatarUrl(name: string): string {
