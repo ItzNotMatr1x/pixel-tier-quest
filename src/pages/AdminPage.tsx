@@ -7,6 +7,7 @@ import {
   Player, GAMEMODES, TIER_ORDER, GamemodeId, TierName
 } from "@/lib/data";
 import { PlayerHead } from "@/components/PlayerHead";
+import { GamemodeIcon } from "@/components/GamemodeIcon";
 import { Shield, Plus, Trash2, Pencil, Save, X, Users, LogOut, Cloud } from "lucide-react";
 
 const REGIONS = ['NA', 'EU', 'AS', 'SA', 'OCE'];
