@@ -102,7 +102,7 @@ export default function GamemodesPage() {
 
                     {/* Region */}
                     <div className="hidden md:flex justify-end">
-                      <span className="inline-flex items-center justify-center w-10 h-7 rounded-md bg-secondary text-xs font-heading font-bold text-foreground">
+                      <span className="inline-flex items-center justify-center w-10 h-7 rounded-md bg-secondary text-xs font-heading font-bold text-foreground transition-all duration-300 group-hover:bg-primary/20 group-hover:text-primary group-hover:shadow-[0_0_10px_hsl(var(--primary)/0.3)] group-hover:scale-110">
                         {player.region}
                       </span>
                     </div>
