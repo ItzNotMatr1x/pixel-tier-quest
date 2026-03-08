@@ -13,7 +13,7 @@ function getModeTitle(points: number): { title: string; color: string } {
   return { title: "Unranked", color: "text-muted-foreground" };
 }
 
-const MEDAL_EMOJI = ['🥇', '🥈', '🥉'];
+
 
 export default function GamemodesPage() {
   const [searchParams, setSearchParams] = useSearchParams();

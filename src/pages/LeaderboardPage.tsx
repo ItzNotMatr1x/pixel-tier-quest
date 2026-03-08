@@ -16,7 +16,7 @@ function getRankTitle(points: number): { title: string; color: string } {
   return { title: "Combat Novice", color: "text-muted-foreground" };
 }
 
-const MEDAL_EMOJI = ['🥇', '🥈', '🥉'];
+
 
 export default function LeaderboardPage() {
   const [search, setSearch] = useState("");
