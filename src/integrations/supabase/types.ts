@@ -14,7 +14,54 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      players: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          region: string
+          tier_axe: string
+          tier_mace: string
+          tier_nethpot: string
+          tier_pot: string
+          tier_smp: string
+          tier_sword: string
+          tier_uhc: string
+          tier_vanilla: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          region?: string
+          tier_axe?: string
+          tier_mace?: string
+          tier_nethpot?: string
+          tier_pot?: string
+          tier_smp?: string
+          tier_sword?: string
+          tier_uhc?: string
+          tier_vanilla?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          region?: string
+          tier_axe?: string
+          tier_mace?: string
+          tier_nethpot?: string
+          tier_pot?: string
+          tier_smp?: string
+          tier_sword?: string
+          tier_uhc?: string
+          tier_vanilla?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
