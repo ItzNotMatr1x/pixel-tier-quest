@@ -9,6 +9,7 @@ import LeaderboardPage from "./pages/LeaderboardPage";
 import GamemodesPage from "./pages/GamemodesPage";
 import PlayersPage from "./pages/PlayersPage";
 import PlayerProfilePage from "./pages/PlayerProfilePage";
+import AdminPage from "./pages/AdminPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -26,6 +27,7 @@ const App = () => (
           <Route path="/gamemodes" element={<GamemodesPage />} />
           <Route path="/players" element={<PlayersPage />} />
           <Route path="/player/:name" element={<PlayerProfilePage />} />
+          <Route path="/admin" element={<AdminPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { PlayerSearch } from "./PlayerSearch";
-import { Swords } from "lucide-react";
+import { Swords, Shield } from "lucide-react";
 
 const NAV_LINKS = [
   { to: "/", label: "Home" },
@@ -40,8 +40,17 @@ export function Navbar() {
             ))}
           </div>
         </div>
-        <div className="hidden sm:block">
-          <PlayerSearch />
+        <div className="flex items-center gap-3">
+          <div className="hidden sm:block">
+            <PlayerSearch />
+          </div>
+          <Link
+            to="/admin"
+            className={`p-2 rounded-lg transition-all ${location.pathname === '/admin' ? 'text-primary bg-primary/10' : 'text-muted-foreground hover:text-primary hover:bg-secondary/50'}`}
+            title="Admin Panel"
+          >
+            <Shield className="w-5 h-5" />
+          </Link>
         </div>
       </div>
     </nav>
