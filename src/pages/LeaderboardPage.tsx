@@ -53,7 +53,7 @@ export default function LeaderboardPage() {
               >
                 <Link
                   to={`/player/${player.name}`}
-                  className={`grid grid-cols-[60px_1fr_100px_80px] md:grid-cols-[80px_48px_1fr_120px_80px] gap-2 px-4 py-3 items-center hover:bg-secondary/30 transition-colors
+                  className={`grid grid-cols-[60px_48px_1fr_100px_80px] md:grid-cols-[80px_56px_1fr_120px_80px] gap-2 px-4 py-2 items-center hover:bg-secondary/30 transition-colors
                     ${player.rank === 1 ? 'bg-gold/5 border-l-2 border-l-gold' : ''}
                     ${player.rank === 2 ? 'bg-silver/5 border-l-2 border-l-silver' : ''}
                     ${player.rank === 3 ? 'bg-bronze/5 border-l-2 border-l-bronze' : ''}`}
@@ -62,7 +62,7 @@ export default function LeaderboardPage() {
                     ${player.rank === 1 ? 'text-gold' : player.rank === 2 ? 'text-silver' : player.rank === 3 ? 'text-bronze' : 'text-muted-foreground'}`}>
                     {player.rank === 1 ? '🥇' : player.rank === 2 ? '🥈' : player.rank === 3 ? '🥉' : `#${player.rank}`}
                   </span>
-                  <img src={getPlayerBodyUrl(player.name)} alt="" className="w-8 h-16 object-contain hidden md:block" />
+                  <img src={getPlayerBodyUrl(player.name)} alt="" className="w-10 h-[52px] object-contain" />
                   <span className="font-heading font-bold text-foreground text-sm truncate">{player.name}</span>
                   <span className="font-display font-bold text-primary text-sm text-right">{player.totalPoints}</span>
                   <span className="text-xs text-muted-foreground text-right">{player.region}</span>
