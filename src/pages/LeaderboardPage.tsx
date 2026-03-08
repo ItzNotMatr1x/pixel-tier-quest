@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { usePlayers } from "@/hooks/usePlayers";
 import { getPlayerBodyUrl, GAMEMODES, GamemodeId } from "@/lib/data";
-import { tierBgClasses } from "@/components/TierBadge";
+import { tierBgClasses, tierTextClasses } from "@/components/TierBadge";
 import { PlayerHead } from "@/components/PlayerHead";
 import { GamemodeIcon } from "@/components/GamemodeIcon";
 import { Trophy, Search, Crown, Medal } from "lucide-react";
