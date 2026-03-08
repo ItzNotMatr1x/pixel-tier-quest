@@ -83,7 +83,7 @@ export default function GamemodesPage() {
         </div>
       ) : leaderboard.length === 0 ? (
         <div className="glass-card p-16 text-center">
-          <span className="text-5xl block mb-4">{gm.icon}</span>
+          <GamemodeIcon icon={gm.icon} className="w-12 h-12 text-5xl mx-auto mb-4" />
           <h3 className="font-display font-bold text-lg text-foreground mb-2">No Players Yet</h3>
           <p className="text-muted-foreground font-heading text-sm">Add players from the <Link to="/admin" className="text-primary hover:underline">Admin Panel</Link>.</p>
         </div>

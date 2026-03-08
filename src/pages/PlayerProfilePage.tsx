@@ -73,7 +73,7 @@ export default function PlayerProfilePage() {
               className="glass-card p-4 flex items-center justify-between hover:bg-secondary/20 transition-colors"
             >
               <div className="flex items-center gap-3">
-                <span className="text-2xl">{gm.icon}</span>
+                <GamemodeIcon icon={gm.icon} className="w-7 h-7 text-2xl" />
                 <span className="font-heading font-bold text-foreground">{gm.name}</span>
               </div>
               <div className="flex items-center gap-3">
