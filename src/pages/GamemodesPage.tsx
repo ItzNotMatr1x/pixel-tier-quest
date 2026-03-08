@@ -78,7 +78,7 @@ export default function GamemodesPage() {
                       <img
                         src={getPlayerBodyUrl(player.name)}
                         alt=""
-                        className="absolute right-0 top-1/2 -translate-y-1/2 w-[32px] h-[52px] md:w-[38px] md:h-[60px] object-contain drop-shadow-lg transition-transform duration-300 group-hover:scale-110"
+                        className="absolute right-0 top-1/2 -translate-y-1/2 w-[32px] h-[52px] md:w-[38px] md:h-[60px] object-contain drop-shadow-lg transition-all duration-300 group-hover:scale-[1.15] group-hover:drop-shadow-[0_0_12px_hsl(var(--primary)/0.5)]"
                         style={{ imageRendering: 'pixelated' }}
                       />
                       {isTop3 && (
