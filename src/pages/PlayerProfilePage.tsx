@@ -41,7 +41,7 @@ export default function PlayerProfilePage() {
         className="glass-card p-6 md:p-8 mb-6 glow-cyan"
       >
         <div className="flex items-center gap-6 group">
-          <PlayerHead name={player.name} size={80} />
+          <PlayerHead name={player.name} size={80} selfHover />
           <div>
             <h1 className="font-display font-black text-3xl md:text-4xl text-foreground text-glow-cyan">{player.name}</h1>
             <div className="flex items-center gap-4 mt-2 flex-wrap">
