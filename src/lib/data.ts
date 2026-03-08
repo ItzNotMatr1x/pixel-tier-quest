@@ -1,3 +1,5 @@
+import { supabase } from "@/integrations/supabase/client";
+
 export type TierName = 'Unranked' | 'LT5' | 'HT5' | 'LT4' | 'HT4' | 'LT3' | 'HT3' | 'LT2' | 'HT2' | 'LT1' | 'HT1';
 export type GamemodeId = 'sword' | 'axe' | 'nethpot' | 'pot' | 'vanilla' | 'uhc' | 'smp' | 'mace';
 
@@ -42,11 +44,87 @@ export interface Player {
   tiers: Record<GamemodeId, TierName>;
 }
 
-const STORAGE_KEY = 'pixel_tiers_players';
-
 function calcPoints(tiers: Record<GamemodeId, TierName>): number {
   return Object.values(tiers).reduce((sum, t) => sum + TIER_POINTS[t], 0);
 }
+
+// Convert DB row to Player
+function rowToPlayer(row: any): Player {
+  return {
+    name: row.name,
+    region: row.region,
+    tiers: {
+      sword: row.tier_sword as TierName,
+      axe: row.tier_axe as TierName,
+      nethpot: row.tier_nethpot as TierName,
+      pot: row.tier_pot as TierName,
+      vanilla: row.tier_vanilla as TierName,
+      uhc: row.tier_uhc as TierName,
+      smp: row.tier_smp as TierName,
+      mace: row.tier_mace as TierName,
+    },
+  };
+}
+
+// Convert Player to DB row fields
+function playerToRow(player: Player) {
+  return {
+    name: player.name,
+    region: player.region,
+    tier_sword: player.tiers.sword,
+    tier_axe: player.tiers.axe,
+    tier_nethpot: player.tiers.nethpot,
+    tier_pot: player.tiers.pot,
+    tier_vanilla: player.tiers.vanilla,
+    tier_uhc: player.tiers.uhc,
+    tier_smp: player.tiers.smp,
+    tier_mace: player.tiers.mace,
+    updated_at: new Date().toISOString(),
+  };
+}
+
+// ---- Cloud CRUD ----
+
+export async function getPlayersCloud(): Promise<Player[]> {
+  const { data, error } = await supabase.from('players').select('*');
+  if (error) {
+    console.error('Error fetching players:', error);
+    return [];
+  }
+  return (data || []).map(rowToPlayer);
+}
+
+export async function addPlayerCloud(player: Player): Promise<boolean> {
+  const { error } = await supabase.from('players').insert(playerToRow(player));
+  if (error) {
+    console.error('Error adding player:', error);
+    return false;
+  }
+  return true;
+}
+
+export async function updatePlayerCloud(originalName: string, player: Player): Promise<boolean> {
+  const { error } = await supabase.from('players').update(playerToRow(player)).eq('name', originalName);
+  if (error) {
+    console.error('Error updating player:', error);
+    return false;
+  }
+  return true;
+}
+
+export async function removePlayerCloud(name: string): Promise<boolean> {
+  const { error } = await supabase.from('players').delete().eq('name', name);
+  if (error) {
+    console.error('Error removing player:', error);
+    return false;
+  }
+  return true;
+}
+
+// ---- Sync: keep local functions for backward compat but use cloud ----
+
+// Legacy localStorage functions (kept for migration, prefer cloud versions)
+const STORAGE_KEY = 'pixel_tiers_players';
 
 export function getPlayers(): Player[] {
   try {
@@ -77,34 +155,41 @@ export function removePlayer(name: string): void {
   savePlayers(getPlayers().filter(p => p.name !== name));
 }
 
+// ---- Ranked helpers (work with any Player[]) ----
+
 export interface RankedPlayer extends Player {
   totalPoints: number;
   rank: number;
 }
 
-export function getRankedPlayers(): RankedPlayer[] {
-  return getPlayers()
+export function rankPlayers(players: Player[]): RankedPlayer[] {
+  return players
     .map(p => ({ ...p, totalPoints: calcPoints(p.tiers), rank: 0 }))
     .sort((a, b) => b.totalPoints - a.totalPoints)
     .map((p, i) => ({ ...p, rank: i + 1 }));
 }
 
-export function getGamemodeLeaderboard(gm: GamemodeId): RankedPlayer[] {
-  return getPlayers()
+export function getRankedPlayers(): RankedPlayer[] {
+  return rankPlayers(getPlayers());
+}
+
+export function getGamemodeLeaderboard(gm: GamemodeId, players?: Player[]): RankedPlayer[] {
+  const list = players || getPlayers();
+  return list
     .map(p => ({ ...p, totalPoints: TIER_POINTS[p.tiers[gm]], rank: 0 }))
     .sort((a, b) => b.totalPoints - a.totalPoints || a.name.localeCompare(b.name))
     .map((p, i) => ({ ...p, rank: i + 1 }));
 }
 
-export function getPlayerByName(name: string): RankedPlayer | undefined {
-  const ranked = getRankedPlayers();
+export function getPlayerByName(name: string, players?: Player[]): RankedPlayer | undefined {
+  const ranked = rankPlayers(players || getPlayers());
   return ranked.find(p => p.name.toLowerCase() === name.toLowerCase());
 }
 
-export function searchPlayers(query: string): Player[] {
+export function searchPlayers(query: string, players?: Player[]): Player[] {
   if (!query) return [];
   const q = query.toLowerCase();
-  return getPlayers().filter(p => p.name.toLowerCase().includes(q)).slice(0, 8);
+  return (players || getPlayers()).filter(p => p.name.toLowerCase().includes(q)).slice(0, 8);
 }
 
 export function getPlayerAvatarUrl(name: string): string {
