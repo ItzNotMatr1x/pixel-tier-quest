@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
-import { GAMEMODES, getGamemodeLeaderboard, getPlayerAvatarUrl, GamemodeId } from "@/lib/data";
+import { GAMEMODES, getGamemodeLeaderboard, getPlayerBodyUrl, GamemodeId } from "@/lib/data";
 import { TierBadge } from "@/components/TierBadge";
 
 function getModeTitle(points: number): { title: string; color: string } {
@@ -64,7 +64,8 @@ export default function GamemodesPage() {
                 <motion.div key={player.name} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: Math.min(i * 0.015, 0.4) }}>
                   <Link
                     to={`/player/${player.name}`}
-                    className={`grid grid-cols-[50px_1fr_100px_80px_80px] gap-3 px-4 py-3 items-center hover:bg-secondary/30 transition-colors group
+                    className={`grid grid-cols-[50px_1fr_100px_80px_80px] gap-3 px-4 py-3 items-center transition-all duration-200 group
+                      hover:bg-secondary/40 hover:-translate-y-[2px] hover:shadow-lg hover:shadow-primary/5
                       ${isTop3 ? `${rowBgs[player.rank - 1]} border-l-[3px] ${borderColors[player.rank - 1]}` : ''}`}
                   >
                     <span className={`font-display font-black text-lg ${isTop3 ? rankColors[player.rank - 1] : 'text-muted-foreground'}`}>
@@ -72,9 +73,9 @@ export default function GamemodesPage() {
                     </span>
                     <div className="flex items-center gap-3 min-w-0">
                       <img
-                        src={getPlayerAvatarUrl(player.name)}
+                        src={getPlayerBodyUrl(player.name)}
                         alt=""
-                        className="w-8 h-8 rounded-sm flex-shrink-0 transition-transform duration-300 group-hover:[transform:perspective(200px)_rotateY(-15deg)_scale(1.1)] -ml-1"
+                        className="w-8 h-14 object-contain flex-shrink-0 transition-transform duration-300 group-hover:scale-110 -ml-1 drop-shadow-md"
                         style={{ imageRendering: 'pixelated' }}
                       />
                       <div className="min-w-0">

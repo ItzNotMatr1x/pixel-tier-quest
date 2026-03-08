@@ -112,7 +112,7 @@ export function getPlayerAvatarUrl(name: string): string {
 }
 
 export function getPlayerBodyUrl(name: string): string {
-  return `https://mc-heads.net/body/${name}/128`;
+  return `https://mc-heads.net/body/${name}/96`;
 }
 
 export function getPlayerHeadUrl(name: string): string {

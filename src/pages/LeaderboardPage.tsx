@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { getRankedPlayers, getPlayerAvatarUrl, GAMEMODES, TIER_POINTS, GamemodeId, TierName } from "@/lib/data";
+import { getRankedPlayers, getPlayerBodyUrl, GAMEMODES, TIER_POINTS, GamemodeId, TierName } from "@/lib/data";
 import { TierBadge } from "@/components/TierBadge";
 import { tierBgClasses } from "@/components/TierBadge";
 import { Trophy } from "lucide-react";
@@ -74,7 +74,8 @@ export default function LeaderboardPage() {
                 >
                   <Link
                     to={`/player/${player.name}`}
-                    className={`grid grid-cols-[50px_1fr_auto] md:grid-cols-[50px_1fr_80px_auto] gap-3 px-4 py-3 items-center hover:bg-secondary/30 transition-colors group
+                    className={`grid grid-cols-[50px_1fr_auto] md:grid-cols-[50px_1fr_80px_auto] gap-3 px-4 py-3 items-center transition-all duration-200 group
+                      hover:bg-secondary/40 hover:-translate-y-[2px] hover:shadow-lg hover:shadow-primary/5
                       ${isTop3 ? `${rowBgs[player.rank - 1]} border-l-[3px] ${borderColors[player.rank - 1]}` : ''}`}
                   >
                     {/* Rank */}
@@ -82,12 +83,12 @@ export default function LeaderboardPage() {
                       {player.rank}.
                     </span>
 
-                    {/* Player info with face */}
+                    {/* Player info with body render */}
                     <div className="flex items-center gap-3 min-w-0">
                       <img
-                        src={getPlayerAvatarUrl(player.name)}
+                        src={getPlayerBodyUrl(player.name)}
                         alt=""
-                        className="w-8 h-8 rounded-sm flex-shrink-0 transition-transform duration-300 group-hover:[transform:perspective(200px)_rotateY(-15deg)_scale(1.1)] -ml-1"
+                        className="w-8 h-14 object-contain flex-shrink-0 transition-transform duration-300 group-hover:scale-110 -ml-1 drop-shadow-md"
                         style={{ imageRendering: 'pixelated' }}
                       />
                       <div className="min-w-0">
