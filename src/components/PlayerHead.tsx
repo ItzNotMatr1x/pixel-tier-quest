@@ -4,15 +4,16 @@ interface PlayerHeadProps {
   name: string;
   size?: number;
   className?: string;
+  /** If true, hover works on the head itself. If false (default), uses group-hover from parent row. */
+  selfHover?: boolean;
 }
 
-/**
- * 3D Minecraft player head — faces left by default,
- * rotates to look at viewer when hovering the parent row (group).
- * Uses mc-heads.net/head for 3D isometric head render.
- */
-export function PlayerHead({ name, size = 32, className = "" }: PlayerHeadProps) {
+export function PlayerHead({ name, size = 32, className = "", selfHover = false }: PlayerHeadProps) {
   const headUrl = `https://mc-heads.net/head/${name}/64`;
+
+  const hoverClass = selfHover
+    ? 'hover:[transform:rotateY(0deg)_rotateX(0deg)_scale(1.2)] hover:[filter:drop-shadow(0_4px_14px_rgba(0,200,255,0.4))]'
+    : 'group-hover:[transform:rotateY(0deg)_rotateX(0deg)_scale(1.2)] group-hover:[filter:drop-shadow(0_4px_14px_rgba(0,200,255,0.4))]';
 
   return (
     <div
@@ -22,7 +23,7 @@ export function PlayerHead({ name, size = 32, className = "" }: PlayerHeadProps)
       <img
         src={headUrl}
         alt={name}
-        className="w-full h-full transition-all duration-400 ease-out group-hover:[transform:rotateY(0deg)_rotateX(0deg)_scale(1.2)] group-hover:[filter:drop-shadow(0_4px_12px_rgba(0,200,255,0.35))]"
+        className={`w-full h-full transition-all duration-400 ease-out ${hoverClass}`}
         style={{
           imageRendering: 'pixelated',
           transform: 'rotateY(25deg) rotateX(-5deg) scale(1)',
