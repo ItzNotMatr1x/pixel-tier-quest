@@ -4,6 +4,7 @@ import { usePlayers } from "@/hooks/usePlayers";
 import { GamemodeId, GAMEMODES } from "@/lib/data";
 import { TierBadge } from "@/components/TierBadge";
 import { PlayerHead } from "@/components/PlayerHead";
+import { GamemodeIcon } from "@/components/GamemodeIcon";
 import { Crown, Medal } from "lucide-react";
 
 function getModeTitle(points: number): { title: string; color: string; icon: string } {
