@@ -54,7 +54,7 @@ export default function GamemodesPage() {
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-1">
           <div className="w-10 h-10 rounded-xl bg-primary/15 flex items-center justify-center text-lg">
-            {gm.icon}
+            <GamemodeIcon icon={gm.icon} className="w-6 h-6 text-lg" />
           </div>
           <h1 className="font-display font-bold text-2xl md:text-3xl text-foreground">Gamemode Rankings</h1>
         </div>
