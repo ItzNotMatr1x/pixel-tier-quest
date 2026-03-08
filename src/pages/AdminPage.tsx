@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
+import { Navigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import { useAuth } from "@/hooks/useAuth";
 import {
-  getPlayers, savePlayers, addPlayer, updatePlayer, removePlayer,
+  getPlayers, addPlayer, updatePlayer, removePlayer,
   Player, GAMEMODES, TIER_ORDER, GamemodeId, TierName, getPlayerAvatarUrl
 } from "@/lib/data";
-import { TierBadge } from "@/components/TierBadge";
-import { Shield, Plus, Trash2, Pencil, Save, X, Users } from "lucide-react";
+import { Shield, Plus, Trash2, Pencil, Save, X, Users, LogOut } from "lucide-react";
 
 const REGIONS = ['NA', 'EU', 'AS', 'SA', 'OCE'];
 
@@ -13,6 +14,7 @@ const defaultTiers = (): Record<GamemodeId, TierName> =>
   Object.fromEntries(GAMEMODES.map(g => [g.id, 'LT5'])) as Record<GamemodeId, TierName>;
 
 export default function AdminPage() {
+  const { user, loading, signOut } = useAuth();
   const [players, setPlayers] = useState<Player[]>([]);
   const [editing, setEditing] = useState<string | null>(null);
   const [adding, setAdding] = useState(false);
@@ -21,6 +23,16 @@ export default function AdminPage() {
   useEffect(() => {
     setPlayers(getPlayers());
   }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-[60vh] flex items-center justify-center">
+        <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
+
+  if (!user) return <Navigate to="/admin/login" replace />;
 
   const refresh = () => setPlayers(getPlayers());
 
@@ -66,12 +78,20 @@ export default function AdminPage() {
 
   return (
     <div className="container mx-auto px-4 py-10 max-w-5xl">
-      <div className="flex items-center gap-3 mb-2">
-        <Shield className="w-7 h-7 text-primary" />
-        <h1 className="font-display font-bold text-3xl text-foreground">Admin Panel</h1>
+      <div className="flex items-center justify-between mb-2">
+        <div className="flex items-center gap-3">
+          <Shield className="w-7 h-7 text-primary" />
+          <h1 className="font-display font-bold text-3xl text-foreground">Admin Panel</h1>
+        </div>
+        <button
+          onClick={signOut}
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-secondary text-secondary-foreground font-heading font-bold text-sm hover:bg-secondary/80 transition-colors"
+        >
+          <LogOut className="w-4 h-4" /> Sign Out
+        </button>
       </div>
       <p className="text-muted-foreground font-heading mb-6">
-        Manage players, tiers, and leaderboard data
+        Logged in as <span className="text-primary">{user.email}</span>
       </p>
 
       {/* Stats */}
