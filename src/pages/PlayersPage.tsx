@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { getRankedPlayers, getPlayerAvatarUrl } from "@/lib/data";
+import { getRankedPlayers, getPlayerAvatarUrl, getPlayerBodyUrl } from "@/lib/data";
 import { Users } from "lucide-react";
 
 export default function PlayersPage() {

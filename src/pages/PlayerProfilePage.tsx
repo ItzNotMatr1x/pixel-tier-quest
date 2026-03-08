@@ -1,6 +1,6 @@
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { getPlayerByName, getPlayerAvatarUrl, getPlayerHeadUrl, GAMEMODES, TIER_POINTS, GamemodeId } from "@/lib/data";
+import { getPlayerByName, getPlayerAvatarUrl, getPlayerBodyUrl, getPlayerHeadUrl, GAMEMODES, TIER_POINTS, GamemodeId } from "@/lib/data";
 import { TierBadge } from "@/components/TierBadge";
 import { ArrowLeft, Trophy, MapPin } from "lucide-react";
 
