@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/hooks/useAuth";
 import { Navbar } from "@/components/Navbar";
+import { Footer } from "@/components/Footer";
 import HomePage from "./pages/HomePage";
 import LeaderboardPage from "./pages/LeaderboardPage";
 import GamemodesPage from "./pages/GamemodesPage";
@@ -34,6 +35,7 @@ const App = () => (
             <Route path="/admin/login" element={<AdminLoginPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
+          <Footer />
         </BrowserRouter>
       </AuthProvider>
     </TooltipProvider>
