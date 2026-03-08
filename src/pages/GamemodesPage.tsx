@@ -36,7 +36,7 @@ export default function GamemodesPage() {
         </div>
       ) : (
         <div className="glass-card overflow-hidden">
-          <div className="grid grid-cols-[60px_1fr_100px_80px_80px] gap-2 px-4 py-3 border-b border-border/50 text-xs font-heading font-bold text-muted-foreground uppercase tracking-wider">
+          <div className="grid grid-cols-[60px_48px_1fr_100px_80px_80px] gap-2 px-4 py-3 border-b border-border/50 text-xs font-heading font-bold text-muted-foreground uppercase tracking-wider">
             <span>Rank</span>
             <span>Player</span>
             <span>Tier</span>
