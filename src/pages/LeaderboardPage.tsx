@@ -76,8 +76,8 @@ export default function LeaderboardPage() {
                 >
                   <Link
                     to={`/player/${player.name}`}
-                    className={`flex items-center md:grid md:grid-cols-[80px_1fr_80px_auto] gap-2 px-3 md:px-4 py-2 transition-all duration-200 group
-                      hover:bg-secondary/40 hover:-translate-y-[2px] hover:shadow-lg hover:shadow-primary/5 hover:z-10 relative
+                    className={`flex items-center md:grid md:grid-cols-[80px_1fr_80px_auto] gap-2 px-3 md:px-4 py-2 transition-all duration-300 group
+                      hover:bg-secondary/40 hover:-translate-y-[3px] hover:shadow-[0_8px_30px_-5px_hsl(var(--primary)/0.2)] hover:z-10 relative
                       ${isTop3 ? `${rowBgs[player.rank - 1]} border-l-[3px] ${borderColors[player.rank - 1]}` : ''}`}
                   >
                     {/* Rank + Body (mctiers style: rank overlaps body) */}
@@ -88,7 +88,7 @@ export default function LeaderboardPage() {
                       <img
                         src={getPlayerBodyUrl(player.name)}
                         alt=""
-                        className="absolute right-0 top-1/2 -translate-y-1/2 w-[32px] h-[52px] md:w-[38px] md:h-[60px] object-contain drop-shadow-lg transition-transform duration-300 group-hover:scale-110"
+                        className="absolute right-0 top-1/2 -translate-y-1/2 w-[32px] h-[52px] md:w-[38px] md:h-[60px] object-contain drop-shadow-lg transition-all duration-300 group-hover:scale-[1.15] group-hover:drop-shadow-[0_0_12px_hsl(var(--primary)/0.5)]"
                         style={{ imageRendering: 'pixelated' }}
                       />
                       {/* Medal badge for top 3 */}
@@ -107,7 +107,7 @@ export default function LeaderboardPage() {
 
                     {/* Region badge */}
                     <div className="hidden md:flex justify-center">
-                      <span className="inline-flex items-center justify-center w-10 h-7 rounded-md bg-secondary text-xs font-heading font-bold text-foreground">
+                      <span className="inline-flex items-center justify-center w-10 h-7 rounded-md bg-secondary text-xs font-heading font-bold text-foreground transition-all duration-300 group-hover:bg-primary/20 group-hover:text-primary group-hover:shadow-[0_0_10px_hsl(var(--primary)/0.3)] group-hover:scale-110">
                         {player.region}
                       </span>
                     </div>
@@ -118,14 +118,14 @@ export default function LeaderboardPage() {
                         const tier = player.tiers[gm.id as GamemodeId];
                         if (tier === 'Unranked') {
                           return (
-                            <div key={gm.id} className="w-5 h-5 md:w-6 md:h-6 rounded-full bg-muted/50 flex items-center justify-center" title={`${gm.name}: Unranked`}>
+                            <div key={gm.id} className="w-5 h-5 md:w-6 md:h-6 rounded-full bg-muted/50 flex items-center justify-center transition-all duration-300 hover:scale-[1.15] hover:bg-muted" title={`${gm.name}: Unranked`}>
                               <span className="text-[7px] md:text-[8px] text-muted-foreground">-</span>
                             </div>
                           );
                         }
                         return (
-                          <div key={gm.id} className="flex flex-col items-center gap-0.5" title={`${gm.name}: ${tier}`}>
-                            <div className={`w-5 h-5 md:w-6 md:h-6 rounded-full ${tierBgClasses[tier]} flex items-center justify-center`}>
+                          <div key={gm.id} className="flex flex-col items-center gap-0.5 transition-all duration-300 hover:scale-[1.15]" title={`${gm.name}: ${tier}`}>
+                            <div className={`w-5 h-5 md:w-6 md:h-6 rounded-full ${tierBgClasses[tier]} flex items-center justify-center transition-shadow duration-300 hover:shadow-[0_0_10px_currentColor]`}>
                               <span className="text-[8px] md:text-[9px] font-bold text-background drop-shadow-sm">{gm.icon}</span>
                             </div>
                             <span className="text-[6px] md:text-[7px] font-heading font-bold text-muted-foreground leading-none hidden lg:block">{tier}</span>

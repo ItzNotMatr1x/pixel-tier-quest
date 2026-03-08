@@ -66,8 +66,8 @@ export default function GamemodesPage() {
                 <motion.div key={player.name} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: Math.min(i * 0.015, 0.4) }}>
                   <Link
                     to={`/player/${player.name}`}
-                    className={`flex items-center md:grid md:grid-cols-[80px_1fr_100px_80px_80px] gap-2 px-3 md:px-4 py-2 transition-all duration-200 group
-                      hover:bg-secondary/40 hover:-translate-y-[2px] hover:shadow-lg hover:shadow-primary/5 hover:z-10 relative
+                    className={`flex items-center md:grid md:grid-cols-[80px_1fr_100px_80px_80px] gap-2 px-3 md:px-4 py-2 transition-all duration-300 group
+                      hover:bg-secondary/40 hover:-translate-y-[3px] hover:shadow-[0_8px_30px_-5px_hsl(var(--primary)/0.2)] hover:z-10 relative
                       ${isTop3 ? `${rowBgs[player.rank - 1]} border-l-[3px] ${borderColors[player.rank - 1]}` : ''}`}
                   >
                     {/* Rank + Body (mctiers style) */}
@@ -78,7 +78,7 @@ export default function GamemodesPage() {
                       <img
                         src={getPlayerBodyUrl(player.name)}
                         alt=""
-                        className="absolute right-0 top-1/2 -translate-y-1/2 w-[32px] h-[52px] md:w-[38px] md:h-[60px] object-contain drop-shadow-lg transition-transform duration-300 group-hover:scale-110"
+                        className="absolute right-0 top-1/2 -translate-y-1/2 w-[32px] h-[52px] md:w-[38px] md:h-[60px] object-contain drop-shadow-lg transition-all duration-300 group-hover:scale-[1.15] group-hover:drop-shadow-[0_0_12px_hsl(var(--primary)/0.5)]"
                         style={{ imageRendering: 'pixelated' }}
                       />
                       {isTop3 && (
@@ -93,7 +93,7 @@ export default function GamemodesPage() {
                     </div>
 
                     {/* Tier - hidden on mobile, show inline */}
-                    <div className="hidden md:block">
+                    <div className="hidden md:block transition-all duration-300 hover:scale-[1.15]">
                       <TierBadge tier={player.tiers[activeMode]} size="sm" />
                     </div>
 
@@ -102,13 +102,13 @@ export default function GamemodesPage() {
 
                     {/* Region */}
                     <div className="hidden md:flex justify-end">
-                      <span className="inline-flex items-center justify-center w-10 h-7 rounded-md bg-secondary text-xs font-heading font-bold text-foreground">
+                      <span className="inline-flex items-center justify-center w-10 h-7 rounded-md bg-secondary text-xs font-heading font-bold text-foreground transition-all duration-300 group-hover:bg-primary/20 group-hover:text-primary group-hover:shadow-[0_0_10px_hsl(var(--primary)/0.3)] group-hover:scale-110">
                         {player.region}
                       </span>
                     </div>
 
                     {/* Mobile: compact tier + points */}
-                    <div className="flex md:hidden items-center gap-2 flex-shrink-0">
+                    <div className="flex md:hidden items-center gap-2 flex-shrink-0 transition-all duration-300 hover:scale-[1.15]">
                       <TierBadge tier={player.tiers[activeMode]} size="sm" />
                     </div>
                   </Link>
