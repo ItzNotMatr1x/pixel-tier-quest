@@ -1,4 +1,4 @@
-export type TierName = 'LT5' | 'HT5' | 'LT4' | 'HT4' | 'LT3' | 'HT3' | 'LT2' | 'HT2' | 'LT1' | 'HT1';
+export type TierName = 'Unranked' | 'LT5' | 'HT5' | 'LT4' | 'HT4' | 'LT3' | 'HT3' | 'LT2' | 'HT2' | 'LT1' | 'HT1';
 export type GamemodeId = 'sword' | 'axe' | 'nethpot' | 'pot' | 'vanilla' | 'uhc' | 'smp' | 'mace';
 
 export const TIER_POINTS: Record<TierName, number> = {
