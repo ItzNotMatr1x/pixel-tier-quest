@@ -78,7 +78,7 @@ export default function HomePage() {
                     ${i === 0 ? 'text-gold' : i === 1 ? 'text-silver' : i === 2 ? 'text-bronze' : 'text-muted-foreground'}`}>
                     #{player.rank}
                   </div>
-                  <img src={getPlayerAvatarUrl(player.name)} alt={player.name} className="w-10 h-10 rounded-lg" />
+                  <img src={getPlayerBodyUrl(player.name)} alt={player.name} className="w-8 h-16 object-contain" />
                   <div className="flex-1">
                     <span className="font-heading font-bold text-foreground group-hover:text-primary transition-colors">{player.name}</span>
                     <span className="text-xs text-muted-foreground ml-2">{player.region}</span>
