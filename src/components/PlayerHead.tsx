@@ -22,7 +22,7 @@ export function PlayerHead({ name, size = 32, className = "", selfHover = false 
       <img
         src={headUrl}
         alt={name}
-        className={`w-full h-full transition-all duration-[400ms] ease-out [transform:rotateY(25deg)_rotateX(-5deg)_scale(1)] [filter:drop-shadow(0_2px_4px_rgba(0,0,0,0.4))] [image-rendering:pixelated] ${hoverTransform}`}
+        className={`w-full h-full transition-all duration-[400ms] ease-out [filter:drop-shadow(0_2px_4px_rgba(0,0,0,0.4))] [image-rendering:pixelated] ${hoverTransform}`}
       />
     </div>
   );
