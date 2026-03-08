@@ -3,16 +3,8 @@ import { motion } from "framer-motion";
 
 const tierBgClasses: Record<TierName, string> = {
   Unranked: 'bg-muted',
-  HT1: 'bg-tier-ht1',
-  HT2: 'bg-tier-ht2',
-  HT3: 'bg-tier-ht3',
-  HT4: 'bg-tier-ht4',
-  HT5: 'bg-tier-ht5',
-  LT1: 'bg-tier-lt1',
-  LT2: 'bg-tier-lt2',
-  LT3: 'bg-tier-lt3',
-  LT4: 'bg-tier-lt4',
-  LT5: 'bg-tier-lt5',
+  HT1: 'bg-tier-ht1', HT2: 'bg-tier-ht2', HT3: 'bg-tier-ht3', HT4: 'bg-tier-ht4', HT5: 'bg-tier-ht5',
+  LT1: 'bg-tier-lt1', LT2: 'bg-tier-lt2', LT3: 'bg-tier-lt3', LT4: 'bg-tier-lt4', LT5: 'bg-tier-lt5',
 };
 
 const tierShadowClasses: Record<TierName, string> = {
@@ -29,18 +21,24 @@ const tierShadowClasses: Record<TierName, string> = {
   LT5: 'shadow-[0_0_12px_hsl(0_80%_55%/0.6)]',
 };
 
+const tierGlowClasses: Record<TierName, string> = {
+  Unranked: '',
+  HT1: 'hover:shadow-[0_0_18px_hsl(43_100%_55%/0.8)]',
+  HT2: 'hover:shadow-[0_0_18px_hsl(280_70%_55%/0.8)]',
+  HT3: 'hover:shadow-[0_0_18px_hsl(220_90%_55%/0.8)]',
+  HT4: 'hover:shadow-[0_0_18px_hsl(195_90%_55%/0.8)]',
+  HT5: 'hover:shadow-[0_0_18px_hsl(180_90%_50%/0.8)]',
+  LT1: 'hover:shadow-[0_0_18px_hsl(140_70%_45%/0.8)]',
+  LT2: 'hover:shadow-[0_0_18px_hsl(90_70%_50%/0.8)]',
+  LT3: 'hover:shadow-[0_0_18px_hsl(50_95%_55%/0.8)]',
+  LT4: 'hover:shadow-[0_0_18px_hsl(30_95%_55%/0.8)]',
+  LT5: 'hover:shadow-[0_0_18px_hsl(0_80%_55%/0.8)]',
+};
+
 const tierTextClasses: Record<TierName, string> = {
   Unranked: 'text-muted-foreground',
-  HT1: 'text-tier-ht1',
-  HT2: 'text-tier-ht2',
-  HT3: 'text-tier-ht3',
-  HT4: 'text-tier-ht4',
-  HT5: 'text-tier-ht5',
-  LT1: 'text-tier-lt1',
-  LT2: 'text-tier-lt2',
-  LT3: 'text-tier-lt3',
-  LT4: 'text-tier-lt4',
-  LT5: 'text-tier-lt5',
+  HT1: 'text-tier-ht1', HT2: 'text-tier-ht2', HT3: 'text-tier-ht3', HT4: 'text-tier-ht4', HT5: 'text-tier-ht5',
+  LT1: 'text-tier-lt1', LT2: 'text-tier-lt2', LT3: 'text-tier-lt3', LT4: 'text-tier-lt4', LT5: 'text-tier-lt5',
 };
 
 interface TierBadgeProps {
@@ -59,10 +57,10 @@ export function TierBadge({ tier, size = 'md' }: TierBadgeProps) {
 
   return (
     <motion.div
-      whileHover={{ scale: 1.05 }}
-      className={`inline-flex items-center rounded-md font-display font-bold ${sizeClasses[size]} bg-background/80 border border-border/50`}
+      whileHover={{ scale: 1.1 }}
+      className={`inline-flex items-center rounded-md font-display font-bold ${sizeClasses[size]} bg-background/80 border border-border/50 transition-shadow duration-300 cursor-default ${tierGlowClasses[tier]}`}
     >
-      <span className={`${dotSize[size]} rounded-sm ${tierBgClasses[tier]} ${tierShadowClasses[tier]} animate-glow-pulse`} />
+      <span className={`${dotSize[size]} rounded-sm ${tierBgClasses[tier]} ${tierShadowClasses[tier]} animate-pulse`} />
       <span className={tierTextClasses[tier]}>{tier}</span>
     </motion.div>
   );

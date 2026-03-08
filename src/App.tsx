@@ -35,6 +35,7 @@ const App = () => (
             <Route path="/admin/login" element={<AdminLoginPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
+          <Footer />
         </BrowserRouter>
       </AuthProvider>
     </TooltipProvider>
