@@ -1,8 +1,20 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { getRankedPlayers, getPlayerAvatarUrl, getPlayerBodyUrl } from "@/lib/data";
+import { getRankedPlayers, getPlayerBodyUrl, GAMEMODES, TIER_POINTS, GamemodeId, TierName } from "@/lib/data";
+import { TierBadge } from "@/components/TierBadge";
+import { tierBgClasses } from "@/components/TierBadge";
 import { Trophy } from "lucide-react";
+
+function getRankTitle(points: number): { title: string; color: string } {
+  if (points >= 400) return { title: "Combat Grandmaster", color: "text-gold" };
+  if (points >= 250) return { title: "Combat Master", color: "text-tier-ht2" };
+  if (points >= 150) return { title: "Combat Ace", color: "text-tier-lt5" };
+  if (points >= 80) return { title: "Combat Expert", color: "text-tier-ht3" };
+  if (points >= 40) return { title: "Combat Adept", color: "text-tier-lt1" };
+  if (points >= 15) return { title: "Combat Apprentice", color: "text-tier-lt2" };
+  return { title: "Combat Novice", color: "text-muted-foreground" };
+}
 
 export default function LeaderboardPage() {
   const [search, setSearch] = useState("");
@@ -23,7 +35,7 @@ export default function LeaderboardPage() {
         <input
           value={search}
           onChange={e => setSearch(e.target.value)}
-          placeholder="Filter by name…"
+          placeholder="Search player…"
           className="glass-card px-4 py-2 text-sm font-body text-foreground placeholder:text-muted-foreground outline-none w-full max-w-sm bg-transparent"
         />
       </div>
@@ -36,39 +48,95 @@ export default function LeaderboardPage() {
         </div>
       ) : (
         <div className="glass-card overflow-hidden">
-          <div className="grid grid-cols-[60px_48px_1fr_100px_80px] md:grid-cols-[80px_56px_1fr_120px_80px] gap-2 px-4 py-3 border-b border-border/50 text-xs font-heading font-bold text-muted-foreground uppercase tracking-wider">
-            <span>Rank</span>
-            <span className="">Avatar</span>
-            <span>Player</span>
-            <span className="text-right">Points</span>
-            <span className="text-right">Region</span>
+          {/* Header */}
+          <div className="grid grid-cols-[50px_1fr_auto_auto] md:grid-cols-[50px_56px_1fr_80px_auto] gap-3 px-4 py-3 border-b border-border/50 text-xs font-heading font-bold text-muted-foreground uppercase tracking-wider items-center">
+            <span>#</span>
+            <span className="hidden md:block">Player</span>
+            <span className="md:hidden">Player</span>
+            <span className="hidden md:block">Region</span>
+            <span className="text-right">Tiers</span>
           </div>
+
+          {/* Rows */}
           <div className="divide-y divide-border/30">
-            {filtered.map((player, i) => (
-              <motion.div
-                key={player.name}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: Math.min(i * 0.02, 0.5) }}
-              >
-                <Link
-                  to={`/player/${player.name}`}
-                  className={`grid grid-cols-[60px_48px_1fr_100px_80px] md:grid-cols-[80px_56px_1fr_120px_80px] gap-2 px-4 py-2 items-center hover:bg-secondary/30 transition-colors
-                    ${player.rank === 1 ? 'bg-gold/5 border-l-2 border-l-gold' : ''}
-                    ${player.rank === 2 ? 'bg-silver/5 border-l-2 border-l-silver' : ''}
-                    ${player.rank === 3 ? 'bg-bronze/5 border-l-2 border-l-bronze' : ''}`}
+            {filtered.map((player, i) => {
+              const { title, color } = getRankTitle(player.totalPoints);
+              const isTop3 = player.rank <= 3;
+              const rankColors = ['text-gold', 'text-silver', 'text-bronze'];
+              const rowBgs = ['bg-gold/[0.06]', 'bg-silver/[0.04]', 'bg-bronze/[0.04]'];
+              const borderColors = ['border-l-gold', 'border-l-silver', 'border-l-bronze'];
+
+              return (
+                <motion.div
+                  key={player.name}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: Math.min(i * 0.015, 0.4) }}
                 >
-                  <span className={`font-display font-black text-sm
-                    ${player.rank === 1 ? 'text-gold' : player.rank === 2 ? 'text-silver' : player.rank === 3 ? 'text-bronze' : 'text-muted-foreground'}`}>
-                    {player.rank === 1 ? '🥇' : player.rank === 2 ? '🥈' : player.rank === 3 ? '🥉' : `#${player.rank}`}
-                  </span>
-                  <img src={getPlayerBodyUrl(player.name)} alt="" className="w-10 h-[52px] object-contain" />
-                  <span className="font-heading font-bold text-foreground text-sm truncate">{player.name}</span>
-                  <span className="font-display font-bold text-primary text-sm text-right">{player.totalPoints}</span>
-                  <span className="text-xs text-muted-foreground text-right">{player.region}</span>
-                </Link>
-              </motion.div>
-            ))}
+                  <Link
+                    to={`/player/${player.name}`}
+                    className={`grid grid-cols-[50px_1fr_auto] md:grid-cols-[50px_56px_1fr_80px_auto] gap-3 px-4 py-3 items-center hover:bg-secondary/30 transition-colors
+                      ${isTop3 ? `${rowBgs[player.rank - 1]} border-l-[3px] ${borderColors[player.rank - 1]}` : ''}`}
+                  >
+                    {/* Rank */}
+                    <span className={`font-display font-black text-lg ${isTop3 ? rankColors[player.rank - 1] : 'text-muted-foreground'}`}>
+                      {player.rank}.
+                    </span>
+
+                    {/* Avatar - desktop */}
+                    <img
+                      src={getPlayerBodyUrl(player.name)}
+                      alt=""
+                      className="w-10 h-[56px] object-contain hidden md:block"
+                    />
+
+                    {/* Player info */}
+                    <div className="flex items-center gap-3 min-w-0">
+                      <img
+                        src={getPlayerBodyUrl(player.name)}
+                        alt=""
+                        className="w-8 h-[44px] object-contain md:hidden flex-shrink-0"
+                      />
+                      <div className="min-w-0">
+                        <div className="font-heading font-bold text-foreground text-sm truncate">{player.name}</div>
+                        <div className={`text-xs font-heading ${color} flex items-center gap-1`}>
+                          <span>⬥</span> {title} <span className="text-muted-foreground">({player.totalPoints} points)</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Region badge - desktop */}
+                    <div className="hidden md:flex justify-center">
+                      <span className="inline-flex items-center justify-center w-10 h-7 rounded-md bg-secondary text-xs font-heading font-bold text-foreground">
+                        {player.region}
+                      </span>
+                    </div>
+
+                    {/* Gamemode tier dots */}
+                    <div className="flex items-center gap-1 flex-shrink-0">
+                      {GAMEMODES.map(gm => {
+                        const tier = player.tiers[gm.id as GamemodeId];
+                        if (tier === 'Unranked') {
+                          return (
+                            <div key={gm.id} className="w-6 h-6 rounded-full bg-muted/50 flex items-center justify-center" title={`${gm.name}: Unranked`}>
+                              <span className="text-[8px] text-muted-foreground">-</span>
+                            </div>
+                          );
+                        }
+                        return (
+                          <div key={gm.id} className="flex flex-col items-center gap-0.5" title={`${gm.name}: ${tier}`}>
+                            <div className={`w-6 h-6 rounded-full ${tierBgClasses[tier]} flex items-center justify-center`}>
+                              <span className="text-[9px] font-bold text-background drop-shadow-sm">{gm.icon}</span>
+                            </div>
+                            <span className="text-[7px] font-heading font-bold text-muted-foreground leading-none hidden lg:block">{tier}</span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </Link>
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       )}
