@@ -28,14 +28,14 @@ export interface Gamemode {
 }
 
 export const GAMEMODES: Gamemode[] = [
-  { id: 'sword', name: 'Sword', icon: '⚔' },
-  { id: 'axe', name: 'Axe', icon: '🪓' },
-  { id: 'nethpot', name: 'NethPot', icon: '🔥' },
-  { id: 'pot', name: 'Pot', icon: '🧪' },
-  { id: 'vanilla', name: 'Vanilla', icon: '__crystal__' },
-  { id: 'uhc', name: 'UHC', icon: '🏹' },
-  { id: 'smp', name: 'SMP', icon: '🌍' },
-  { id: 'mace', name: 'Mace', icon: '🔨' },
+  { id: 'sword', name: 'Sword', icon: 'sword' },
+  { id: 'axe', name: 'Axe', icon: 'axe' },
+  { id: 'nethpot', name: 'NethPot', icon: 'nethpot' },
+  { id: 'pot', name: 'Pot', icon: 'pot' },
+  { id: 'vanilla', name: 'Vanilla', icon: 'vanilla' },
+  { id: 'uhc', name: 'UHC', icon: 'uhc' },
+  { id: 'smp', name: 'SMP', icon: 'smp' },
+  { id: 'mace', name: 'Mace', icon: 'mace' },
 ];
 
 export interface Player {
