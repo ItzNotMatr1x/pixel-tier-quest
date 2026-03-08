@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { getRankedPlayers, getPlayerBodyUrl, GAMEMODES, TIER_POINTS, GamemodeId, TierName } from "@/lib/data";
+import { getRankedPlayers, getPlayerAvatarUrl, GAMEMODES, TIER_POINTS, GamemodeId, TierName } from "@/lib/data";
 import { TierBadge } from "@/components/TierBadge";
 import { tierBgClasses } from "@/components/TierBadge";
 import { Trophy } from "lucide-react";
