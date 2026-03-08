@@ -41,8 +41,8 @@ export default function PlayerProfilePage() {
         animate={{ opacity: 1, y: 0 }}
         className="glass-card p-6 md:p-8 mb-6 glow-cyan"
       >
-        <div className="flex items-center gap-6">
-          <img src={getPlayerBodyUrl(player.name)} alt={player.name} className="w-16 h-32 md:w-20 md:h-40 object-contain" style={{ imageRendering: 'pixelated' }} />
+        <div className="flex items-center gap-6 group">
+          <PlayerHead name={player.name} size={80} />
           <div>
             <h1 className="font-display font-black text-3xl md:text-4xl text-foreground text-glow-cyan">{player.name}</h1>
             <div className="flex items-center gap-4 mt-2 flex-wrap">
