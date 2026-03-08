@@ -1,8 +1,9 @@
-import { useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
-import { GAMEMODES, getGamemodeLeaderboard, getPlayerBodyUrl, GamemodeId } from "@/lib/data";
+import { usePlayers } from "@/hooks/usePlayers";
+import { GamemodeId, GAMEMODES } from "@/lib/data";
 import { TierBadge } from "@/components/TierBadge";
+import { PlayerHead } from "@/components/PlayerHead";
 import { Crown, Medal } from "lucide-react";
 
 function getModeTitle(points: number): { title: string; color: string; icon: string } {
@@ -44,6 +45,7 @@ export default function GamemodesPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const activeMode = (searchParams.get("mode") as GamemodeId) || "sword";
   const gm = GAMEMODES.find(g => g.id === activeMode) || GAMEMODES[0];
+  const { getGamemodeLeaderboard, loading } = usePlayers();
   const leaderboard = getGamemodeLeaderboard(activeMode).filter(p => p.tiers[activeMode] !== 'Unranked').slice(0, 100);
 
   return (
@@ -74,7 +76,11 @@ export default function GamemodesPage() {
         ))}
       </div>
 
-      {leaderboard.length === 0 ? (
+      {loading ? (
+        <div className="glass-card p-16 flex items-center justify-center">
+          <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+        </div>
+      ) : leaderboard.length === 0 ? (
         <div className="glass-card p-16 text-center">
           <span className="text-5xl block mb-4">{gm.icon}</span>
           <h3 className="font-display font-bold text-lg text-foreground mb-2">No Players Yet</h3>
@@ -117,14 +123,9 @@ export default function GamemodesPage() {
                       <RankBadge rank={player.rank} />
                     </div>
 
-                    {/* Body render */}
-                    <div className="relative flex justify-center h-[56px] md:h-[64px]">
-                      <img
-                        src={getPlayerBodyUrl(player.name)}
-                        alt=""
-                        className="h-full w-auto object-contain drop-shadow-[0_4px_8px_rgba(0,0,0,0.4)] transition-all duration-300 group-hover:scale-[1.15] group-hover:drop-shadow-[0_0_16px_hsl(var(--primary)/0.4)]"
-                        style={{ imageRendering: 'pixelated' }}
-                      />
+                    {/* Head with look-at effect */}
+                    <div className="flex justify-center">
+                      <PlayerHead name={player.name} size={40} />
                     </div>
 
                     {/* Player info */}
