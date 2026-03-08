@@ -8,7 +8,7 @@ interface PlayerHeadProps {
 }
 
 export function PlayerHead({ name, size = 32, className = "", selfHover = false }: PlayerHeadProps) {
-  const headUrl = `https://mc-heads.net/head/${name}/64`;
+  const headUrl = `https://mc-heads.net/head/${name}/256`;
 
   const hoverTransform = selfHover
     ? 'hover:[transform:rotateY(0deg)_rotateX(0deg)_scale(1.2)] hover:[filter:drop-shadow(0_4px_14px_rgba(0,200,255,0.4))]'
