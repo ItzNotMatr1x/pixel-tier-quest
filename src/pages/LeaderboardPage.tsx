@@ -19,22 +19,31 @@ function getRankTitle(points: number): { title: string; color: string; icon: str
 }
 
 function RankBadge({ rank }: { rank: number }) {
+  const shineOverlay = (
+    <span className="absolute inset-0 rounded-xl bg-gradient-to-r from-transparent via-white/25 to-transparent -translate-x-full animate-[shine_3s_ease-in-out_infinite] z-10" />
+  );
   if (rank === 1) return (
     <div className="relative flex items-center justify-center w-10 h-10 md:w-12 md:h-12">
-      <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-[hsl(43,100%,65%)] to-[hsl(35,100%,45%)] shadow-[0_0_20px_hsl(43,100%,55%/0.5)]" />
-      <Crown className="w-5 h-5 md:w-6 md:h-6 text-background relative z-10" />
+      <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-[hsl(43,100%,65%)] to-[hsl(35,100%,45%)] shadow-[0_0_20px_hsl(43,100%,55%/0.5)] overflow-hidden">
+        {shineOverlay}
+      </div>
+      <Crown className="w-5 h-5 md:w-6 md:h-6 text-background relative z-20" />
     </div>
   );
   if (rank === 2) return (
     <div className="relative flex items-center justify-center w-10 h-10 md:w-12 md:h-12">
-      <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-[hsl(220,15%,78%)] to-[hsl(220,10%,58%)] shadow-[0_0_16px_hsl(220,10%,72%/0.4)]" />
-      <Medal className="w-5 h-5 md:w-6 md:h-6 text-background relative z-10" />
+      <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-[hsl(220,15%,78%)] to-[hsl(220,10%,58%)] shadow-[0_0_16px_hsl(220,10%,72%/0.4)] overflow-hidden">
+        {shineOverlay}
+      </div>
+      <Medal className="w-5 h-5 md:w-6 md:h-6 text-background relative z-20" />
     </div>
   );
   if (rank === 3) return (
     <div className="relative flex items-center justify-center w-10 h-10 md:w-12 md:h-12">
-      <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-[hsl(30,70%,55%)] to-[hsl(25,60%,40%)] shadow-[0_0_16px_hsl(30,60%,50%/0.4)]" />
-      <Medal className="w-5 h-5 md:w-6 md:h-6 text-background relative z-10" />
+      <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-[hsl(30,70%,55%)] to-[hsl(25,60%,40%)] shadow-[0_0_16px_hsl(30,60%,50%/0.4)] overflow-hidden">
+        {shineOverlay}
+      </div>
+      <Medal className="w-5 h-5 md:w-6 md:h-6 text-background relative z-20" />
     </div>
   );
   return (
