@@ -58,10 +58,11 @@ export function TierBadge({ tier, size = 'md' }: TierBadgeProps) {
   return (
     <motion.div
       whileHover={{ scale: 1.1 }}
-      className={`inline-flex items-center rounded-md font-display font-bold ${sizeClasses[size]} bg-background/80 border border-border/50 transition-shadow duration-300 cursor-default ${tierGlowClasses[tier]}`}
+      className={`inline-flex items-center rounded-md font-display font-bold ${sizeClasses[size]} bg-background/80 border border-border/50 transition-shadow duration-300 cursor-default ${tierGlowClasses[tier]} relative overflow-hidden`}
     >
-      <span className={`${dotSize[size]} rounded-sm ${tierBgClasses[tier]} ${tierShadowClasses[tier]} animate-pulse`} />
-      <span className={tierTextClasses[tier]}>{tier}</span>
+      <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full animate-[shine_3s_ease-in-out_infinite]" />
+      <span className={`${dotSize[size]} rounded-sm ${tierBgClasses[tier]} ${tierShadowClasses[tier]} animate-pulse relative z-10`} />
+      <span className={`${tierTextClasses[tier]} relative z-10`}>{tier}</span>
     </motion.div>
   );
 }
