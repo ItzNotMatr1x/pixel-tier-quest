@@ -2,6 +2,7 @@ import { TierName, TIER_COLORS } from "@/lib/data";
 import { motion } from "framer-motion";
 
 const tierBgClasses: Record<TierName, string> = {
+  Unranked: 'bg-muted',
   HT1: 'bg-tier-ht1',
   HT2: 'bg-tier-ht2',
   HT3: 'bg-tier-ht3',
