@@ -14,6 +14,7 @@ export const TIER_COLORS: Record<TierName, string> = {
 };
 
 export const TIER_GLASS_LABELS: Record<TierName, string> = {
+  Unranked: 'Gray',
   HT1: 'Gold', HT2: 'Purple', HT3: 'Blue', HT4: 'Light Blue', HT5: 'Cyan',
   LT1: 'Green', LT2: 'Lime', LT3: 'Yellow', LT4: 'Orange', LT5: 'Red',
 };
