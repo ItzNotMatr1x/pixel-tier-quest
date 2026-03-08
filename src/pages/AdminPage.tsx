@@ -11,7 +11,7 @@ import { Shield, Plus, Trash2, Pencil, Save, X, Users, LogOut } from "lucide-rea
 const REGIONS = ['NA', 'EU', 'AS', 'SA', 'OCE'];
 
 const defaultTiers = (): Record<GamemodeId, TierName> =>
-  Object.fromEntries(GAMEMODES.map(g => [g.id, 'LT5'])) as Record<GamemodeId, TierName>;
+  Object.fromEntries(GAMEMODES.map(g => [g.id, 'Unranked'])) as Record<GamemodeId, TierName>;
 
 export default function AdminPage() {
   const { user, loading, signOut } = useAuth();

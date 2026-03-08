@@ -2,6 +2,7 @@ import { TierName, TIER_COLORS } from "@/lib/data";
 import { motion } from "framer-motion";
 
 const tierBgClasses: Record<TierName, string> = {
+  Unranked: 'bg-muted',
   HT1: 'bg-tier-ht1',
   HT2: 'bg-tier-ht2',
   HT3: 'bg-tier-ht3',
@@ -15,6 +16,7 @@ const tierBgClasses: Record<TierName, string> = {
 };
 
 const tierShadowClasses: Record<TierName, string> = {
+  Unranked: 'shadow-none',
   HT1: 'shadow-[0_0_12px_hsl(43_100%_55%/0.6)]',
   HT2: 'shadow-[0_0_12px_hsl(280_70%_55%/0.6)]',
   HT3: 'shadow-[0_0_12px_hsl(220_90%_55%/0.6)]',
@@ -28,6 +30,7 @@ const tierShadowClasses: Record<TierName, string> = {
 };
 
 const tierTextClasses: Record<TierName, string> = {
+  Unranked: 'text-muted-foreground',
   HT1: 'text-tier-ht1',
   HT2: 'text-tier-ht2',
   HT3: 'text-tier-ht3',

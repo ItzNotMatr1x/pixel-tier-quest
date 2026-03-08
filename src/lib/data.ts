@@ -1,18 +1,20 @@
-export type TierName = 'LT5' | 'HT5' | 'LT4' | 'HT4' | 'LT3' | 'HT3' | 'LT2' | 'HT2' | 'LT1' | 'HT1';
+export type TierName = 'Unranked' | 'LT5' | 'HT5' | 'LT4' | 'HT4' | 'LT3' | 'HT3' | 'LT2' | 'HT2' | 'LT1' | 'HT1';
 export type GamemodeId = 'sword' | 'axe' | 'nethpot' | 'pot' | 'vanilla' | 'uhc' | 'smp' | 'mace';
 
 export const TIER_POINTS: Record<TierName, number> = {
-  LT5: 1, HT5: 2, LT4: 3, HT4: 4, LT3: 6, HT3: 10, LT2: 20, HT2: 30, LT1: 45, HT1: 60,
+  Unranked: 0, LT5: 1, HT5: 2, LT4: 3, HT4: 4, LT3: 6, HT3: 10, LT2: 20, HT2: 30, LT1: 45, HT1: 60,
 };
 
-export const TIER_ORDER: TierName[] = ['LT5','HT5','LT4','HT4','LT3','HT3','LT2','HT2','LT1','HT1'];
+export const TIER_ORDER: TierName[] = ['Unranked','LT5','HT5','LT4','HT4','LT3','HT3','LT2','HT2','LT1','HT1'];
 
 export const TIER_COLORS: Record<TierName, string> = {
+  Unranked: 'tier-unranked',
   HT1: 'tier-ht1', HT2: 'tier-ht2', HT3: 'tier-ht3', HT4: 'tier-ht4', HT5: 'tier-ht5',
   LT1: 'tier-lt1', LT2: 'tier-lt2', LT3: 'tier-lt3', LT4: 'tier-lt4', LT5: 'tier-lt5',
 };
 
 export const TIER_GLASS_LABELS: Record<TierName, string> = {
+  Unranked: 'Gray',
   HT1: 'Gold', HT2: 'Purple', HT3: 'Blue', HT4: 'Light Blue', HT5: 'Cyan',
   LT1: 'Green', LT2: 'Lime', LT3: 'Yellow', LT4: 'Orange', LT5: 'Red',
 };
