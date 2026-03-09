@@ -206,7 +206,7 @@ export default function LeaderboardPage() {
                         <div className="px-4 md:px-6 py-3 bg-secondary/30 border-t border-border/20">
                           <div className="flex items-center gap-2 mb-2.5">
                             <Swords className="w-3.5 h-3.5 text-primary" />
-                            <span className="text-[11px] font-heading font-bold text-muted-foreground uppercase tracking-widest">Gamemode Breakdown</span>
+                            <span className="text-[11px] font-heading font-bold text-muted-foreground uppercase tracking-widest">Tier Breakdown</span>
                           </div>
                           <div className="grid grid-cols-4 md:grid-cols-8 gap-2">
                             {GAMEMODES.map(gm => {
