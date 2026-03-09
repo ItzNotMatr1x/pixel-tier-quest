@@ -164,7 +164,7 @@ export default function LeaderboardPage() {
                     </div>
 
                     {/* Tier dots */}
-                    <div className="flex items-center gap-0.5 md:gap-1 flex-shrink-0">
+                    <div className="flex items-center justify-center gap-0.5 md:gap-1 flex-shrink-0">
                       {GAMEMODES.map(gm => {
                         const tier = player.tiers[gm.id as GamemodeId];
                         if (tier === 'Unranked') {
