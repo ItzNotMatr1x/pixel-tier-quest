@@ -8,21 +8,21 @@ interface PlayerHeadProps {
 }
 
 export function PlayerHead({ name, size = 32, className = "", selfHover = false }: PlayerHeadProps) {
-  const headUrl = `https://mc-heads.net/head/${name}/256`;
+  const bodyUrl = `https://starlightskins.lunareclipse.studio/render/halfbody/${name}/full`;
 
   const hoverTransform = selfHover
-    ? 'hover:scale-110 hover:[filter:drop-shadow(0_4px_14px_rgba(0,200,255,0.4))]'
-    : 'group-hover:scale-110 group-hover:[filter:drop-shadow(0_4px_14px_rgba(0,200,255,0.4))]';
+    ? 'hover:scale-110 hover:[filter:drop-shadow(0_4px_18px_hsl(190_100%_50%/0.5))]'
+    : 'group-hover:scale-110 group-hover:[filter:drop-shadow(0_4px_18px_hsl(190_100%_50%/0.5))]';
 
   return (
     <div
       className={`inline-block flex-shrink-0 ${className}`}
-      style={{ width: size, height: size, perspective: 300 }}
+      style={{ width: size, height: size * 1.4, perspective: 300 }}
     >
       <img
-        src={headUrl}
+        src={bodyUrl}
         alt={name}
-        className={`w-full h-full transition-all duration-[400ms] ease-out [filter:drop-shadow(0_2px_4px_rgba(0,0,0,0.4))] [image-rendering:pixelated] ${hoverTransform}`}
+        className={`w-full h-full object-contain transition-all duration-[400ms] ease-out [filter:drop-shadow(0_2px_8px_hsl(190_100%_50%/0.3))_drop-shadow(0_4px_12px_rgba(0,0,0,0.5))] ${hoverTransform}`}
       />
     </div>
   );
