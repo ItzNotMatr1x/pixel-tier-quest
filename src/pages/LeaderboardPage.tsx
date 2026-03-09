@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { usePlayers } from "@/hooks/usePlayers";
-import { getPlayerBodyUrl, GAMEMODES, GamemodeId } from "@/lib/data";
+import { getPlayerBodyUrl, GAMEMODES, GamemodeId, TIER_POINTS, TierName } from "@/lib/data";
 import { tierBgClasses, tierTextClasses } from "@/components/TierBadge";
 import { PlayerHead } from "@/components/PlayerHead";
 import { GamemodeIcon } from "@/components/GamemodeIcon";
-import { Trophy, Search, Crown, Medal } from "lucide-react";
+import { Trophy, Search, Crown, Medal, Swords } from "lucide-react";
 
 function getRankTitle(points: number): { title: string; color: string; icon: string } {
   if (points >= 400) return { title: "Combat Grandmaster", color: "text-gold", icon: "👑" };
@@ -55,6 +55,7 @@ function RankBadge({ rank }: { rank: number }) {
 
 export default function LeaderboardPage() {
   const [search, setSearch] = useState("");
+  const [hoveredPlayer, setHoveredPlayer] = useState<string | null>(null);
   const { ranked, loading } = usePlayers();
   const filtered = search
     ? ranked.filter(p => p.name.toLowerCase().includes(search.toLowerCase()))
@@ -125,6 +126,8 @@ export default function LeaderboardPage() {
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: Math.min(i * 0.02, 0.5), duration: 0.3 }}
+                  onMouseEnter={() => setHoveredPlayer(player.name)}
+                  onMouseLeave={() => setHoveredPlayer(null)}
                 >
                   <Link
                     to={`/player/${player.name}`}
@@ -137,7 +140,7 @@ export default function LeaderboardPage() {
                       <RankBadge rank={player.rank} />
                     </div>
 
-                    {/* Head render with look-at effect */}
+                    {/* Head render */}
                     <div className="flex justify-center">
                       <PlayerHead name={player.name} size={40} />
                     </div>
@@ -153,14 +156,14 @@ export default function LeaderboardPage() {
                       </div>
                     </div>
 
-                    {/* Region badge - centered under Region header */}
+                    {/* Region badge */}
                     <div className="hidden md:flex justify-center">
                       <span className="inline-flex items-center justify-center min-w-[40px] h-7 px-2 rounded-lg bg-secondary/80 text-[11px] font-heading font-bold text-foreground transition-all duration-300 group-hover:bg-primary/15 group-hover:text-primary group-hover:shadow-[0_0_12px_hsl(var(--primary)/0.2)]">
                         {player.region}
                       </span>
                     </div>
 
-                    {/* Tier dots - show tier name on hover */}
+                    {/* Tier dots */}
                     <div className="flex items-center gap-0.5 md:gap-1 flex-shrink-0">
                       {GAMEMODES.map(gm => {
                         const tier = player.tiers[gm.id as GamemodeId];
@@ -189,6 +192,48 @@ export default function LeaderboardPage() {
                       })}
                     </div>
                   </Link>
+
+                  {/* Expanded stats panel on hover */}
+                  <AnimatePresence>
+                    {hoveredPlayer === player.name && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.25, ease: 'easeInOut' }}
+                        className="overflow-hidden"
+                      >
+                        <div className="px-4 md:px-6 py-3 bg-secondary/30 border-t border-border/20">
+                          <div className="flex items-center gap-2 mb-2.5">
+                            <Swords className="w-3.5 h-3.5 text-primary" />
+                            <span className="text-[11px] font-heading font-bold text-muted-foreground uppercase tracking-widest">Gamemode Breakdown</span>
+                          </div>
+                          <div className="grid grid-cols-4 md:grid-cols-8 gap-2">
+                            {GAMEMODES.map(gm => {
+                              const tier = player.tiers[gm.id as GamemodeId];
+                              const pts = TIER_POINTS[tier as TierName];
+                              const isRanked = tier !== 'Unranked';
+                              return (
+                                <div
+                                  key={gm.id}
+                                  className={`flex flex-col items-center gap-1 p-2 rounded-lg transition-colors ${isRanked ? 'bg-secondary/60' : 'bg-muted/20'}`}
+                                >
+                                  <GamemodeIcon icon={gm.icon} className="w-4 h-4" />
+                                  <span className="text-[10px] font-heading font-bold text-muted-foreground">{gm.name}</span>
+                                  <span className={`text-[11px] font-heading font-bold ${isRanked ? tierTextClasses[tier as TierName] : 'text-muted-foreground/40'}`}>
+                                    {tier}
+                                  </span>
+                                  <span className="text-[9px] font-heading text-muted-foreground">
+                                    {pts} pts
+                                  </span>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </motion.div>
               );
             })}
