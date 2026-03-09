@@ -55,6 +55,7 @@ function RankBadge({ rank }: { rank: number }) {
 
 export default function LeaderboardPage() {
   const [search, setSearch] = useState("");
+  const [hoveredPlayer, setHoveredPlayer] = useState<string | null>(null);
   const { ranked, loading } = usePlayers();
   const filtered = search
     ? ranked.filter(p => p.name.toLowerCase().includes(search.toLowerCase()))
