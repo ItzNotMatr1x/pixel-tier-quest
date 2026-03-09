@@ -100,7 +100,7 @@ export default function LeaderboardPage() {
       ) : (
         <div className="glass-card overflow-hidden">
           {/* Header row */}
-          <div className="hidden md:grid grid-cols-[72px_48px_1fr_80px_auto] gap-3 px-5 py-3 border-b border-border/50 border-l-[3px] border-l-transparent text-[11px] font-heading font-bold text-muted-foreground uppercase tracking-widest items-center">
+          <div className="hidden md:grid grid-cols-[72px_48px_minmax(0,1fr)_88px_256px] gap-3 px-5 py-3 border-b border-border/50 border-l-[3px] border-l-transparent text-[11px] font-heading font-bold text-muted-foreground uppercase tracking-widest items-center">
             <div className="flex justify-center">Rank</div>
             <span></span>
             <span>Player</span>
@@ -131,7 +131,7 @@ export default function LeaderboardPage() {
                 >
                   <Link
                     to={`/player/${player.name}`}
-                    className={`grid grid-cols-[52px_40px_1fr_auto] md:grid-cols-[72px_48px_1fr_80px_auto] gap-2 md:gap-3 px-3 md:px-5 py-3 md:py-3.5 items-center transition-all duration-300 group relative
+                    className={`grid grid-cols-[52px_40px_1fr_auto] md:grid-cols-[72px_48px_minmax(0,1fr)_88px_256px] gap-2 md:gap-3 px-3 md:px-5 py-3 md:py-3.5 items-center transition-all duration-300 group relative
                       hover:bg-secondary/50 hover:-translate-y-[3px] hover:shadow-[0_12px_40px_-8px_hsl(var(--primary)/0.15)] hover:z-10
                       ${isTop3 ? `${rowBgs[player.rank - 1]} border-l-[3px] ${borderColors[player.rank - 1]} ${rowGlows[player.rank - 1]}` : 'border-l-[3px] border-l-transparent'}`}
                   >
@@ -164,7 +164,7 @@ export default function LeaderboardPage() {
                     </div>
 
                     {/* Tier dots */}
-                    <div className="flex items-center gap-0.5 md:gap-1 flex-shrink-0">
+                    <div className="flex items-center justify-center gap-0.5 md:gap-1 flex-shrink-0">
                       {GAMEMODES.map(gm => {
                         const tier = player.tiers[gm.id as GamemodeId];
                         if (tier === 'Unranked') {
