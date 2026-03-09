@@ -101,11 +101,11 @@ export default function LeaderboardPage() {
         <div className="glass-card overflow-hidden">
           {/* Header row */}
           <div className="hidden md:grid grid-cols-[72px_48px_1fr_80px_auto] gap-3 px-5 py-3 border-b border-border/50 text-[11px] font-heading font-bold text-muted-foreground uppercase tracking-widest items-center">
-            <span>Rank</span>
+            <span className="text-center">Rank</span>
             <span></span>
             <span>Player</span>
             <span className="text-center">Region</span>
-            <span className="text-right pr-1">Tiers</span>
+            <span className="text-center">Tiers</span>
           </div>
 
           <div className="divide-y divide-border/20">
