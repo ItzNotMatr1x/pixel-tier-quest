@@ -131,10 +131,13 @@ export default function LeaderboardPage() {
                 >
                   <Link
                     to={`/player/${player.name}`}
-                    className={`grid grid-cols-[52px_40px_1fr_auto] md:grid-cols-[72px_48px_minmax(0,1fr)_88px_256px] gap-2 md:gap-3 px-3 md:px-5 py-3 md:py-3.5 items-center transition-all duration-300 group relative
+                    className={`grid grid-cols-[52px_40px_1fr_auto] md:grid-cols-[72px_48px_minmax(0,1fr)_88px_256px] gap-2 md:gap-3 px-3 md:px-5 py-3 md:py-3.5 items-center transition-all duration-300 group relative overflow-hidden
                       hover:bg-secondary/50 hover:-translate-y-[3px] hover:shadow-[0_12px_40px_-8px_hsl(var(--primary)/0.15)] hover:z-10
                       ${isTop3 ? `${rowBgs[player.rank - 1]} border-l-[3px] ${borderColors[player.rank - 1]} ${rowGlows[player.rank - 1]}` : 'border-l-[3px] border-l-transparent'}`}
                   >
+                    {isTop3 && (
+                      <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full animate-[shine_3s_ease-in-out_infinite] pointer-events-none z-10" />
+                    )}
                     {/* Rank badge */}
                     <div className="flex justify-center">
                       <RankBadge rank={player.rank} />
