@@ -115,9 +115,9 @@ export default function LeaderboardPage() {
               const rowBgs = ['bg-gold/[0.06]', 'bg-silver/[0.04]', 'bg-bronze/[0.04]'];
               const borderColors = ['border-l-gold', 'border-l-silver', 'border-l-bronze'];
               const rowGlows = [
-                'shadow-[0_0_15px_hsl(43,100%,55%/0.15),0_0_30px_hsl(43,100%,55%/0.08)] animate-[pulseGlow_3s_ease-in-out_infinite]',
-                'shadow-[0_0_15px_hsl(220,10%,72%/0.15),0_0_30px_hsl(220,10%,72%/0.08)] animate-[pulseGlow_3s_ease-in-out_infinite_0.5s]',
-                'shadow-[0_0_15px_hsl(30,60%,50%/0.15),0_0_30px_hsl(30,60%,50%/0.08)] animate-[pulseGlow_3s_ease-in-out_infinite_1s]',
+                'shadow-[0_0_15px_hsl(43,100%,55%/0.15),0_0_30px_hsl(43,100%,55%/0.08)]',
+                'shadow-[0_0_15px_hsl(220,10%,72%/0.15),0_0_30px_hsl(220,10%,72%/0.08)]',
+                'shadow-[0_0_15px_hsl(30,60%,50%/0.15),0_0_30px_hsl(30,60%,50%/0.08)]',
               ];
 
               return (
