@@ -8,7 +8,7 @@ interface PlayerHeadProps {
 }
 
 export function PlayerHead({ name, size = 32, className = "", selfHover = false }: PlayerHeadProps) {
-  const bodyUrl = `https://mc-heads.net/body/${name}/256`;
+  const bodyUrl = `https://visage.surgeplay.com/bust/256/${name}`;
 
   const hoverTransform = selfHover
     ? 'hover:scale-110 hover:[filter:drop-shadow(0_4px_18px_hsl(190_100%_50%/0.5))]'
