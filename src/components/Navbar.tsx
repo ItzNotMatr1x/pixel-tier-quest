@@ -17,8 +17,11 @@ export function Navbar() {
     <nav className="sticky top-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-xl">
       <div className="container mx-auto flex items-center justify-between h-16 px-4">
         <div className="flex items-center gap-6">
-          <Link to="/" className="flex-shrink-0">
+          <Link to="/" className="flex items-center gap-2 flex-shrink-0">
             <img src={pixelValleyLogo} alt="Pixel Valley" className="w-9 h-9 rounded-md" />
+            <span className="font-display font-bold text-lg tracking-wider text-foreground text-glow-cyan">
+              PixelTiers
+            </span>
           </Link>
           <div className="hidden md:flex items-center gap-1">
             {NAV_LINKS.map(link => (
@@ -42,7 +45,7 @@ export function Navbar() {
             <div className="flex items-center gap-3 text-[11px] font-heading">
               <span className="text-muted-foreground font-bold tracking-wider text-glow-cyan">play.pixelvalley.fun</span>
               <a
-                href="https://discord.gg/x7QFZNat"
+                href="https://discord.gg/3YY6ZfBQ"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-1 text-muted-foreground hover:text-[#5865F2] transition-colors"
