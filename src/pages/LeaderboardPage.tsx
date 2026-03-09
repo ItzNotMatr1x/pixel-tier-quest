@@ -101,11 +101,11 @@ export default function LeaderboardPage() {
         <div className="glass-card overflow-hidden">
           {/* Header row */}
           <div className="hidden md:grid grid-cols-[72px_48px_1fr_80px_auto] gap-3 px-5 py-3 border-b border-border/50 text-[11px] font-heading font-bold text-muted-foreground uppercase tracking-widest items-center">
-            <span>Rank</span>
+            <span className="text-center">Rank</span>
             <span></span>
             <span>Player</span>
             <span className="text-center">Region</span>
-            <span className="text-right pr-1">Tiers</span>
+            <span className="text-center">Tiers</span>
           </div>
 
           <div className="divide-y divide-border/20">
@@ -206,7 +206,7 @@ export default function LeaderboardPage() {
                         <div className="px-4 md:px-6 py-3 bg-secondary/30 border-t border-border/20">
                           <div className="flex items-center gap-2 mb-2.5">
                             <Swords className="w-3.5 h-3.5 text-primary" />
-                            <span className="text-[11px] font-heading font-bold text-muted-foreground uppercase tracking-widest">Gamemode Breakdown</span>
+                            <span className="text-[11px] font-heading font-bold text-muted-foreground uppercase tracking-widest">Tier Breakdown</span>
                           </div>
                           <div className="grid grid-cols-4 md:grid-cols-8 gap-2">
                             {GAMEMODES.map(gm => {
