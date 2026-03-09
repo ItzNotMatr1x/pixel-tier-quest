@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { usePlayers } from "@/hooks/usePlayers";
-import { getPlayerBodyUrl, GAMEMODES, GamemodeId } from "@/lib/data";
+import { getPlayerBodyUrl, GAMEMODES, GamemodeId, TIER_POINTS, TierName } from "@/lib/data";
 import { tierBgClasses, tierTextClasses } from "@/components/TierBadge";
 import { PlayerHead } from "@/components/PlayerHead";
 import { GamemodeIcon } from "@/components/GamemodeIcon";
-import { Trophy, Search, Crown, Medal } from "lucide-react";
+import { Trophy, Search, Crown, Medal, Swords } from "lucide-react";
 
 function getRankTitle(points: number): { title: string; color: string; icon: string } {
   if (points >= 400) return { title: "Combat Grandmaster", color: "text-gold", icon: "👑" };
