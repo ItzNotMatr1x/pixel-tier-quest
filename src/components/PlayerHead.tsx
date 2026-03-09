@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 interface PlayerHeadProps {
   name: string;
@@ -7,8 +7,10 @@ interface PlayerHeadProps {
   selfHover?: boolean;
 }
 
+const STEVE_URL = "https://visage.surgeplay.com/bust/256/MHF_Steve";
+
 export function PlayerHead({ name, size = 32, className = "", selfHover = false }: PlayerHeadProps) {
-  const bodyUrl = `https://visage.surgeplay.com/bust/256/${name}`;
+  const [src, setSrc] = useState(`https://visage.surgeplay.com/bust/256/${name}`);
 
   const hoverTransform = selfHover
     ? 'hover:scale-110 hover:[filter:drop-shadow(0_4px_18px_hsl(190_100%_50%/0.5))]'
@@ -20,8 +22,9 @@ export function PlayerHead({ name, size = 32, className = "", selfHover = false 
       style={{ width: size, height: size * 1.4, perspective: 300 }}
     >
       <img
-        src={bodyUrl}
+        src={src}
         alt={name}
+        onError={() => { if (src !== STEVE_URL) setSrc(STEVE_URL); }}
         className={`w-full h-full object-contain transition-all duration-[400ms] ease-out [filter:drop-shadow(0_2px_8px_hsl(190_100%_50%/0.3))_drop-shadow(0_4px_12px_rgba(0,0,0,0.5))] ${hoverTransform}`}
       />
     </div>
