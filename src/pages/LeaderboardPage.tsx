@@ -112,7 +112,7 @@ export default function LeaderboardPage() {
             {filtered.map((player, i) => {
               const { title, color, icon } = getRankTitle(player.totalPoints);
               const isTop3 = player.rank <= 3;
-              const rowBgs = ['bg-gold/[0.06]', 'bg-silver/[0.04]', 'bg-bronze/[0.04]'];
+              const rowBgs = ['bg-gradient-to-r from-[hsl(43,100%,55%/0.12)] to-[hsl(35,100%,45%/0.04)]', 'bg-gradient-to-r from-[hsl(220,15%,75%/0.12)] to-[hsl(220,10%,60%/0.04)]', 'bg-gradient-to-r from-[hsl(30,70%,55%/0.12)] to-[hsl(25,60%,40%/0.04)]'];
               const borderColors = ['border-l-gold', 'border-l-silver', 'border-l-bronze'];
               const rowGlows = [
                 'shadow-[0_0_15px_hsl(43,100%,55%/0.15),0_0_30px_hsl(43,100%,55%/0.08)]',
