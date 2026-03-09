@@ -27,8 +27,6 @@ export function PlayerHead({ name, size = 32, className = "", selfHover = false 
         onError={() => { if (src !== STEVE_URL) setSrc(STEVE_URL); }}
         className={`h-full w-full rounded-md object-contain transition-all duration-[400ms] ease-out [filter:drop-shadow(0_2px_8px_hsl(190_100%_50%/0.3))_drop-shadow(0_4px_12px_rgba(0,0,0,0.5))] ${hoverTransform}`}
       />
-      <div className="pointer-events-none absolute inset-0 rounded-md border-2 border-primary/80 ring-2 ring-primary/60 shadow-[0_0_16px_4px_hsl(var(--primary)/0.8),inset_0_0_12px_hsl(var(--primary)/0.5)]" />
-      <div className="pointer-events-none absolute inset-[3px] rounded-[6px] border-2 border-primary/30 shadow-[inset_0_2px_8px_hsl(var(--primary)/0.3)]" />
     </div>
   );
 }
