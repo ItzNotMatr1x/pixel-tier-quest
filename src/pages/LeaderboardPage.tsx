@@ -100,7 +100,7 @@ export default function LeaderboardPage() {
       ) : (
         <div className="glass-card overflow-hidden">
           {/* Header row */}
-          <div className="hidden md:grid grid-cols-[72px_48px_1fr_80px_auto] gap-3 px-5 py-3 border-b border-border/50 border-l-[3px] border-l-transparent text-[11px] font-heading font-bold text-muted-foreground uppercase tracking-widest items-center">
+          <div className="hidden md:grid grid-cols-[72px_48px_minmax(0,1fr)_88px_256px] gap-3 px-5 py-3 border-b border-border/50 border-l-[3px] border-l-transparent text-[11px] font-heading font-bold text-muted-foreground uppercase tracking-widest items-center">
             <div className="flex justify-center">Rank</div>
             <span></span>
             <span>Player</span>
