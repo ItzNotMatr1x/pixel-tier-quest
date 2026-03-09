@@ -18,15 +18,17 @@ export function PlayerHead({ name, size = 32, className = "", selfHover = false 
 
   return (
     <div
-      className={`inline-block flex-shrink-0 ${className}`}
+      className={`relative inline-block flex-shrink-0 ${className}`}
       style={{ width: size, height: size * 1.4, perspective: 300 }}
     >
       <img
         src={src}
         alt={name}
         onError={() => { if (src !== STEVE_URL) setSrc(STEVE_URL); }}
-        className={`w-full h-full object-contain transition-all duration-[400ms] ease-out [filter:drop-shadow(0_2px_8px_hsl(190_100%_50%/0.3))_drop-shadow(0_4px_12px_rgba(0,0,0,0.5))] ${hoverTransform}`}
+        className={`h-full w-full rounded-md object-contain transition-all duration-[400ms] ease-out [filter:drop-shadow(0_2px_8px_hsl(190_100%_50%/0.3))_drop-shadow(0_4px_12px_rgba(0,0,0,0.5))] ${hoverTransform}`}
       />
+      <div className="pointer-events-none absolute inset-0 rounded-md border border-primary/70 ring-1 ring-primary/40" />
+      <div className="pointer-events-none absolute inset-[2px] rounded-[6px] border border-primary/25" />
     </div>
   );
 }
