@@ -136,7 +136,7 @@ export default function LeaderboardPage() {
                       ${isTop3 ? `${rowBgs[player.rank - 1]} border-l-[3px] ${borderColors[player.rank - 1]} ${rowGlows[player.rank - 1]}` : 'border-l-[3px] border-l-transparent'}`}
                   >
                     {isTop3 && (
-                      <span className="absolute inset-0 bg-gradient-to-r from-transparent via-[hsl(var(--gold)/0.25)] to-transparent -translate-x-full animate-[shine_3s_ease-in-out_infinite] pointer-events-none z-10" />
+                      <span className="absolute inset-0 bg-gradient-to-r from-transparent via-[hsl(var(--gold)/0.5)] to-transparent -translate-x-full animate-[shine_3s_ease-in-out_infinite] pointer-events-none z-10" />
                     )}
                     {/* Rank badge */}
                     <div className="flex justify-center">
