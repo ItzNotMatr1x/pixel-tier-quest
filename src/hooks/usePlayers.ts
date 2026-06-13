@@ -22,7 +22,7 @@ export function usePlayers() {
 
     // Realtime subscription
     const channel = supabase
-      .channel('players-realtime')
+      .channel(`players-realtime-${Math.random().toString(36).slice(2)}`)
       .on('postgres_changes', { event: '*', schema: 'public', table: 'players' }, () => {
         fetchPlayers();
       })
