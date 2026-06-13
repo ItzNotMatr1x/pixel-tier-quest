@@ -1,1 +1,7 @@
 project_id = "bescgruglrwvzmevdynm"
+
+[functions.players-api]
+verify_jwt = false
+
+[functions.create-admin]
+verify_jwt = true

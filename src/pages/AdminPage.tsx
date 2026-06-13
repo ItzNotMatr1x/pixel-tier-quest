@@ -1,14 +1,16 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Navigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useAuth } from "@/hooks/useAuth";
+import { useIsAdmin } from "@/hooks/useIsAdmin";
 import { usePlayers } from "@/hooks/usePlayers";
+import { supabase } from "@/integrations/supabase/client";
 import {
   Player, GAMEMODES, TIER_ORDER, GamemodeId, TierName
 } from "@/lib/data";
 import { PlayerHead } from "@/components/PlayerHead";
 import { GamemodeIcon } from "@/components/GamemodeIcon";
-import { Shield, Plus, Trash2, Pencil, Save, X, Users, LogOut, Cloud } from "lucide-react";
+import { Shield, Plus, Trash2, Pencil, Save, X, Users, LogOut, Cloud, UserPlus } from "lucide-react";
 
 const REGIONS = ['NA', 'EU', 'AS', 'SA', 'OCE'];
 
@@ -17,13 +19,20 @@ const defaultTiers = (): Record<GamemodeId, TierName> =>
 
 export default function AdminPage() {
   const { user, loading: authLoading, signOut } = useAuth();
+  const isAdmin = useIsAdmin();
   const { players, loading: playersLoading, addPlayer, updatePlayer, removePlayer } = usePlayers();
   const [editing, setEditing] = useState<string | null>(null);
   const [adding, setAdding] = useState(false);
   const [form, setForm] = useState<Player>({ name: '', region: 'NA', tiers: defaultTiers() });
   const [saving, setSaving] = useState(false);
 
-  if (authLoading) {
+  // New admin creation state
+  const [newAdminEmail, setNewAdminEmail] = useState("");
+  const [newAdminPassword, setNewAdminPassword] = useState("");
+  const [creatingAdmin, setCreatingAdmin] = useState(false);
+  const [adminMsg, setAdminMsg] = useState<{ type: 'ok' | 'err'; text: string } | null>(null);
+
+  if (authLoading || isAdmin === null) {
     return (
       <div className="min-h-[60vh] flex items-center justify-center">
         <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
@@ -32,6 +41,41 @@ export default function AdminPage() {
   }
 
   if (!user) return <Navigate to="/admin/login" replace />;
+
+  if (!isAdmin) {
+    return (
+      <div className="container mx-auto px-4 py-20 max-w-md text-center">
+        <Shield className="w-12 h-12 text-destructive mx-auto mb-4" />
+        <h1 className="font-display font-bold text-2xl text-foreground mb-2">Access Denied</h1>
+        <p className="text-muted-foreground font-heading text-sm mb-6">
+          Your account ({user.email}) does not have admin privileges.
+        </p>
+        <button onClick={signOut} className="inline-flex items-center gap-2 px-5 py-2 rounded-xl bg-secondary text-secondary-foreground font-heading font-bold hover:bg-secondary/80 transition-colors">
+          <LogOut className="w-4 h-4" /> Sign Out
+        </button>
+      </div>
+    );
+  }
+
+  const handleCreateAdmin = async () => {
+    if (!newAdminEmail || newAdminPassword.length < 6) {
+      setAdminMsg({ type: 'err', text: 'Email and password (min 6 chars) required' });
+      return;
+    }
+    setCreatingAdmin(true);
+    setAdminMsg(null);
+    const { data, error } = await supabase.functions.invoke('create-admin', {
+      body: { email: newAdminEmail, password: newAdminPassword },
+    });
+    setCreatingAdmin(false);
+    if (error || (data && data.error)) {
+      setAdminMsg({ type: 'err', text: (data?.error || error?.message || 'Failed to create admin') });
+    } else {
+      setAdminMsg({ type: 'ok', text: `Admin ${newAdminEmail} created successfully.` });
+      setNewAdminEmail("");
+      setNewAdminPassword("");
+    }
+  };
 
   const handleAdd = async () => {
     if (!form.name.trim()) return;
@@ -104,6 +148,48 @@ export default function AdminPage() {
           <Cloud className="w-4 h-4" />
           <span>Cloud Synced</span>
         </div>
+      </div>
+
+      {/* Create New Admin */}
+      <div className="glass-card p-6 mb-6">
+        <div className="flex items-center gap-2 mb-4">
+          <UserPlus className="w-5 h-5 text-primary" />
+          <h2 className="font-display font-bold text-lg text-foreground">Create New Admin</h2>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-[1fr_1fr_auto] gap-3 items-end">
+          <div>
+            <label className="text-xs font-heading text-muted-foreground uppercase tracking-wider mb-1 block">Email</label>
+            <input
+              type="email"
+              value={newAdminEmail}
+              onChange={e => setNewAdminEmail(e.target.value)}
+              placeholder="admin@example.com"
+              className="glass-card px-4 py-2 text-sm font-body text-foreground placeholder:text-muted-foreground outline-none w-full bg-transparent focus:ring-1 focus:ring-primary/50"
+            />
+          </div>
+          <div>
+            <label className="text-xs font-heading text-muted-foreground uppercase tracking-wider mb-1 block">Password</label>
+            <input
+              type="password"
+              value={newAdminPassword}
+              onChange={e => setNewAdminPassword(e.target.value)}
+              placeholder="min 6 characters"
+              className="glass-card px-4 py-2 text-sm font-body text-foreground placeholder:text-muted-foreground outline-none w-full bg-transparent focus:ring-1 focus:ring-primary/50"
+            />
+          </div>
+          <button
+            onClick={handleCreateAdmin}
+            disabled={creatingAdmin}
+            className="inline-flex items-center gap-2 px-5 py-2 rounded-xl bg-primary text-primary-foreground font-heading font-bold hover:scale-105 transition-transform disabled:opacity-50"
+          >
+            <UserPlus className="w-4 h-4" /> {creatingAdmin ? 'Creating...' : 'Create Admin'}
+          </button>
+        </div>
+        {adminMsg && (
+          <div className={`mt-3 text-sm font-heading rounded-lg px-3 py-2 ${adminMsg.type === 'ok' ? 'bg-primary/10 text-primary' : 'bg-destructive/10 text-destructive'}`}>
+            {adminMsg.text}
+          </div>
+        )}
       </div>
 
       {/* Add button */}
