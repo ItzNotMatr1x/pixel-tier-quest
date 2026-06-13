@@ -1,7 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { PlayerSearch } from "./PlayerSearch";
 import { Shield } from "lucide-react";
-import pixelValleyLogo from "@/assets/pixelvalley-logo.png";
+import thunderTiersLogo from "@/assets/thunder-tiers-logo.png.asset.json";
 
 const NAV_LINKS = [
   { to: "/", label: "Home" },
@@ -18,7 +18,7 @@ export function Navbar() {
       <div className="container mx-auto flex items-center justify-between h-16 px-4">
         <div className="flex items-center gap-6">
           <Link to="/" className="flex items-center gap-2 flex-shrink-0">
-            <img src={pixelValleyLogo} alt="Pixel Valley" className="w-9 h-9 rounded-md" />
+            <img src={thunderTiersLogo.url} alt="ThunderTiers" className="w-9 h-9 rounded-md object-contain" />
             <span className="font-display font-bold text-lg tracking-wider text-foreground text-glow-cyan">
               ThunderTiers
             </span>
