@@ -23,7 +23,7 @@ export default function HomePage() {
               <Swords className="w-12 h-12 text-primary drop-shadow-[0_0_12px_hsl(190_100%_50%/0.6)]" />
             </div>
             <h1 className="font-display font-black text-5xl md:text-7xl tracking-tight text-foreground text-glow-cyan mb-4">
-              PIXEL TIERS
+              THUNDER TIERS
             </h1>
             <p className="font-heading text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto mb-10">
               The definitive Minecraft PvP ranking platform. Track tiers, compete globally, and prove your skills.
