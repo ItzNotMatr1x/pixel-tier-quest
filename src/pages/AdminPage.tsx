@@ -150,6 +150,48 @@ export default function AdminPage() {
         </div>
       </div>
 
+      {/* Create New Admin */}
+      <div className="glass-card p-6 mb-6">
+        <div className="flex items-center gap-2 mb-4">
+          <UserPlus className="w-5 h-5 text-primary" />
+          <h2 className="font-display font-bold text-lg text-foreground">Create New Admin</h2>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-[1fr_1fr_auto] gap-3 items-end">
+          <div>
+            <label className="text-xs font-heading text-muted-foreground uppercase tracking-wider mb-1 block">Email</label>
+            <input
+              type="email"
+              value={newAdminEmail}
+              onChange={e => setNewAdminEmail(e.target.value)}
+              placeholder="admin@example.com"
+              className="glass-card px-4 py-2 text-sm font-body text-foreground placeholder:text-muted-foreground outline-none w-full bg-transparent focus:ring-1 focus:ring-primary/50"
+            />
+          </div>
+          <div>
+            <label className="text-xs font-heading text-muted-foreground uppercase tracking-wider mb-1 block">Password</label>
+            <input
+              type="password"
+              value={newAdminPassword}
+              onChange={e => setNewAdminPassword(e.target.value)}
+              placeholder="min 6 characters"
+              className="glass-card px-4 py-2 text-sm font-body text-foreground placeholder:text-muted-foreground outline-none w-full bg-transparent focus:ring-1 focus:ring-primary/50"
+            />
+          </div>
+          <button
+            onClick={handleCreateAdmin}
+            disabled={creatingAdmin}
+            className="inline-flex items-center gap-2 px-5 py-2 rounded-xl bg-primary text-primary-foreground font-heading font-bold hover:scale-105 transition-transform disabled:opacity-50"
+          >
+            <UserPlus className="w-4 h-4" /> {creatingAdmin ? 'Creating...' : 'Create Admin'}
+          </button>
+        </div>
+        {adminMsg && (
+          <div className={`mt-3 text-sm font-heading rounded-lg px-3 py-2 ${adminMsg.type === 'ok' ? 'bg-primary/10 text-primary' : 'bg-destructive/10 text-destructive'}`}>
+            {adminMsg.text}
+          </div>
+        )}
+      </div>
+
       {/* Add button */}
       {!adding && !editing && (
         <button
