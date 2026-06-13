@@ -20,7 +20,7 @@ export function Navbar() {
           <Link to="/" className="flex items-center gap-2 flex-shrink-0">
             <img src={pixelValleyLogo} alt="Pixel Valley" className="w-9 h-9 rounded-md" />
             <span className="font-display font-bold text-lg tracking-wider text-foreground text-glow-cyan">
-              PixelTiers
+              ThunderTiers
             </span>
           </Link>
           <div className="hidden md:flex items-center gap-1">
