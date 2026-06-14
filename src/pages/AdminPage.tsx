@@ -93,6 +93,7 @@ export default function AdminPage() {
       setAdminMsg({ type: 'ok', text: `Admin ${newAdminEmail} created successfully.` });
       setNewAdminEmail("");
       setNewAdminPassword("");
+      fetchAdmins();
     }
   };
 
