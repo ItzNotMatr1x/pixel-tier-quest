@@ -1,4 +1,5 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
+import { isOwnerEmail, OWNER_EMAILS } from "../_shared/owners.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -13,8 +14,6 @@ Deno.serve(async (req) => {
     const anonKey = Deno.env.get("SUPABASE_ANON_KEY")!;
     const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 
-    const BOOTSTRAP_EMAILS = ["nathsupritom@gmail.com", "itznotmatrix@gmail.com"];
-
     const { email, password } = await req.json();
     if (!email || !password || password.length < 6) {
       return json({ error: "Email and password (min 6 chars) required" }, 400);
@@ -22,16 +21,24 @@ Deno.serve(async (req) => {
 
     const admin = createClient(supabaseUrl, serviceKey);
 
-    // Check if any admin exists
-    const { count: adminCount } = await admin
+    // Bootstrap: if an owner doesn't exist yet, allow that owner email to self-create
+    const { data: ownerRows } = await admin
       .from("user_roles")
-      .select("*", { count: "exact", head: true })
+      .select("user_id")
       .eq("role", "admin");
 
-    const isBootstrap = (adminCount ?? 0) === 0 && BOOTSTRAP_EMAILS.includes(email.toLowerCase());
+    let anyOwnerExists = false;
+    if (ownerRows && ownerRows.length > 0) {
+      for (const r of ownerRows) {
+        const { data } = await admin.auth.admin.getUserById(r.user_id);
+        if (isOwnerEmail(data?.user?.email)) { anyOwnerExists = true; break; }
+      }
+    }
+
+    const isBootstrap = !anyOwnerExists && OWNER_EMAILS.includes(email.toLowerCase());
 
     if (!isBootstrap) {
-      // Require admin caller
+      // Require OWNER caller
       const authHeader = req.headers.get("Authorization");
       if (!authHeader) return json({ error: "Missing auth" }, 401);
       const userClient = createClient(supabaseUrl, anonKey, {
@@ -39,11 +46,9 @@ Deno.serve(async (req) => {
       });
       const { data: userData, error: userErr } = await userClient.auth.getUser();
       if (userErr || !userData.user) return json({ error: "Unauthorized" }, 401);
-      const { data: isAdmin } = await admin.rpc("has_role", {
-        _user_id: userData.user.id,
-        _role: "admin",
-      });
-      if (!isAdmin) return json({ error: "Forbidden: admins only" }, 403);
+      if (!isOwnerEmail(userData.user.email)) {
+        return json({ error: "Forbidden: owners only" }, 403);
+      }
     }
 
     const { data: created, error: createErr } = await admin.auth.admin.createUser({
