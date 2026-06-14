@@ -36,8 +36,20 @@ export default function AdminPage() {
   const [creatingAdmin, setCreatingAdmin] = useState(false);
   const [adminMsg, setAdminMsg] = useState<{ type: 'ok' | 'err'; text: string } | null>(null);
 
-  if (authLoading || isAdmin === null) {
-    return (
+  // Admin list
+  const [adminList, setAdminList] = useState<AdminEntry[]>([]);
+  const [loadingAdmins, setLoadingAdmins] = useState(false);
+
+  const fetchAdmins = useCallback(async () => {
+    setLoadingAdmins(true);
+    const { data, error } = await supabase.functions.invoke('list-admins');
+    if (!error && data?.admins) setAdminList(data.admins);
+    setLoadingAdmins(false);
+  }, []);
+
+  useEffect(() => {
+    if (isAdmin) fetchAdmins();
+  }, [isAdmin, fetchAdmins]);
       <div className="min-h-[60vh] flex items-center justify-center">
         <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
       </div>
