@@ -40,6 +40,25 @@ export default function AdminPage() {
   // Admin list
   const [adminList, setAdminList] = useState<AdminEntry[]>([]);
   const [loadingAdmins, setLoadingAdmins] = useState(false);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+
+  const isOwner = isOwnerEmail(user?.email);
+
+  const handleDeleteAdmin = async (entry: AdminEntry) => {
+    if (!isOwner || isOwnerEmail(entry.email)) return;
+    if (!confirm(`Remove admin ${entry.email ?? entry.user_id}? This deletes the account.`)) return;
+    setDeletingId(entry.user_id);
+    const { data, error } = await supabase.functions.invoke('delete-admin', {
+      body: { user_id: entry.user_id },
+    });
+    setDeletingId(null);
+    if (error || (data && data.error)) {
+      setAdminMsg({ type: 'err', text: data?.error || error?.message || 'Failed to delete admin' });
+    } else {
+      setAdminMsg({ type: 'ok', text: 'Admin removed.' });
+      fetchAdmins();
+    }
+  };
 
   const fetchAdmins = useCallback(async () => {
     setLoadingAdmins(true);
@@ -234,9 +253,9 @@ export default function AdminPage() {
           <div className="divide-y divide-border/30">
             {adminList
               .slice()
-              .sort((a, b) => (a.email === OWNER_EMAIL ? -1 : b.email === OWNER_EMAIL ? 1 : 0))
+              .sort((a, b) => (isOwnerEmail(a.email) ? -1 : isOwnerEmail(b.email) ? 1 : 0))
               .map((a) => {
-                const isOwner = a.email?.toLowerCase() === OWNER_EMAIL;
+                const entryIsOwner = isOwnerEmail(a.email);
                 return (
                   <div key={a.user_id} className="flex items-center justify-between py-2.5">
                     <div className="flex items-center gap-3 min-w-0">
