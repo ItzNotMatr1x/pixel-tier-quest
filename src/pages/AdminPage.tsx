@@ -257,9 +257,9 @@ export default function AdminPage() {
               .map((a) => {
                 const entryIsOwner = isOwnerEmail(a.email);
                 return (
-                  <div key={a.user_id} className="flex items-center justify-between py-2.5">
+                  <div key={a.user_id} className="flex items-center justify-between py-2.5 gap-3">
                     <div className="flex items-center gap-3 min-w-0">
-                      {isOwner ? (
+                      {entryIsOwner ? (
                         <Crown className="w-4 h-4 text-yellow-400 shrink-0" />
                       ) : (
                         <Shield className="w-4 h-4 text-primary shrink-0" />
@@ -268,15 +268,27 @@ export default function AdminPage() {
                         {a.email ?? a.user_id}
                       </span>
                     </div>
-                    <span
-                      className={`text-[10px] font-heading font-bold uppercase tracking-wider px-2 py-0.5 rounded ${
-                        isOwner
-                          ? 'bg-yellow-400/15 text-yellow-400 border border-yellow-400/30'
-                          : 'bg-primary/10 text-primary border border-primary/20'
-                      }`}
-                    >
-                      {isOwner ? 'Owner' : 'Admin'}
-                    </span>
+                    <div className="flex items-center gap-2 shrink-0">
+                      <span
+                        className={`text-[10px] font-heading font-bold uppercase tracking-wider px-2 py-0.5 rounded ${
+                          entryIsOwner
+                            ? 'bg-yellow-400/15 text-yellow-400 border border-yellow-400/30'
+                            : 'bg-primary/10 text-primary border border-primary/20'
+                        }`}
+                      >
+                        {entryIsOwner ? 'Owner' : 'Admin'}
+                      </span>
+                      {isOwner && !entryIsOwner && (
+                        <button
+                          onClick={() => handleDeleteAdmin(a)}
+                          disabled={deletingId === a.user_id}
+                          className="p-1.5 rounded-lg hover:bg-destructive/20 text-muted-foreground hover:text-destructive transition-colors disabled:opacity-50"
+                          title="Remove admin"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      )}
+                    </div>
                   </div>
                 );
               })}
