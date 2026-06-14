@@ -190,8 +190,13 @@ export default function AdminPage() {
         </div>
       </div>
 
-      {/* Create New Admin */}
+      {/* Create New Admin — owners only */}
+      {isOwner && (
       <div className="glass-card p-6 mb-6">
+        <div className="flex items-center gap-2 mb-2">
+          <Crown className="w-4 h-4 text-yellow-400" />
+          <span className="text-[10px] font-heading font-bold uppercase tracking-wider text-yellow-400">Owner only</span>
+        </div>
         <div className="flex items-center gap-2 mb-4">
           <UserPlus className="w-5 h-5 text-primary" />
           <h2 className="font-display font-bold text-lg text-foreground">Create New Admin</h2>
@@ -238,7 +243,9 @@ export default function AdminPage() {
           <div className="flex items-center gap-2">
             <Shield className="w-5 h-5 text-primary" />
             <h2 className="font-display font-bold text-lg text-foreground">Admins ({adminList.length})</h2>
-          </div>
+      </div>
+      )}
+
           <button
             onClick={fetchAdmins}
             disabled={loadingAdmins}
