@@ -12,7 +12,8 @@ import { PlayerHead } from "@/components/PlayerHead";
 import { GamemodeIcon } from "@/components/GamemodeIcon";
 import { Shield, Plus, Trash2, Pencil, Save, X, Users, LogOut, Cloud, UserPlus, Crown } from "lucide-react";
 
-const OWNER_EMAIL = "itznotmatrix@gmail.com";
+const OWNER_EMAILS = ["itznotmatrix@gmail.com", "shudhyatw@gmail.com"];
+const isOwnerEmail = (e?: string | null) => !!e && OWNER_EMAILS.includes(e.toLowerCase());
 
 type AdminEntry = { user_id: string; email: string | null; created_at: string };
 
