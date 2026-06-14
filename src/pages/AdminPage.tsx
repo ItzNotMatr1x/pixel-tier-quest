@@ -212,6 +212,59 @@ export default function AdminPage() {
         )}
       </div>
 
+      {/* Admin List */}
+      <div className="glass-card p-6 mb-6">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2">
+            <Shield className="w-5 h-5 text-primary" />
+            <h2 className="font-display font-bold text-lg text-foreground">Admins ({adminList.length})</h2>
+          </div>
+          <button
+            onClick={fetchAdmins}
+            disabled={loadingAdmins}
+            className="text-xs font-heading text-muted-foreground hover:text-primary transition-colors"
+          >
+            {loadingAdmins ? 'Loading...' : 'Refresh'}
+          </button>
+        </div>
+        {adminList.length === 0 ? (
+          <p className="text-sm text-muted-foreground font-heading">No admins found.</p>
+        ) : (
+          <div className="divide-y divide-border/30">
+            {adminList
+              .slice()
+              .sort((a, b) => (a.email === OWNER_EMAIL ? -1 : b.email === OWNER_EMAIL ? 1 : 0))
+              .map((a) => {
+                const isOwner = a.email?.toLowerCase() === OWNER_EMAIL;
+                return (
+                  <div key={a.user_id} className="flex items-center justify-between py-2.5">
+                    <div className="flex items-center gap-3 min-w-0">
+                      {isOwner ? (
+                        <Crown className="w-4 h-4 text-yellow-400 shrink-0" />
+                      ) : (
+                        <Shield className="w-4 h-4 text-primary shrink-0" />
+                      )}
+                      <span className="font-heading text-sm text-foreground truncate">
+                        {a.email ?? a.user_id}
+                      </span>
+                    </div>
+                    <span
+                      className={`text-[10px] font-heading font-bold uppercase tracking-wider px-2 py-0.5 rounded ${
+                        isOwner
+                          ? 'bg-yellow-400/15 text-yellow-400 border border-yellow-400/30'
+                          : 'bg-primary/10 text-primary border border-primary/20'
+                      }`}
+                    >
+                      {isOwner ? 'Owner' : 'Admin'}
+                    </span>
+                  </div>
+                );
+              })}
+          </div>
+        )}
+      </div>
+
+
       {/* Add button */}
       {!adding && !editing && (
         <button
