@@ -236,6 +236,7 @@ export default function AdminPage() {
           </div>
         )}
       </div>
+      )}
 
       {/* Admin List */}
       <div className="glass-card p-6 mb-6">
@@ -243,8 +244,8 @@ export default function AdminPage() {
           <div className="flex items-center gap-2">
             <Shield className="w-5 h-5 text-primary" />
             <h2 className="font-display font-bold text-lg text-foreground">Admins ({adminList.length})</h2>
-      </div>
-      )}
+          </div>
+
 
           <button
             onClick={fetchAdmins}
