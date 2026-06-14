@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Navigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useAuth } from "@/hooks/useAuth";
@@ -10,7 +10,11 @@ import {
 } from "@/lib/data";
 import { PlayerHead } from "@/components/PlayerHead";
 import { GamemodeIcon } from "@/components/GamemodeIcon";
-import { Shield, Plus, Trash2, Pencil, Save, X, Users, LogOut, Cloud, UserPlus } from "lucide-react";
+import { Shield, Plus, Trash2, Pencil, Save, X, Users, LogOut, Cloud, UserPlus, Crown } from "lucide-react";
+
+const OWNER_EMAIL = "itznotmatrix@gmail.com";
+
+type AdminEntry = { user_id: string; email: string | null; created_at: string };
 
 const REGIONS = ['NA', 'EU', 'AS', 'SA', 'OCE'];
 
