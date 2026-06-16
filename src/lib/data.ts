@@ -1,7 +1,7 @@
 import { supabase } from "@/integrations/supabase/client";
 
 export type TierName = 'Unranked' | 'LT5' | 'HT5' | 'LT4' | 'HT4' | 'LT3' | 'HT3' | 'LT2' | 'HT2' | 'LT1' | 'HT1';
-export type GamemodeId = 'sword' | 'axe' | 'nethpot' | 'pot' | 'vanilla' | 'uhc' | 'smp' | 'mace';
+export type GamemodeId = 'sword' | 'axe' | 'nethpot' | 'pot' | 'vanilla' | 'uhc' | 'smp' | 'mace' | 'spearmace';
 
 export const TIER_POINTS: Record<TierName, number> = {
   Unranked: 0, LT5: 1, HT5: 2, LT4: 3, HT4: 4, LT3: 6, HT3: 10, LT2: 20, HT2: 30, LT1: 45, HT1: 60,
@@ -36,6 +36,7 @@ export const GAMEMODES: Gamemode[] = [
   { id: 'uhc', name: 'UHC', icon: 'uhc' },
   { id: 'smp', name: 'SMP', icon: 'smp' },
   { id: 'mace', name: 'Mace', icon: 'mace' },
+  { id: 'spearmace', name: 'Spear Mace', icon: 'spearmace' },
 ];
 
 export interface Player {
@@ -62,6 +63,7 @@ function rowToPlayer(row: any): Player {
       uhc: row.tier_uhc as TierName,
       smp: row.tier_smp as TierName,
       mace: row.tier_mace as TierName,
+      spearmace: (row.tier_spearmace ?? 'Unranked') as TierName,
     },
   };
 }
@@ -79,6 +81,7 @@ function playerToRow(player: Player) {
     tier_uhc: player.tiers.uhc,
     tier_smp: player.tiers.smp,
     tier_mace: player.tiers.mace,
+    tier_spearmace: player.tiers.spearmace,
     updated_at: new Date().toISOString(),
   };
 }
