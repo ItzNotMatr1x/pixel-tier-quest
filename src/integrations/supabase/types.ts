@@ -43,6 +43,7 @@ export type Database = {
           tier_nethpot: string
           tier_pot: string
           tier_smp: string
+          tier_spearmace: string
           tier_sword: string
           tier_uhc: string
           tier_vanilla: string
@@ -58,6 +59,7 @@ export type Database = {
           tier_nethpot?: string
           tier_pot?: string
           tier_smp?: string
+          tier_spearmace?: string
           tier_sword?: string
           tier_uhc?: string
           tier_vanilla?: string
@@ -73,6 +75,7 @@ export type Database = {
           tier_nethpot?: string
           tier_pot?: string
           tier_smp?: string
+          tier_spearmace?: string
           tier_sword?: string
           tier_uhc?: string
           tier_vanilla?: string
