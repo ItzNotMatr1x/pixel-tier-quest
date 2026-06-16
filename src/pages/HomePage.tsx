@@ -5,6 +5,7 @@ import { GAMEMODES, getPlayerBodyUrl } from "@/lib/data";
 import { PlayerHead } from "@/components/PlayerHead";
 import { GamemodeIcon } from "@/components/GamemodeIcon";
 import { Swords, Trophy, Users, ChevronRight } from "lucide-react";
+import { OnlineTesters } from "@/components/OnlineTesters";
 
 export default function HomePage() {
   const { ranked, loading } = usePlayers();
@@ -94,6 +95,9 @@ export default function HomePage() {
           </div>
         </section>
       )}
+
+      {/* Online Testers */}
+      <OnlineTesters />
 
       {/* Gamemodes */}
       <section className="container mx-auto px-4 mb-20">
