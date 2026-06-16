@@ -14,6 +14,24 @@ export type Database = {
   }
   public: {
     Tables: {
+      app_settings: {
+        Row: {
+          key: string
+          updated_at: string
+          value: string | null
+        }
+        Insert: {
+          key: string
+          updated_at?: string
+          value?: string | null
+        }
+        Update: {
+          key?: string
+          updated_at?: string
+          value?: string | null
+        }
+        Relationships: []
+      }
       players: {
         Row: {
           created_at: string
@@ -59,6 +77,27 @@ export type Database = {
           tier_uhc?: string
           tier_vanilla?: string
           updated_at?: string
+        }
+        Relationships: []
+      }
+      testers: {
+        Row: {
+          created_at: string
+          discord_username: string
+          id: string
+          note: string | null
+        }
+        Insert: {
+          created_at?: string
+          discord_username: string
+          id?: string
+          note?: string | null
+        }
+        Update: {
+          created_at?: string
+          discord_username?: string
+          id?: string
+          note?: string | null
         }
         Relationships: []
       }
