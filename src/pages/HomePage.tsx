@@ -46,7 +46,7 @@ export default function HomePage() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
             { label: "Players", value: String(playerCount), icon: Users },
-            { label: "Gamemodes", value: "8", icon: Swords },
+            { label: "Gamemodes", value: "9", icon: Swords },
             { label: "Tiers", value: "10", icon: Trophy },
             { label: "Regions", value: "5", icon: () => <span className="text-lg">🌍</span> },
           ].map((stat, i) => (

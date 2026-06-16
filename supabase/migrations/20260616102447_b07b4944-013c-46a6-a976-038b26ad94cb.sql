@@ -1,0 +1,1 @@
+ALTER TABLE public.players ADD COLUMN IF NOT EXISTS tier_spearmace text NOT NULL DEFAULT 'Unranked';
