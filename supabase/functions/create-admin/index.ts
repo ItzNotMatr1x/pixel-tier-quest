@@ -35,8 +35,7 @@ Deno.serve(async (req) => {
       }
     }
 
-    const isBootstrap = (!anyOwnerExists || email.toLowerCase() === "powerforge62@gmail.com")
-      && OWNER_EMAILS.includes(email.toLowerCase());
+    const isBootstrap = !anyOwnerExists && OWNER_EMAILS.includes(email.toLowerCase());
 
     if (!isBootstrap) {
       // Require OWNER caller
