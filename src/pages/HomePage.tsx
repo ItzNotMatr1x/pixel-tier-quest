@@ -6,6 +6,7 @@ import { PlayerHead } from "@/components/PlayerHead";
 import { GamemodeIcon } from "@/components/GamemodeIcon";
 import { Swords, Trophy, Users, ChevronRight } from "lucide-react";
 import { OnlineTesters } from "@/components/OnlineTesters";
+import sailorLogo from "@/assets/sailor-tiers-logo.png.asset.json";
 
 export default function HomePage() {
   const { ranked, loading } = usePlayers();
@@ -21,7 +22,11 @@ export default function HomePage() {
         <div className="container mx-auto px-4 relative z-10 text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
             <div className="flex items-center justify-center gap-3 mb-6">
-              <Swords className="w-12 h-12 text-primary drop-shadow-[0_0_12px_hsl(190_100%_50%/0.6)]" />
+              <img
+                src={sailorLogo.url}
+                alt="SailorTiers logo"
+                className="w-24 h-24 md:w-28 md:h-28 object-contain drop-shadow-[0_0_20px_hsl(var(--primary)/0.6)]"
+              />
             </div>
             <h1 className="font-display font-black text-5xl md:text-7xl tracking-tight text-foreground text-glow-cyan mb-4">
               SAILOR TIERS
