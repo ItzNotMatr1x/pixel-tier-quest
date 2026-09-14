@@ -6,6 +6,7 @@ import { PlayerHead } from "@/components/PlayerHead";
 import { GamemodeIcon } from "@/components/GamemodeIcon";
 import { Swords, Trophy, Users, ChevronRight } from "lucide-react";
 import { OnlineTesters } from "@/components/OnlineTesters";
+import sailorLogo from "@/assets/sailor-tiers-logo.png.asset.json";
 
 export default function HomePage() {
   const { ranked, loading } = usePlayers();
