@@ -18,9 +18,9 @@ export function Navbar() {
       <div className="container mx-auto flex items-center justify-between h-16 px-4">
         <div className="flex items-center gap-6">
           <Link to="/" className="flex items-center gap-2 flex-shrink-0">
-            <img src={thunderTiersLogo.url} alt="ThunderTiers" className="w-9 h-9 rounded-md object-contain" />
+            <img src={thunderTiersLogo.url} alt="SailorTiers" className="w-9 h-9 rounded-md object-contain" />
             <span className="font-display font-bold text-lg tracking-wider text-foreground text-glow-cyan">
-              ThunderTiers
+              SailorTiers
             </span>
           </Link>
           <div className="hidden md:flex items-center gap-1">
