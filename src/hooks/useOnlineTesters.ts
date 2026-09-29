@@ -2,34 +2,32 @@ import { useEffect, useState, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
 export type Tester = { id: string; discord_username: string; note: string | null };
-export type WidgetMember = {
+export type DisplayTester = {
   id: string;
   username: string;
-  discriminator?: string;
-  avatar_url?: string;
-  status?: string;
+  note: string | null;
+  avatar_url: string | null;
+  online: boolean;
+  source: "manual" | "role";
 };
-export type OnlineTester = Tester & { member: WidgetMember };
-
-const norm = (s: string) => s.trim().toLowerCase().replace(/^@/, "");
 
 export function useGuildId() {
-  const [guildId, setGuildId] = useState<string>("");
+  const [guildId, setGuildId] = useState("");
+  const [roleId, setRoleId] = useState("");
   const [loading, setLoading] = useState(true);
 
   const refresh = useCallback(async () => {
     setLoading(true);
-    const { data } = await supabase
-      .from("app_settings")
-      .select("value")
-      .eq("key", "discord_guild_id")
-      .maybeSingle();
-    setGuildId(data?.value ?? "");
+    const { data } = await supabase.from("app_settings")
+      .select("key, value")
+      .in("key", ["discord_guild_id", "discord_tester_role_id"]);
+    setGuildId(data?.find(item => item.key === "discord_guild_id")?.value ?? "");
+    setRoleId(data?.find(item => item.key === "discord_tester_role_id")?.value ?? "");
     setLoading(false);
   }, []);
 
   useEffect(() => { refresh(); }, [refresh]);
-  return { guildId, loading, refresh, setGuildId };
+  return { guildId, roleId, loading, refresh };
 }
 
 export function useTesters() {
@@ -38,11 +36,9 @@ export function useTesters() {
 
   const refresh = useCallback(async () => {
     setLoading(true);
-    const { data } = await supabase
-      .from("testers")
-      .select("id, discord_username, note")
-      .order("discord_username");
-    setTesters((data ?? []) as Tester[]);
+    const { data } = await supabase.from("testers")
+      .select("id, discord_username, note").order("discord_username");
+    setTesters(data ?? []);
     setLoading(false);
   }, []);
 
@@ -50,53 +46,33 @@ export function useTesters() {
   return { testers, loading, refresh };
 }
 
-export function useOnlineTesters() {
-  const { guildId, loading: guildLoading } = useGuildId();
-  const { testers, loading: testersLoading } = useTesters();
-  const [online, setOnline] = useState<OnlineTester[]>([]);
+export function useOnlineTesters(refreshKey = 0) {
+  const [online, setOnline] = useState<DisplayTester[]>([]);
+  const [offline, setOffline] = useState<DisplayTester[]>([]);
   const [widgetError, setWidgetError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (guildLoading || testersLoading) return;
     let cancelled = false;
-
-    const fetchWidget = async () => {
-      setLoading(true);
-      setWidgetError(null);
-      if (!guildId) {
-        setOnline([]);
-        setLoading(false);
-        setWidgetError("Discord Guild ID not configured");
-        return;
-      }
+    const fetchTesters = async () => {
       try {
-        const res = await fetch(`https://discord.com/api/guilds/${guildId}/widget.json`);
-        if (!res.ok) throw new Error("Widget unavailable (enable it in Discord Server Settings)");
-        const json = await res.json();
-        const members: WidgetMember[] = json.members ?? [];
-        const map = new Map(members.map(m => [norm(m.username), m]));
-        const matched: OnlineTester[] = testers
-          .map(t => {
-            const m = map.get(norm(t.discord_username));
-            return m ? { ...t, member: m } : null;
-          })
-          .filter(Boolean) as OnlineTester[];
-        if (!cancelled) setOnline(matched);
-      } catch (e: any) {
+        const { data, error } = await supabase.functions.invoke("discord-testers", { body: {} });
+        if (error || data?.error) throw new Error(data?.details || data?.error || error?.message);
         if (!cancelled) {
-          setOnline([]);
-          setWidgetError(e?.message ?? "Failed to load Discord widget");
+          setOnline(data.online ?? []);
+          setOffline(data.offline ?? []);
+          setWidgetError(data.widgetError ?? null);
         }
+      } catch (error) {
+        if (!cancelled) setWidgetError(error instanceof Error ? error.message : "Could not load testers");
       } finally {
         if (!cancelled) setLoading(false);
       }
     };
+    fetchTesters();
+    const interval = setInterval(fetchTesters, 60_000);
+    return () => { cancelled = true; clearInterval(interval); };
+  }, [refreshKey]);
 
-    fetchWidget();
-    const id = setInterval(fetchWidget, 60_000);
-    return () => { cancelled = true; clearInterval(id); };
-  }, [guildId, guildLoading, testers, testersLoading]);
-
-  return { online, loading, widgetError, guildId };
+  return { online, offline, loading, widgetError };
 }

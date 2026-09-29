@@ -85,7 +85,6 @@ Deno.serve(async (req) => {
     const result = new Map<string, DisplayTester>();
     const makeTester = (member: DiscordMember, id: string, note: string | null, source: 'manual' | 'role'): DisplayTester => {
       const names = [member.user.username, member.user.global_name, member.nick].filter((value): value is string => !!value);
-      const matchingWidget = widget.find(item => names.some(name => normalize(name) === normalize(item.username)));
       return {
         id, username: member.user.username, note,
         avatar_url: member.user.avatar ? `https://cdn.discordapp.com/avatars/${member.user.id}/${member.user.avatar}.${member.user.avatar.startsWith('a_') ? 'gif' : 'png'}?size=128` : null,
