@@ -1,4 +1,4 @@
 # Pending
 
-- [ ] Show a tester's Discord avatar in the admin panel after their username is added. Blocker: user asked not to make changes now.
-- [ ] Revisit smoother website motion. Blocker: user asked to stop changes for now.
+- [ ] Show Discord tester avatars in the admin panel; include everyone with a configured Discord role and separate online/offline testers.
+- [ ] Revisit smoother website motion. Blocker: user asked to stop this earlier; no design direction selected.
