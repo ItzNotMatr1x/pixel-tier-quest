@@ -6,7 +6,6 @@ import { GAMEMODES, getPlayerBodyUrl } from "@/lib/data";
 import { PlayerHead } from "@/components/PlayerHead";
 import { GamemodeIcon } from "@/components/GamemodeIcon";
 import { Swords, Trophy, Users, ChevronRight } from "lucide-react";
-import sailorLogo from "@/assets/sailor-tiers-logo.png.asset.json";
 
 const OnlineTesters = lazy(() => import("@/components/OnlineTesters").then(module => ({ default: module.OnlineTesters })));
 
@@ -25,7 +24,7 @@ export default function HomePage() {
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
             <div className="flex items-center justify-center gap-3 mb-6">
               <img
-                src={sailorLogo.url}
+                src="/favicon.png"
                 alt="SailorTiers logo"
                 fetchPriority="high"
                 decoding="async"
