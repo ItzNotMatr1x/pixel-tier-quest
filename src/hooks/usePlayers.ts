@@ -16,7 +16,7 @@ export function usePlayers() {
 
   useEffect(() => {
     const channel = supabase
-      .channel("players-realtime-shared")
+      .channel(`players-realtime-${crypto.randomUUID()}`)
       .on('postgres_changes', { event: '*', schema: 'public', table: 'players' }, () => {
         queryClient.invalidateQueries({ queryKey: ["players"] });
       })
