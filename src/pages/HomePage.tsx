@@ -1,3 +1,4 @@
+import { lazy, Suspense } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { usePlayers } from "@/hooks/usePlayers";
@@ -5,8 +6,8 @@ import { GAMEMODES, getPlayerBodyUrl } from "@/lib/data";
 import { PlayerHead } from "@/components/PlayerHead";
 import { GamemodeIcon } from "@/components/GamemodeIcon";
 import { Swords, Trophy, Users, ChevronRight } from "lucide-react";
-import { OnlineTesters } from "@/components/OnlineTesters";
-import sailorLogo from "@/assets/sailor-tiers-logo.png.asset.json";
+
+const OnlineTesters = lazy(() => import("@/components/OnlineTesters").then(module => ({ default: module.OnlineTesters })));
 
 export default function HomePage() {
   const { ranked, loading } = usePlayers();
@@ -23,8 +24,12 @@ export default function HomePage() {
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
             <div className="flex items-center justify-center gap-3 mb-6">
               <img
-                src={sailorLogo.url}
+                src="/favicon.png"
                 alt="SailorTiers logo"
+                fetchPriority="high"
+                decoding="async"
+                width={112}
+                height={112}
                 className="w-24 h-24 md:w-28 md:h-28 object-contain drop-shadow-[0_0_20px_hsl(var(--primary)/0.6)]"
               />
             </div>
@@ -102,7 +107,9 @@ export default function HomePage() {
       )}
 
       {/* Online Testers */}
-      <OnlineTesters />
+      <Suspense fallback={<section className="container mx-auto px-4 mb-20 h-48" aria-hidden="true" />}>
+        <OnlineTesters />
+      </Suspense>
 
       {/* Gamemodes */}
       <section className="container mx-auto px-4 mb-20">
