@@ -1,5 +1,7 @@
-import { useState, useEffect, useCallback } from "react";
+import { useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { queryClient } from "@/lib/queryClient";
 import {
   Player, GamemodeId, TierName, RankedPlayer,
   getPlayersCloud, addPlayerCloud, updatePlayerCloud, removePlayerCloud,
@@ -7,31 +9,27 @@ import {
 } from "@/lib/data";
 
 export function usePlayers() {
-  const [players, setPlayers] = useState<Player[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  const fetchPlayers = useCallback(async () => {
-    setLoading(true);
-    const data = await getPlayersCloud();
-    setPlayers(data);
-    setLoading(false);
-  }, []);
+  const { data: players = [], isLoading: loading, refetch } = useQuery({
+    queryKey: ["players"],
+    queryFn: getPlayersCloud,
+  });
 
   useEffect(() => {
-    fetchPlayers();
-
-    // Realtime subscription
     const channel = supabase
-      .channel(`players-realtime-${Math.random().toString(36).slice(2)}`)
+      .channel("players-realtime-shared")
       .on('postgres_changes', { event: '*', schema: 'public', table: 'players' }, () => {
-        fetchPlayers();
+        queryClient.invalidateQueries({ queryKey: ["players"] });
       })
       .subscribe();
 
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [fetchPlayers]);
+  }, []);
+
+  const fetchPlayers = async () => {
+    await refetch();
+  };
 
   const addPlayer = async (player: Player) => {
     const ok = await addPlayerCloud(player);

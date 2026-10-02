@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 
 export type Tester = { id: string; discord_username: string; note: string | null };
@@ -47,32 +48,22 @@ export function useTesters() {
 }
 
 export function useOnlineTesters(refreshKey = 0) {
-  const [online, setOnline] = useState<DisplayTester[]>([]);
-  const [offline, setOffline] = useState<DisplayTester[]>([]);
-  const [widgetError, setWidgetError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["discord-testers", refreshKey],
+    queryFn: async () => {
+      const { data, error } = await supabase.functions.invoke("discord-testers", { body: {} });
+      if (error || data?.error) throw new Error(data?.details || data?.error || error?.message);
+      return data as { online: DisplayTester[]; offline: DisplayTester[]; widgetError: string | null };
+    },
+    staleTime: 60_000,
+    refetchInterval: 60_000,
+    refetchIntervalInBackground: false,
+  });
 
-  useEffect(() => {
-    let cancelled = false;
-    const fetchTesters = async () => {
-      try {
-        const { data, error } = await supabase.functions.invoke("discord-testers", { body: {} });
-        if (error || data?.error) throw new Error(data?.details || data?.error || error?.message);
-        if (!cancelled) {
-          setOnline(data.online ?? []);
-          setOffline(data.offline ?? []);
-          setWidgetError(data.widgetError ?? null);
-        }
-      } catch (error) {
-        if (!cancelled) setWidgetError(error instanceof Error ? error.message : "Could not load testers");
-      } finally {
-        if (!cancelled) setLoading(false);
-      }
-    };
-    fetchTesters();
-    const interval = setInterval(fetchTesters, 60_000);
-    return () => { cancelled = true; clearInterval(interval); };
-  }, [refreshKey]);
-
-  return { online, offline, loading, widgetError };
+  return {
+    online: data?.online ?? [],
+    offline: data?.offline ?? [],
+    loading: isLoading,
+    widgetError: data?.widgetError ?? (error instanceof Error ? error.message : null),
+  };
 }

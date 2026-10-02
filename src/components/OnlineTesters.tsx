@@ -10,7 +10,7 @@ function TesterGrid({ testers, offline = false }: { testers: DisplayTester[]; of
           initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: Math.min(index * 0.04, 0.4) }}
           className={`glass-card p-4 flex flex-col items-center text-center hover:glow-cyan hover:border-primary/30 transition-all group ${offline ? "opacity-70" : ""}`}>
           <div className="relative mb-3">
-            {tester.avatar_url ? <img src={tester.avatar_url} alt="" className="w-14 h-14 rounded-full object-cover" loading="lazy" /> :
+            {tester.avatar_url ? <img src={tester.avatar_url} alt="" className="w-14 h-14 rounded-full object-cover" loading="lazy" decoding="async" width={56} height={56} /> :
               <div className="w-14 h-14 rounded-full bg-secondary flex items-center justify-center"><UserRound className="w-6 h-6 text-muted-foreground" /></div>}
             <span className={`absolute bottom-0 right-0 w-4 h-4 rounded-full border-2 border-background ${offline ? "bg-muted-foreground" : "bg-primary"}`} />
           </div>
