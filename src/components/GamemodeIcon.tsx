@@ -8,7 +8,7 @@ import uhcIcon from "@/assets/uhc.svg";
 import smpIcon from "@/assets/smp.svg";
 import maceIcon from "@/assets/mace.svg";
 import overallIcon from "@/assets/overall.svg";
-import spearMaceAsset from "@/assets/spear-mace.png.asset.json";
+import spearMaceIcon from "@/assets/spear-mace.png";
 
 const iconMap: Record<string, string> = {
   sword: swordIcon,
@@ -19,7 +19,7 @@ const iconMap: Record<string, string> = {
   uhc: uhcIcon,
   smp: smpIcon,
   mace: maceIcon,
-  spearmace: spearMaceAsset.url,
+  spearmace: spearMaceIcon,
   overall: overallIcon,
 };
 

@@ -80,6 +80,16 @@
   50%, 100% { transform: translateX(100%); }
 }
 
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes orbDrift {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(40px, -30px) scale(1.08); }
+}
+
 @keyframes pulseGlow {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.5; }
@@ -100,6 +110,32 @@
   }
   .text-glow-blue {
     text-shadow: 0 0 10px hsl(290 85% 65% / 0.65), 0 0 30px hsl(290 85% 65% / 0.35);
+  }
+  .text-gradient {
+    background: linear-gradient(120deg, hsl(272 95% 80%), hsl(290 90% 70%) 55%, hsl(255 90% 72%));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .bg-grid {
+    background-image:
+      linear-gradient(hsl(272 90% 65% / 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(272 90% 65% / 0.06) 1px, transparent 1px);
+    background-size: 44px 44px;
+    mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, black 30%, transparent 100%);
+    -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, black 30%, transparent 100%);
+  }
+  .orb {
+    border-radius: 9999px;
+    filter: blur(110px);
+    animation: orbDrift 14s ease-in-out infinite;
+  }
+  .animate-marquee {
+    animation: marquee 40s linear infinite;
+  }
+  .marquee-mask {
+    mask-image: linear-gradient(90deg, transparent, black 12%, black 88%, transparent);
+    -webkit-mask-image: linear-gradient(90deg, transparent, black 12%, black 88%, transparent);
   }
   .glass-card {
     @apply bg-card/60 backdrop-blur-xl border border-border/50 rounded-xl;
