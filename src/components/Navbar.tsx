@@ -42,7 +42,7 @@ export function Navbar() {
           <div className="hidden sm:flex flex-col items-end gap-0.5">
             <PlayerSearch />
             <div className="flex items-center gap-3 text-[11px] font-heading">
-              <span className="text-muted-foreground font-bold tracking-wider text-glow-cyan">play.pixelvalley.fun</span>
+              <span className="text-muted-foreground font-bold tracking-wider text-glow-cyan">sailorpvp.lol</span>
               <a
                 href="https://discord.gg/3YY6ZfBQ"
                 target="_blank"
